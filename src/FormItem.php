@@ -7,13 +7,13 @@ use Illuminate\Support\Collection;
 abstract class FormItem
 {
     public const string EDIT = 'edit';
-    
+
     public const string KEY = '';
 
     public const string NEW = 'new';
-    
+
     public const string REVIEW = 'review';
-    
+
     public const array MODES = [
         self::EDIT,
         self::NEW,
@@ -21,21 +21,21 @@ abstract class FormItem
     ];
 
     protected ?self $parent = null;
-    
-    /** @var FormItem[] $questions */
+
+    /** @var FormItem[] */
     protected array $questions = [];
 
     public function __construct(?FormItem $parent = null)
     {
         $this->parent = $parent;
     }
-    
+
     public function routes(): Collection
     {
         $routes = new Collection();
-        
+
         // TODO Current, Previous, Next, Start, Summary, Finish
-        
+
         return $routes;
     }
 

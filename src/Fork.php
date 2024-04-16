@@ -4,7 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder;
 
 abstract class Fork extends FormItem
 {
-    /** @var array[] $forks */
+    /** @var array[] */
     protected array $forks = [
         'a' => [
             Task::class,
@@ -17,9 +17,9 @@ abstract class Fork extends FormItem
             Question::class,
         ],
     ];
-    
+
     abstract public function selectFork(): string;
-    
+
     public function __construct(?FormItem $parent = null)
     {
         parent::__construct($parent);
