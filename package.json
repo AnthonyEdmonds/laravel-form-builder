@@ -1,0 +1,25 @@
+{
+  "name": "laravel-form-builder",
+  "description": "Create one-thing-per-page forms with forking logic and task lists; ideal for the GOV.UK Design System!",
+  "keywords": [
+    "laravel",
+    "form",
+    "builder",
+    "task list",
+    "question",
+    "one thing per page",
+    "gov.uk"
+  ],
+  "author": "Anthony Edmonds",
+  "license": "MIT",
+  "homepage": "https://github.com/AnthonyEdmonds/laravel-form-builder",
+  "scripts": {
+    "larastan": "php vendor/bin/phpstan analyse --memory-limit 512M",
+    "pint": "php ./vendor/bin/pint",
+    "test": "php vendor/bin/paratest",
+    "test-slow": "php vendor/bin/phpunit"
+  },
+  "devDependencies": {
+    "husky": "^9"
+  }
+}

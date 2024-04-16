@@ -1,0 +1,49 @@
+{
+    "name" : "anthonyedmonds/laravel-form-builder",
+    "description" : "Create one-thing-per-page forms with forking logic and task lists; ideal for the GOV.UK Design System!",
+    "keywords": ["laravel", "form", "builder", "task list", "question", "one thing per page", "gov.uk"],
+    "type" : "library",
+    "license" : "MIT",
+    "autoload" : {
+        "psr-4" : {
+            "Anthonyedmonds\\LaravelFormBuilder\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AnthonyEdmonds\\LaravelFormBuilder\\Tests\\": "tests/"
+        }
+    },
+    "authors" : [
+        {
+            "name" : "Anthony Edmonds",
+            "email" : "contact@anthonyedmonds.me",
+            "homepage": "https://github.com/AnthonyEdmonds/laravel-form-builder",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "prefer-stable" : true,
+    "require" : {
+        "php": "^8.3",
+        "illuminate/support": "^11"
+    },
+    "require-dev" : {
+        "brianium/paratest": "^7",
+        "larastan/larastan": "^2",
+        "laravel/pint": "^1",
+        "networkrailbusinesssystems/badges": "^1",
+        "orchestra/testbench": "^9",
+        "phpunit/phpunit": "^11"
+    },
+    "config" : {
+        "sort-packages" : true
+    },
+    "extra" : {
+        "laravel" : {
+            "providers" : [
+                "AnthonyEdmonds\\LaravelFormBuilder\\LaravelFormBuilderServiceProvider"
+            ]
+        }
+    }
+}
