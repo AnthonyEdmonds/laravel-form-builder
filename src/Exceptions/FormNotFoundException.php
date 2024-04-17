@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Exceptions;
+namespace Anthonyedmonds\LaravelFormBuilder\Exceptions;
 
 use Exception;
 

@@ -2,6 +2,9 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder;
 
-abstract class Task extends FormItem
+use AnthonyEdmonds\LaravelFormBuilder\Bases\RenderableFormItem;
+
+abstract class Task extends RenderableFormItem
 {
+    //
 }

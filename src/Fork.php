@@ -2,28 +2,20 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder;
 
+use AnthonyEdmonds\LaravelFormBuilder\Bases\FormItem;
+use Illuminate\Database\Eloquent\Model;
+
 abstract class Fork extends FormItem
 {
     /** @var array[] */
-    protected array $forks = [
-        'a' => [
-            Task::class,
-            Fork::class,
-            Question::class,
-        ],
-        'b' => [
-            Task::class,
-            Fork::class,
-            Question::class,
-        ],
-    ];
+    protected array $forks = [];
 
     abstract public function selectFork(): string;
 
-    public function __construct(?FormItem $parent = null)
+    public function __construct(Model $subject, ?FormItem $parent = null)
     {
-        parent::__construct($parent);
+        parent::__construct($subject, $parent);
 
-        $this->questions = $this->forks[$this->selectFork()];
+        $this->items = $this->forks[$this->selectFork()];
     }
 }

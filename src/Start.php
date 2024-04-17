@@ -2,6 +2,9 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder;
 
-abstract class Start extends FormItem
+use AnthonyEdmonds\LaravelFormBuilder\Bases\RenderableFormItem;
+
+abstract class Start extends RenderableFormItem
 {
+    //
 }

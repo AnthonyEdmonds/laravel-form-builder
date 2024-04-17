@@ -2,6 +2,9 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder;
 
-abstract class Question extends FormItem
+use AnthonyEdmonds\LaravelFormBuilder\Bases\RenderableFormItem;
+
+abstract class Question extends RenderableFormItem
 {
+    //
 }

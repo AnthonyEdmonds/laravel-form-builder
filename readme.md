@@ -27,9 +27,14 @@ Create one-thing-per-page forms with forking logic and task lists; ideal for the
     Route::laravelFormBuilder();
     ```
 4. Create and configure a `Form` class, filling it with any number of `Task`, `Fork`, and `Question` classes.
-5. Access the form and away you go!
+5. Create a `Model` with the `HasForm` trait
+6. Access the form and away you go!
     ```php
-    MyForm::routes()->start();
+    // Starting fresh...
+    MyModel::form()->start();
+   
+    // From existing...
+    $myModel->form()->start();
     ```
 
 ## Documentation
