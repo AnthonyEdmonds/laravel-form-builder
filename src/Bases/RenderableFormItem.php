@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 abstract class RenderableFormItem extends FormItem implements View
 {
     public array $data = [];
-    
+
     public function getData(): array
     {
         return $this->data;

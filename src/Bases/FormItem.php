@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 abstract class FormItem
 {
     public const string KEY = '';
-    
+
     protected ?self $parent = null;
 
     /** @var FormItem[] */
     protected array $items = [];
-    
+
     protected Model $subject;
 
     public function __construct(Model $subject, ?FormItem $parent = null)
@@ -28,7 +28,7 @@ abstract class FormItem
     {
         $formKey = ''; // Top level parent key
         $keys = ''; // Replace with context level keys
-        
+
         return [
             'current' => route('form-builder.get', [$formKey, $mode, $keys]), // Combination of all parent keys
             'exit' => route(''), // Form exit route

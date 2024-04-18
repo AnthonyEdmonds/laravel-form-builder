@@ -10,7 +10,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Form;
 trait HasForm
 {
     protected Form $form;
-    
+
     abstract public static function formClass(): string;
 
     public function form(): Form
@@ -19,7 +19,7 @@ trait HasForm
             $formClass = $this->formClass();
             $this->form = new $formClass($this);
         }
-        
+
         return $this->form;
     }
 }
