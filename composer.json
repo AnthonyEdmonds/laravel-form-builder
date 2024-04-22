@@ -42,7 +42,7 @@
     "extra" : {
         "laravel" : {
             "providers" : [
-                "AnthonyEdmonds\\LaravelFormBuilder\\LaravelFormBuilderServiceProvider"
+                "AnthonyEdmonds\\LaravelFormBuilder\\ServiceProviders\\LaravelFormBuilderServiceProvider"
             ]
         }
     }

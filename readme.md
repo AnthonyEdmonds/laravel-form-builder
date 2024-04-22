@@ -20,7 +20,7 @@ Create one-thing-per-page forms with forking logic and task lists; ideal for the
     * Laravel will automatically detect and register the Laravel Form Builder service provider.
 2. Publish the config file:
    ```bash
-   php artisan vendor:publish --provider="AnthonyEdmonds\LaravelFormBuilder\LaravelFormBuilderServiceProvider"
+   php artisan vendor:publish --provider="AnthonyEdmonds\LaravelFormBuilder\ServiceProviders\LaravelFormBuilderServiceProvider"
    ```
 3. Add the form routes to your `web.php` routes file:
     ```php

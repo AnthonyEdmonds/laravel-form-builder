@@ -2,8 +2,9 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests;
 
-use AnthonyEdmonds\LaravelFormBuilder\LaravelFormBuilderServiceProvider;
+use AnthonyEdmonds\LaravelFormBuilder\ServiceProviders\LaravelFormBuilderServiceProvider;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\TestForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\TestUser;
 use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -19,7 +20,7 @@ abstract class TestCase extends BaseTestCase
     protected function useForms(): void
     {
         Config::set('form-builder.forms', [
-            TestForm::class,
+            TestForm::class => TestUser::class,0
         ]);
 
         $router = app('router');
