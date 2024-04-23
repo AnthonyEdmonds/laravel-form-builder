@@ -4,15 +4,15 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 
-class TestQuestionOne extends Question
+class QuestionFive extends Question
 {
-    public function name()
+    public function name(): string
     {
-        return 'question-one-blade';
+        return 'question-five';
     }
 
     public static function key(): string
     {
-        return 'question-one';
+        return 'question-five';
     }
 }

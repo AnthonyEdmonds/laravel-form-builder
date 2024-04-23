@@ -2,42 +2,32 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
-use AnthonyEdmonds\LaravelFormBuilder\Bases\Container;
 use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
-use AnthonyEdmonds\LaravelFormBuilder\Bases\Item;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\TestQuestionOne;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\ForkOne;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\QuestionOne;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\QuestionSix;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\TaskOne;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin Item
- * @mixin Container
- */
 class TestForm extends Form
 {
-    protected function checkClass(): string
+    protected function quitFormRoute(): string
     {
-        // TODO: Implement checkClass() method.
-    }
-
-    protected function resumeClass(): string
-    {
-        // TODO: Implement resumeClass() method.
+        return route('quit');
     }
 
     public static function items(Model $model): array
     {
         return [
-            TestQuestionOne::class,
+            QuestionOne::class,
+            TaskOne::class,
+            ForkOne::class,
+            QuestionSix::Class,
         ];
     }
 
     public static function key(): string
     {
         return 'my-form';
-    }
-
-    public function name()
-    {
-        return '';
     }
 }

@@ -6,6 +6,8 @@ trait Renderable
 {
     public array $data = [];
 
+    abstract public function name(): string;
+
     public function getData(): array
     {
         return $this->data;
