@@ -21,7 +21,7 @@ abstract class Form
     use HasKey;
 
     public const string EDIT = 'edit';
-    
+
     public const string NEW = 'new';
 
     public const string REVIEW = 'review';
@@ -53,50 +53,55 @@ abstract class Form
         $model = $modelKey !== null
             ? $modelClass::findOrFail($modelKey)
             : new $modelClass();
-        
+
         return $model->form();
     }
-    
+
     public function begin(): View
     {
         $beginClass = $this->beginClass();
+
         return new $beginClass($this, $this->model);
     }
 
     public function check(): View
     {
         $checkClass = $this->checkClass();
+
         return new $checkClass($this, $this->model);
     }
-    
+
     public function exit(): RedirectResponse
     {
         Session::forget(static::key());
+
         return redirect($this->quitFormRoute());
     }
-    
+
     public function finish(): View
     {
         $finishClass = $this->finishClass();
+
         return new $finishClass($this, $this->model);
     }
-    
+
     public function resume(): View
     {
         $resumeClass = $this->resumeClass();
+
         return new $resumeClass($this, $this->model);
     }
-    
+
     public function save(): RedirectResponse
     {
         return $this->submit();
     }
-    
+
     public function start(): RedirectResponse
     {
         if (Session::has(static::key()) === true) {
             $route = $this->resumeRoute();
-            
+
         } else {
             Session::put(static::key(), $this->model);
 
@@ -104,18 +109,18 @@ abstract class Form
                 ? $this->checkRoute()
                 : $this->startRoute();
         }
-        
+
         return redirect($route);
     }
-    
+
     public function submit(): RedirectResponse
     {
         $this->model->save();
         Session::flash(static::key(), $this->model);
-        
+
         return redirect($this->finishRoute());
     }
-    
+
     // Object Class Names
     /** @return class-string<Check> */
     protected function checkClass(): string
@@ -130,19 +135,19 @@ abstract class Form
         // TODO Default screen
         return '';
     }
-    
+
     /** @return ?class-string<Begin> */
-    protected function beginClass(): string|null
+    protected function beginClass(): ?string
     {
         return null;
     }
 
     /** @return ?class-string<Finish> */
-    protected function finishClass(): string|null
+    protected function finishClass(): ?string
     {
         return null;
     }
-    
+
     /** @return class-string<self> */
     protected static function formClassByKey(string $key): string
     {
@@ -170,10 +175,10 @@ abstract class Form
         if (array_key_exists($key, $forms) === false) {
             throw new FormNotFoundException("The \"$key\" form has not been registered");
         }
-        
+
         return $forms[$key];
     }
-    
+
     // Routing
     protected function beginRoute(): string
     {
@@ -183,7 +188,7 @@ abstract class Form
             ? route('form-builder.begin', [static::key(), $beginClass::key()])
             : $this->exitRoute(); // TODO First question / item
     }
-    
+
     protected function checkRoute(): string
     {
         return route('form-builder.check', [static::key(), $this->checkClass()::key()]);
@@ -197,17 +202,18 @@ abstract class Form
     protected function finishRoute(): string
     {
         $finishClass = $this->finishClass();
-        
+
         return $finishClass !== null
             ? route('form-builder.finish', [static::key(), $finishClass::key()])
             : $this->exitRoute();
     }
-    
+
     protected function itemRoute(string $itemKey): string
     {
         // TODO traverse items to get url keys
         // TODO Could be string or key path
         $keys = '';
+
         return route('form-builder.item', [static::key(), $keys]);
     }
 
@@ -217,31 +223,31 @@ abstract class Form
         // Could be within item, fork, task, or to a screen
         return '';
     }
-    
+
     protected function previousRoute(string $itemKey): string
     {
         // TODO traverse items to find previous
         // Could be within item, fork, task, or to a screen
         return '';
     }
-    
+
     protected function resumeRoute(): string
     {
         return route('form-builder.check', [static::key(), $this->resumeClass()::key()]);
     }
-    
+
     protected function saveRoute(): string
     {
         return $this->canSave === true
             ? route('form-builder.save', static::key())
             : $this->submitRoute();
     }
-    
+
     protected function startRoute(): string
     {
         return route('form-builder.start', [static::key(), $this->model]);
     }
-    
+
     protected function submitRoute(): string
     {
         return route('form-builder.submit', static::key());

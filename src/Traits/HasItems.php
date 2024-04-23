@@ -13,6 +13,7 @@ trait HasItems
      * A list of Items and Containers by class-string
      * Use values from the $model to perform Item branching
      * Fork Containers further allow you to compartmentalise logic
+     *
      * @return class-string<Item|Container>[]
      */
     abstract public static function items(Model $model): array;
@@ -61,6 +62,7 @@ trait HasItems
 
     /**
      * Generate a class-string structure of all children and descendants
+     *
      * @return array<class-string<Item|Container>, class-string<Item|Container>[]>
      */
     public static function itemStructure(Model $model): array
@@ -81,6 +83,7 @@ trait HasItems
         if (static::hasItem($key, $model) === true) {
             $items = static::items($model);
             $index = static::itemIndex($key, $model);
+
             return new $items[$index]($model);
         }
 

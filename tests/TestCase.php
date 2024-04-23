@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
     protected function useForms(): void
     {
         Config::set('form-builder.forms', [
-            TestForm::class => TestUser::class,0
+            TestForm::class => TestUser::class, 0,
         ]);
 
         $router = app('router');

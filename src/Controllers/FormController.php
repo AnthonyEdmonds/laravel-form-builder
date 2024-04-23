@@ -63,22 +63,22 @@ class FormController
     {
         return $this->getModel($formKey)->form()->check();
     }
-    
+
     public function save(string $formKey): RedirectResponse
     {
         return $this->getModel($formKey)->form()->save();
     }
-    
+
     public function submit(string $formKey): RedirectResponse
     {
         return $this->getModel($formKey)->form()->submit();
     }
-    
+
     public function finish(string $formKey): View
     {
         return $this->getModel($formKey)->form()->finish();
     }
-    
+
     public function exit(string $formKey): RedirectResponse
     {
         return $this->getModel($formKey)->form()->exit();
@@ -96,7 +96,7 @@ class FormController
         if (Session::has($formKey) !== true) {
             throw new FormExpiredException('The form you are trying to access has expired. Please start again.');
         }
-        
+
         return Session::get($formKey);
     }
 }

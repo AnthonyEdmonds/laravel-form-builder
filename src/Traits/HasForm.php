@@ -22,11 +22,11 @@ trait HasForm
         $modelClass = static::class;
         $forms = config('form-builder.forms', []);
         $formClass = array_search($modelClass, $forms);
-        
+
         if ($formClass === false) {
             throw new FormNotFoundException("No form has been registered for \"$modelClass\"");
         }
-        
+
         return $formClass;
     }
 
@@ -36,7 +36,7 @@ trait HasForm
             $formClass = $this->formClass();
             $this->form = new $formClass($this);
         }
-        
+
         return $this->form;
     }
 }
