@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Container;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasItems;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\ForkOne;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items\ForkTwo;
