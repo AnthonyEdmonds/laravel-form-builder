@@ -27,19 +27,16 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                     Route::get('/start/{modelKey?}', 'start')->name('start');
                     Route::get('/resume', 'resume')->name('resume');
                     Route::get('/begin', 'begin')->name('begin');
-                    
-                    // TODO Items
-                    
                     Route::post('/save', 'save')->name('save');
                     Route::post('/submit', 'submit')->name('submit');
                     Route::get('/finish', 'finish')->name('finish');
                     Route::get('/exit', 'exit')->name('exit');
-                    
-                    // TODO Turn into items parsing
-                    Route::prefix('/{mode?}/{keys?}')->group(function () {
-                        Route::get('/', 'get')->where('keys', '.*')->name('get');
-                        Route::post('/', 'post')->where('keys', '.*')->name('post');
-                        Route::delete('/', 'delete')->where('keys', '.*')->name('delete');
+
+                    Route::name('items.')->group(function () {
+                        Route::post('/skip/{keys}', 'skipItem')->where('keys', '.*')->name('skip');
+                        Route::get('/{keys}', 'getItem')->where('keys', '.*')->name('get');
+                        Route::post('/{keys}', 'saveItem')->where('keys', '.*')->name('save');
+                        Route::delete('/{keys}', 'delete')->where('keys', '.*')->name('delete');
                     });
                 });
         });

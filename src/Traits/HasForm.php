@@ -2,18 +2,19 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
+use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
 use Anthonyedmonds\LaravelFormBuilder\Exceptions\FormNotFoundException;
-use AnthonyEdmonds\LaravelFormBuilder\Forms\Form;
 
 /**
  * @method static Form form()
  */
 trait HasForm
 {
-    // TODO Use property which would be serialised for mode, instead of passing in url
-    // TODO Track last item key?
-    
     protected Form $form;
+
+    protected ?string $formMode = null;
+
+    protected ?string $currentFormItemKey = null;
 
     /** @return class-string<Form> */
     public static function formClass(): string

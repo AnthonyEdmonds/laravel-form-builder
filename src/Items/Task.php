@@ -2,7 +2,9 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
-abstract class Task extends Item
+use AnthonyEdmonds\LaravelFormBuilder\Bases\Container;
+
+abstract class Task extends Container
 {
     //
 }

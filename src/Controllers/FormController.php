@@ -2,8 +2,8 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Controllers;
 
+use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormExpiredException;
-use AnthonyEdmonds\LaravelFormBuilder\Forms\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +25,38 @@ class FormController
     public function begin(string $formKey): View
     {
         return $this->getModel($formKey)->form()->begin();
+    }
+
+    public function getItem(string $formKey, string $mode = Form::NEW, string $keys = ''): View
+    {
+        $model = $this->getModel($formKey);
+
+        // TODO Load Item by Keys
+        // TODO Return Item as it is renderable
+    }
+
+    public function saveItem(string $formKey, string $mode = Form::NEW, string $keys = ''): RedirectResponse
+    {
+        $model = $this->getModel($formKey);
+
+        // TODO Load Item by Keys
+        // TODO Save Item
+    }
+
+    public function skipItem(string $formKey, string $mode = Form::NEW, string $keys = ''): RedirectResponse
+    {
+        $model = $this->getModel($formKey);
+
+        // TODO Load Item by Keys
+        // TODO Skip Item
+    }
+
+    public function deleteItem(string $formKey, string $mode = Form::NEW, string $keys = ''): RedirectResponse
+    {
+        $model = $this->getModel($formKey);
+
+        // TODO Load Item by Keys
+        // TODO Delete Item
     }
 
     public function check(string $formKey): View
@@ -51,35 +83,8 @@ class FormController
     {
         return $this->getModel($formKey)->form()->exit();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    public function get(string $formKey, string $mode = Form::NEW, string $keys = ''): View
-    {
-        $model = $this->getModel($formKey);
-        
-        // TODO Determine what to do based on item type
-    }
 
-    public function post(string $formKey, string $mode = Form::NEW, string $keys = ''): View
-    {
-        $model = $this->getModel($formKey);
-        
-        // TODO Determine what to do based on item type
-    }
-
-    public function delete(string $formKey, string $mode = Form::NEW, string $keys = ''): View
-    {
-        $model = $this->getModel($formKey);
-        
-        // TODO Determine what to do based on item type
-    }
-
+    // Utilities
     protected function getKeys(string $keys): array
     {
         return explode('.', $keys);

@@ -1,8 +1,7 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Screens;
+namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
-use AnthonyEdmonds\LaravelFormBuilder\Forms\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;

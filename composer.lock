@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e13ec99443cc2bb210b9223a6a7a15f",
+    "content-hash": "2e3c663311ec93fec307dc28392fcd1e",
     "packages": [
         {
             "name": "brick/math",
@@ -1863,16 +1863,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.2.4",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "82c28278c1c8f7b82dcdab25692237f052ffc8d8"
+                "reference": "7219739c4e01d4680c980545821733b6ed8ee880"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/82c28278c1c8f7b82dcdab25692237f052ffc8d8",
-                "reference": "82c28278c1c8f7b82dcdab25692237f052ffc8d8",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7219739c4e01d4680c980545821733b6ed8ee880",
+                "reference": "7219739c4e01d4680c980545821733b6ed8ee880",
                 "shasum": ""
             },
             "require": {
@@ -1965,7 +1965,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-05T09:58:10+00:00"
+            "time": "2024-04-18T16:35:06+00:00"
         },
         {
             "name": "nette/schema",
@@ -6563,16 +6563,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v9.0.13",
+            "version": "v9.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "1e4d35372c6ae8158572b4476e19c394e6b640e4"
+                "reference": "eabe0c72e787aae29df96bd4e33c61fffa6d5edc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/1e4d35372c6ae8158572b4476e19c394e6b640e4",
-                "reference": "1e4d35372c6ae8158572b4476e19c394e6b640e4",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/eabe0c72e787aae29df96bd4e33c61fffa6d5edc",
+                "reference": "eabe0c72e787aae29df96bd4e33c61fffa6d5edc",
                 "shasum": ""
             },
             "require": {
@@ -6648,7 +6648,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2024-04-16T07:38:37+00:00"
+            "time": "2024-04-21T08:07:50+00:00"
         },
         {
             "name": "orchestra/workbench",
@@ -9275,5 +9275,5 @@
         "php": "^8.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
