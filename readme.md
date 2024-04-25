@@ -31,10 +31,15 @@ Create one-thing-per-page forms with forking logic and task lists; ideal for the
 6. Access the form and away you go!
     ```php
     // Starting fresh...
-    MyModel::form()->start();
+    return MyModel::form()->start(); // RedirectResponse
    
     // From existing...
-    $myModel->form()->start();
+    return $myModel->form()->start(); // RedirectResponse
+    ```
+   
+    ```html
+    <!-- From blade... -->
+    <a href="{{ $myModel->form()->startRoute() }}">Start form</a>
     ```
 
 ## Documentation

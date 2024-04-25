@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\ServiceProviders;
 
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\FormController;
+use AnthonyEdmonds\LaravelFormBuilder\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,19 +26,24 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                 ->name('form-builder.')
                 ->group(function () {
                     Route::get('/start/{modelKey?}', 'start')->name('start');
+                    Route::get('/fresh/{modelKey?}', 'fresh')->name('fresh');
                     Route::get('/resume', 'resume')->name('resume');
                     Route::get('/begin', 'begin')->name('begin');
                     Route::post('/save', 'save')->name('save');
+                    Route::get('/check', 'check')->name('check');
                     Route::post('/submit', 'submit')->name('submit');
                     Route::get('/finish', 'finish')->name('finish');
                     Route::get('/exit', 'exit')->name('exit');
 
-                    Route::name('items.')->group(function () {
-                        Route::post('/skip/{keys}', 'skipItem')->where('keys', '.*')->name('skip');
-                        Route::get('/{keys}', 'getItem')->where('keys', '.*')->name('get');
-                        Route::post('/{keys}', 'saveItem')->where('keys', '.*')->name('save');
-                        Route::delete('/{keys}', 'delete')->where('keys', '.*')->name('delete');
-                    });
+                    Route::controller(ItemController::class)
+                        ->prefix('/{keys}')
+                        ->name('item')
+                        ->group(function () {
+                            Route::get('/', 'show')->where('keys', '.*');
+                            Route::post('/', 'save')->where('keys', '.*')->name('.save');
+                            Route::put('/', 'skip')->where('keys', '.*')->name('.skip');
+                            Route::delete('/', 'delete')->where('keys', '.*')->name('.delete');
+                        });
                 });
         });
     }

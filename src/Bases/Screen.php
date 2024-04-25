@@ -11,8 +11,8 @@ abstract class Screen implements View
     use Renderable;
 
     // Setup
-    public function __construct(protected Form $form, protected Model $subject)
+    public function __construct(protected Form $form, protected Model $model)
     {
-        //
+        $this->data['model'] = $model;
     }
 }

@@ -2,7 +2,8 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
-use Anthonyedmonds\LaravelFormBuilder\Exceptions\FormNotFoundException;
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormExpiredException;
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFoundException;
 use AnthonyEdmonds\LaravelFormBuilder\Screens\Begin;
 use AnthonyEdmonds\LaravelFormBuilder\Screens\Check;
 use AnthonyEdmonds\LaravelFormBuilder\Screens\Finish;
@@ -57,6 +58,16 @@ abstract class Form
         return $model->form();
     }
 
+    /** @return Model|HasForm */
+    public static function load(string $formKey): Model
+    {
+        if (Session::has($formKey) !== true) {
+            throw new FormExpiredException('The form you are trying to access has expired. Please start again.');
+        }
+
+        return Session::get($formKey);
+    }
+
     public function begin(): View
     {
         $beginClass = $this->beginClass();
@@ -84,6 +95,17 @@ abstract class Form
 
         return new $finishClass($this, $this->model);
     }
+    
+    public function fresh(): RedirectResponse
+    {
+        Session::put(static::key(), $this->model);
+
+        $route = $this->model->exists === true
+            ? $this->checkRoute()
+            : $this->beginRoute();
+        
+        return redirect($route);
+    }
 
     public function resume(): View
     {
@@ -100,17 +122,14 @@ abstract class Form
     public function start(): RedirectResponse
     {
         if (Session::has(static::key()) === true) {
-            $route = $this->resumeRoute();
-
-        } else {
-            Session::put(static::key(), $this->model);
-
-            $route = $this->model->exists === true
-                ? $this->checkRoute()
-                : $this->startRoute();
+            $stored = static::load(static::key());
+            
+            if ($this->model->getKey() === $stored->getKey()) {
+                return redirect($this->resumeRoute());
+            }
         }
 
-        return redirect($route);
+        return $this->fresh();
     }
 
     public function submit(): RedirectResponse
@@ -169,7 +188,7 @@ abstract class Form
     /** @return class-string<Model|HasForm> */
     protected static function modelClass(): string
     {
-        $key = static::key();
+        $key = static::class;
         $forms = config('form-builder.forms', []);
 
         if (array_key_exists($key, $forms) === false) {
@@ -180,75 +199,85 @@ abstract class Form
     }
 
     // Routing
-    protected function beginRoute(): string
+    public function beginRoute(): string
     {
         $beginClass = $this->beginClass();
 
         return $beginClass !== null
-            ? route('form-builder.begin', [static::key(), $beginClass::key()])
-            : $this->exitRoute(); // TODO First question / item
+            ? route('form-builder.begin', [static::key()])
+            : $this->itemRoute(static::items($this->model)[0]);
     }
 
-    protected function checkRoute(): string
+    public function checkRoute(): string
     {
-        return route('form-builder.check', [static::key(), $this->checkClass()::key()]);
+        return route('form-builder.check', [static::key()]);
     }
 
-    protected function exitRoute(): string
+    public function exitRoute(): string
     {
         return route('form-builder.exit', static::key());
     }
 
-    protected function finishRoute(): string
+    public function firstItemRoute(): string
+    {
+        return $this->itemRoute($this->firstItem()::key());
+    }
+    
+    public function finishRoute(): string
     {
         $finishClass = $this->finishClass();
 
         return $finishClass !== null
-            ? route('form-builder.finish', [static::key(), $finishClass::key()])
+            ? route('form-builder.finish', [static::key()])
             : $this->exitRoute();
     }
+    
+    public function freshRoute(): string
+    {
+        return route('form-builder.fresh', [static::key(), $this->model->id]);
+    }
 
-    protected function itemRoute(string $itemKey): string
+    public function itemRoute(string $itemKey): string
     {
         // TODO traverse items to get url keys
         // TODO Could be string or key path
-        $keys = '';
+        $keys = $itemKey;
 
         return route('form-builder.item', [static::key(), $keys]);
     }
 
-    protected function nextRoute(string $itemKey): string
+    public function nextRoute(string $itemKey): string
     {
         // TODO traverse items to find next
         // Could be within item, fork, task, or to a screen
         return '';
     }
 
-    protected function previousRoute(string $itemKey): string
+    public function previousRoute(string $itemKey): string
     {
         // TODO traverse items to find previous
         // Could be within item, fork, task, or to a screen
         return '';
     }
 
-    protected function resumeRoute(): string
+    public function resumeRoute(): string
     {
-        return route('form-builder.check', [static::key(), $this->resumeClass()::key()]);
+        return route('form-builder.resume', [static::key()]);
     }
 
-    protected function saveRoute(): string
+    public function saveRoute(): string
     {
         return $this->canSave === true
             ? route('form-builder.save', static::key())
             : $this->submitRoute();
     }
 
-    protected function startRoute(): string
+    public function startRoute(): string
     {
         return route('form-builder.start', [static::key(), $this->model]);
     }
-
-    protected function submitRoute(): string
+    
+    public function submitRoute(): string
     {
         return route('form-builder.submit', static::key());
     }
