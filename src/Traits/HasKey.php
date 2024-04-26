@@ -4,5 +4,5 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
 trait HasKey
 {
-    abstract public static function key(): string;
+    public string $key;
 }

@@ -33,7 +33,7 @@ abstract class Form
         self::REVIEW,
     ];
 
-    protected bool $canSave = false;
+    protected bool $enableSaving = false;
 
     protected Model $model;
 
@@ -43,6 +43,8 @@ abstract class Form
     public function __construct(Model $model)
     {
         $this->model = $model;
+
+        $this->populate();
     }
 
     // Actions
@@ -95,7 +97,7 @@ abstract class Form
 
         return new $finishClass($this, $this->model);
     }
-    
+
     public function fresh(): RedirectResponse
     {
         Session::put(static::key(), $this->model);
@@ -103,7 +105,7 @@ abstract class Form
         $route = $this->model->exists === true
             ? $this->checkRoute()
             : $this->beginRoute();
-        
+
         return redirect($route);
     }
 
@@ -116,6 +118,7 @@ abstract class Form
 
     public function save(): RedirectResponse
     {
+        // TODO Can Save
         return $this->submit();
     }
 
@@ -123,7 +126,7 @@ abstract class Form
     {
         if (Session::has(static::key()) === true) {
             $stored = static::load(static::key());
-            
+
             if ($this->model->getKey() === $stored->getKey()) {
                 return redirect($this->resumeRoute());
             }
@@ -134,10 +137,35 @@ abstract class Form
 
     public function submit(): RedirectResponse
     {
+        // TODO Can submit
         $this->model->save();
         Session::flash(static::key(), $this->model);
 
         return redirect($this->finishRoute());
+    }
+
+    // Model
+    public function canSave(): bool
+    {
+        return true;
+    }
+
+    public function canSubmit(): bool
+    {
+        return true;
+    }
+
+    /** @return class-string<Model|HasForm> */
+    protected static function modelClass(): string
+    {
+        $key = static::class;
+        $forms = config('form-builder.forms', []);
+
+        if (array_key_exists($key, $forms) === false) {
+            throw new FormNotFoundException("The \"$key\" form has not been registered");
+        }
+
+        return $forms[$key];
     }
 
     // Object Class Names
@@ -185,19 +213,6 @@ abstract class Form
         throw new FormNotFoundException("The \"$key\" form has not been registered");
     }
 
-    /** @return class-string<Model|HasForm> */
-    protected static function modelClass(): string
-    {
-        $key = static::class;
-        $forms = config('form-builder.forms', []);
-
-        if (array_key_exists($key, $forms) === false) {
-            throw new FormNotFoundException("The \"$key\" form has not been registered");
-        }
-
-        return $forms[$key];
-    }
-
     // Routing
     public function beginRoute(): string
     {
@@ -222,7 +237,7 @@ abstract class Form
     {
         return $this->itemRoute($this->firstItem()::key());
     }
-    
+
     public function finishRoute(): string
     {
         $finishClass = $this->finishClass();
@@ -231,7 +246,7 @@ abstract class Form
             ? route('form-builder.finish', [static::key()])
             : $this->exitRoute();
     }
-    
+
     public function freshRoute(): string
     {
         return route('form-builder.fresh', [static::key(), $this->model->id]);
@@ -267,7 +282,7 @@ abstract class Form
 
     public function saveRoute(): string
     {
-        return $this->canSave === true
+        return $this->enableSaving === true
             ? route('form-builder.save', static::key())
             : $this->submitRoute();
     }
@@ -276,7 +291,7 @@ abstract class Form
     {
         return route('form-builder.start', [static::key(), $this->model]);
     }
-    
+
     public function submitRoute(): string
     {
         return route('form-builder.submit', static::key());

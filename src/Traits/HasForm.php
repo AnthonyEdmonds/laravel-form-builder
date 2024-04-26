@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static Form form()
+ *
  * @mixin Model
  */
 trait HasForm
@@ -19,13 +20,13 @@ trait HasForm
 
     // TODO
     protected ?string $currentFormItemKey = null;
-    
+
     public function __call($method, $parameters)
     {
         if ($method === 'form') {
             return $this->newForm();
         }
-        
+
         return parent::__call($method, $parameters);
     }
 
@@ -34,7 +35,7 @@ trait HasForm
         if ($method === 'form') {
             return static::staticNewForm();
         }
-        
+
         return parent::__callStatic($method, $parameters);
     }
 
@@ -51,10 +52,11 @@ trait HasForm
 
         return $formClass;
     }
-    
+
     public static function staticNewForm(): Form
     {
         $model = new static();
+
         return $model->form();
     }
 

@@ -22,7 +22,7 @@ class TestForm extends Form
             QuestionOne::class,
             TaskOne::class,
             ForkOne::class,
-            QuestionSix::Class,
+            QuestionSix::class,
         ];
     }
 

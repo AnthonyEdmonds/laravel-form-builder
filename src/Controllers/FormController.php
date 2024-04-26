@@ -12,7 +12,7 @@ class FormController
     {
         return Form::new($formKey, $modelKey)->start();
     }
-    
+
     public function fresh(string $formKey, ?string $modelKey = null): RedirectResponse
     {
         return Form::new($formKey, $modelKey)->fresh();
@@ -27,7 +27,7 @@ class FormController
     {
         return Form::load($formKey)->form()->begin();
     }
-    
+
     public function check(string $formKey): View
     {
         return Form::load($formKey)->form()->check();

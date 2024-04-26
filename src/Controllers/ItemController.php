@@ -43,7 +43,7 @@ class ItemController
         // TODO Load Item by Keys
         // TODO Delete Item
     }
-    
+
     protected function getKeys(string $keys): array
     {
         return explode('/', $keys);
