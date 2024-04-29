@@ -107,4 +107,24 @@ trait HasItems
             $this->children[$item::KEY] = $item;
         }
     }
+
+    /** @return array[int, string] Paths to every Item and child in linear order */
+    public function index(string $path, array &$index = []): array
+    {
+        /*
+         * Can be used for routing, pathing, getting items, and moving to and fro
+         * Would technically work without instantiation, if items/children was a static method
+         */
+        foreach ($this->children as $child) {
+            if (is_a($child, Fork::class) !== true ) {
+                $index[] = $path . $child::KEY;
+            }
+
+            if (is_a($child, Container::class) === true) {
+                $child->index($path . $child::KEY . '/', $index);
+            }
+        }
+
+        return $index;
+    }
 }

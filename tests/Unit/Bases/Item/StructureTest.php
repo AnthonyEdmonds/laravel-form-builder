@@ -25,6 +25,6 @@ class StructureTest extends TestCase
 
         $this->assertEquals(self::EXPECTED, $item->structure());
 
-        dd($item->nextItem());
+        dd($form->index(''));
     }
 }
