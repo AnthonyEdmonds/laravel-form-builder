@@ -3,21 +3,14 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
-use Illuminate\Database\Eloquent\Model;
 
 class TaskTwo extends Task
 {
-    public static function items(Model $model): array
-    {
-        return [
-            QuestionFour::class,
-        ];
-    }
+    public const string KEY = 'task-two';
 
-    public static function key(): string
-    {
-        return 'task-two';
-    }
+    protected array $items = [
+        QuestionFour::class,
+    ];
 
     public function name(): string
     {

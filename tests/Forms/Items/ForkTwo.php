@@ -3,24 +3,23 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Fork;
-use Illuminate\Database\Eloquent\Model;
 
 class ForkTwo extends Fork
 {
-    public static function items(Model $model): array
-    {
-        return [
-            QuestionFive::class,
-        ];
-    }
+    public const string KEY = 'fork-two';
 
-    public static function key(): string
-    {
-        return 'fork-two';
-    }
+    protected array $forks = [
+        'a' => [QuestionFive::class],
+        'b' => [],
+    ];
 
     public function name(): string
     {
         return 'fork-two';
+    }
+
+    protected function selectFork(): string
+    {
+        return 'a';
     }
 }

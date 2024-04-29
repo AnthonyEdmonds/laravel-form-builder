@@ -9,10 +9,12 @@ abstract class Container extends Item
 {
     use HasItems;
 
-    public function __construct(Model $model, Form|Container|Item $parent)
+    public function __construct(Model $model, Form|Container|Item $parent, bool $populate = true)
     {
         parent::__construct($model, $parent);
 
-        $this->populate();
+        if ($populate === true) {
+            $this->populateItems();
+        }
     }
 }

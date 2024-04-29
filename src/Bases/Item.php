@@ -50,18 +50,24 @@ abstract class Item implements View
         //
     }
 
+    /** Get the next Item from the parent container */
+    public function nextItem(): Item|Container|null
+    {
+        return $this->parent->getNextItem($this);
+    }
+
     // Routing
     public function route(): string
     {
         $keys = array_reverse($this->structure());
         $keys = implode('/', $keys);
 
-        return route('form-builder.item', [$this->form->key, $keys]);
+        return route('form-builder.item', [$this->form::KEY, $keys]);
     }
 
     public function structure(array &$keys = []): array
     {
-        $keys[] = $this->key;
+        array_unshift($keys, $this::KEY);
 
         return is_a($this->parent, Form::class) !== true
             ? $this->parent->structure($keys)

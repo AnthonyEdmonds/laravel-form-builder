@@ -6,12 +6,9 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 
 class QuestionSix extends Question
 {
-    public function name(): string
-    {
-        return 'question-six';
-    }
+    public const string KEY = 'question-six';
 
-    public static function key(): string
+    public function name(): string
     {
         return 'question-six';
     }

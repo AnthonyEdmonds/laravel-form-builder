@@ -13,6 +13,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\HasItems;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasKey;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 
@@ -33,21 +34,27 @@ abstract class Form
         self::REVIEW,
     ];
 
+    /** @var bool Whether the Form can be saved without submitting */
     protected bool $enableSaving = false;
 
+    /** @var Model The Model instance for the current Form session */
     protected Model $model;
 
     // Setup
+    /** @return string Route to where the User should go when quitting the Form */
     abstract protected function quitFormRoute(): string;
 
-    public function __construct(Model $model)
+    public function __construct(Model $model, bool $populate = true)
     {
         $this->model = $model;
 
-        $this->populate();
+        if ($populate === true) {
+            $this->populateItems();
+        }
     }
 
     // Actions
+    /** @return Form Create a new Form instance */
     public static function new(string $formKey, ?string $modelKey = null): Form
     {
         $formClass = Form::formClassByKey($formKey);
@@ -60,7 +67,7 @@ abstract class Form
         return $model->form();
     }
 
-    /** @return Model|HasForm */
+    /** @return Model|HasForm Model from the current Form session */
     public static function load(string $formKey): Model
     {
         if (Session::has($formKey) !== true) {
@@ -70,62 +77,11 @@ abstract class Form
         return Session::get($formKey);
     }
 
-    public function begin(): View
-    {
-        $beginClass = $this->beginClass();
-
-        return new $beginClass($this, $this->model);
-    }
-
-    public function check(): View
-    {
-        $checkClass = $this->checkClass();
-
-        return new $checkClass($this, $this->model);
-    }
-
-    public function exit(): RedirectResponse
-    {
-        Session::forget(static::key());
-
-        return redirect($this->quitFormRoute());
-    }
-
-    public function finish(): View
-    {
-        $finishClass = $this->finishClass();
-
-        return new $finishClass($this, $this->model);
-    }
-
-    public function fresh(): RedirectResponse
-    {
-        Session::put(static::key(), $this->model);
-
-        $route = $this->model->exists === true
-            ? $this->checkRoute()
-            : $this->beginRoute();
-
-        return redirect($route);
-    }
-
-    public function resume(): View
-    {
-        $resumeClass = $this->resumeClass();
-
-        return new $resumeClass($this, $this->model);
-    }
-
-    public function save(): RedirectResponse
-    {
-        // TODO Can Save
-        return $this->submit();
-    }
-
+    /** @return RedirectResponse Begin or resume a Form session */
     public function start(): RedirectResponse
     {
-        if (Session::has(static::key()) === true) {
-            $stored = static::load(static::key());
+        if (Session::has(static::KEY) === true) {
+            $stored = static::load(static::KEY);
 
             if ($this->model->getKey() === $stored->getKey()) {
                 return redirect($this->resumeRoute());
@@ -135,27 +91,105 @@ abstract class Form
         return $this->fresh();
     }
 
+    /** @return View Show a "Resume" Screen which allows Users to restore their session */
+    public function resume(): View
+    {
+        $resumeClass = $this->resumeClass();
+
+        return new $resumeClass($this, $this->model);
+    }
+
+    /** @return RedirectResponse Clear out the current session and start anew */
+    public function fresh(): RedirectResponse
+    {
+        Session::put(static::KEY, $this->model);
+
+        $route = $this->model->exists === true
+            ? $this->checkRoute()
+            : $this->beginRoute();
+
+        return redirect($route);
+    }
+
+    /** @return View Show a "Begin" screen which introduces the User to the form */
+    public function begin(): View
+    {
+        $beginClass = $this->beginClass();
+
+        return new $beginClass($this, $this->model);
+    }
+
+    /** @return View Show the selected Item */
+    public function item(): View
+    {
+
+    }
+
+    /** @return View Show a "Check" screen which allows Users to review their answers */
+    public function check(): View
+    {
+        $checkClass = $this->checkClass();
+
+        return new $checkClass($this, $this->model);
+    }
+
+    /** @return RedirectResponse Submit the User's answers */
     public function submit(): RedirectResponse
     {
-        // TODO Can submit
+        if ($this->canSubmit() !== true) {
+            // TODO Validation message
+            $redirect = redirect($this->checkRoute())->withErrors('Submit validation failed');
+            throw new HttpResponseException($redirect);
+        }
+
         $this->model->save();
-        Session::flash(static::key(), $this->model);
+        Session::flash(static::KEY, $this->model);
 
         return redirect($this->finishRoute());
     }
 
-    // Model
-    public function canSave(): bool
+    /** @return RedirectResponse Save the User's answers without submitting, if enabled */
+    public function save(): RedirectResponse
     {
-        return true;
+        if ($this->canSave() !== true) {
+            // TODO Validation message
+            $redirect = redirect($this->checkRoute())->withErrors('Save validation failed');
+            throw new HttpResponseException($redirect);
+        }
+
+        return $this->submit();
     }
 
+    /** @return View Show a "Finish" screen which confirms the Form was submitted */
+    public function finish(): View
+    {
+        $finishClass = $this->finishClass();
+
+        return new $finishClass($this, $this->model);
+    }
+
+    /** @return RedirectResponse Clear the Form session and quit */
+    public function exit(): RedirectResponse
+    {
+        Session::forget(static::KEY);
+
+        return redirect($this->quitFormRoute());
+    }
+
+    // Model
+    /** @return bool Whether the Model is valid for saving without submitting */
+    public function canSave(): bool
+    {
+        return $this->enableSaving;
+    }
+
+    /** @return bool Whether the Model is valid for submitting */
     public function canSubmit(): bool
     {
         return true;
     }
 
-    /** @return class-string<Model|HasForm> */
+    /** @return class-string<Model|HasForm> The class name of the Model associated with this Form */
     protected static function modelClass(): string
     {
         $key = static::class;
@@ -169,33 +203,33 @@ abstract class Form
     }
 
     // Object Class Names
-    /** @return class-string<Check> */
+    /** @return class-string<Check> The class name of the "Check" Screen */
     protected function checkClass(): string
     {
         // TODO Default screen
         return '';
     }
 
-    /** @return class-string<Resume> */
+    /** @return class-string<Resume> The class name of the "Resume" Screen */
     protected function resumeClass(): string
     {
         // TODO Default screen
         return '';
     }
 
-    /** @return ?class-string<Begin> */
+    /** @return ?class-string<Begin> The class name of the "Begin" Screen, if used */
     protected function beginClass(): ?string
     {
         return null;
     }
 
-    /** @return ?class-string<Finish> */
+    /** @return ?class-string<Finish> The class name of the "Finish" Screen, if used */
     protected function finishClass(): ?string
     {
         return null;
     }
 
-    /** @return class-string<self> */
+    /** @return class-string<self> The class name of a Form registered in the config */
     protected static function formClassByKey(string $key): string
     {
         $forms = config('form-builder.forms', []);
@@ -205,7 +239,7 @@ abstract class Form
          * @var Model|HasForm $modelClass
          */
         foreach ($forms as $formClass => $modelClass) {
-            if ($formClass::key() === $key) {
+            if ($formClass::KEY === $key) {
                 return $formClass;
             }
         }
@@ -214,53 +248,41 @@ abstract class Form
     }
 
     // Routing
+    /** @return string Route to the "Start" action */
+    public function startRoute(): string
+    {
+        return route('form-builder.start', [static::KEY, $this->model]);
+    }
+
+    /** @return string Route to the "Resume" action */
+    public function resumeRoute(): string
+    {
+        return route('form-builder.resume', [static::KEY, $this->model]);
+    }
+
+    /** @return string Route to the "Fresh" action */
+    public function freshRoute(): string
+    {
+        return route('form-builder.fresh', [static::KEY, $this->model]);
+    }
+
+    /** @return string Route to the "Begin" Screen, if enabled, or the first Item */
     public function beginRoute(): string
     {
         $beginClass = $this->beginClass();
 
         return $beginClass !== null
-            ? route('form-builder.begin', [static::key()])
-            : $this->itemRoute(static::items($this->model)[0]);
+            ? route('form-builder.begin', [static::KEY])
+            : $this->getFirstItem()->route();
     }
 
-    public function checkRoute(): string
+    /** @return string Route to an Item */
+    public function itemRoute(array $path): string
     {
-        return route('form-builder.check', [static::key()]);
+        return $this->getItemAt($path)->route();
     }
 
-    public function exitRoute(): string
-    {
-        return route('form-builder.exit', static::key());
-    }
-
-    public function firstItemRoute(): string
-    {
-        return $this->itemRoute($this->firstItem()::key());
-    }
-
-    public function finishRoute(): string
-    {
-        $finishClass = $this->finishClass();
-
-        return $finishClass !== null
-            ? route('form-builder.finish', [static::key()])
-            : $this->exitRoute();
-    }
-
-    public function freshRoute(): string
-    {
-        return route('form-builder.fresh', [static::key(), $this->model->id]);
-    }
-
-    public function itemRoute(string $itemKey): string
-    {
-        // TODO traverse items to get url keys
-        // TODO Could be string or key path
-        $keys = $itemKey;
-
-        return route('form-builder.item', [static::key(), $keys]);
-    }
-
+    /** @return string Route to the next Item or Screen */
     public function nextRoute(string $itemKey): string
     {
         // TODO traverse items to find next
@@ -268,6 +290,7 @@ abstract class Form
         return '';
     }
 
+    /** @return string Route to the previous Item or Screen */
     public function previousRoute(string $itemKey): string
     {
         // TODO traverse items to find previous
@@ -275,26 +298,40 @@ abstract class Form
         return '';
     }
 
-    public function resumeRoute(): string
+    /** @return string Route to the "Check" Screen */
+    public function checkRoute(): string
     {
-        return route('form-builder.resume', [static::key()]);
+        return route('form-builder.check', [static::KEY]);
     }
 
+    /** @return string Route to the "Submit" action */
+    public function submitRoute(): string
+    {
+        return route('form-builder.submit', static::KEY);
+    }
+
+    /** @return string Route to the "Save" action, if enabled, or the "Submit" action */
     public function saveRoute(): string
     {
         return $this->enableSaving === true
-            ? route('form-builder.save', static::key())
+            ? route('form-builder.save', static::KEY)
             : $this->submitRoute();
     }
 
-    public function startRoute(): string
+    /** @return string Route to the "Finish" Screen, if enabled, or the "Exit" action */
+    public function finishRoute(): string
     {
-        return route('form-builder.start', [static::key(), $this->model]);
+        $finishClass = $this->finishClass();
+
+        return $finishClass !== null
+            ? route('form-builder.finish', [static::KEY])
+            : $this->exitRoute();
     }
 
-    public function submitRoute(): string
+    /** @return string Route to the "Exit" action */
+    public function exitRoute(): string
     {
-        return route('form-builder.submit', static::key());
+        return route('form-builder.exit', static::KEY);
     }
 }
 
@@ -304,7 +341,7 @@ abstract class Form
         $currentKey = array_pop($route);
 
         foreach ($this->questions as $question) {
-            if ($currentKey === $question::key()) {
+            if ($currentKey === $question::KEY) {
                 ** @var FormItem $item *
                 $item = new $question($this);
 
