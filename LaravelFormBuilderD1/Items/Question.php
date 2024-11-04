@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 abstract class Question extends BaseQuestion
 {
     public Input $input;
-    
+
     // Setup
     public function __construct(Form $form, Model $model)
     {
         parent::__construct($form, $model);
-        
+
         $this->input = $this->input();
     }
 
@@ -29,7 +29,7 @@ abstract class Question extends BaseQuestion
     {
         return $this->input->label;
     }
-    
+
     public function toArray(): array
     {
         return array_merge(

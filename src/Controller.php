@@ -2,7 +2,4 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder;
 
-class Controller
-{
-
-}
+class Controller {}

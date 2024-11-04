@@ -18,7 +18,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
 class ItemStructureTest extends TestCase
 {
-    const array EXPECTED = [
+    public const array EXPECTED = [
         QuestionOne::class => QuestionOne::class,
         TaskOne::class => [
             QuestionTwo::class => QuestionTwo::class,

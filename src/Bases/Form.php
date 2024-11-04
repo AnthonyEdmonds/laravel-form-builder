@@ -3,7 +3,6 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFoundException;
-use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Form

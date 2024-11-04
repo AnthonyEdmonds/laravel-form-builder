@@ -11,10 +11,10 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->publishes([
-            __DIR__.'/form-builder.php' => config_path('form-builder.php'),
+            __DIR__ . '/form-builder.php' => config_path('form-builder.php'),
         ]);
 
-        $this->mergeConfigFrom(__DIR__.'/form-builder.php', 'form-builder');
+        $this->mergeConfigFrom(__DIR__ . '/form-builder.php', 'form-builder');
     }
 
     public function boot(): void
@@ -26,9 +26,7 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
             Route::prefix("/form/$key")
                 ->controller(Controller::class)
                 ->name('form-builder.')
-                ->group(function () {
-
-                });
+                ->group(function () {});
         });
     }
 }

@@ -16,21 +16,21 @@ trait HasItems
     // Items
     /** @return class-string<Item>[] A list of Items and Containers by class-string */
     abstract public static function items(Model $model): array;
-    
+
     /** @return array<string, class-string<Item>> Paths to every Item and child in linear order */
     public static function index(Model $model, string $path = ''): array
     {
         $index = [];
         $items = static::items($model);
-        
+
         foreach ($items as $item) {
-            if (is_a($item, Fork::class, true) !== true ) {
-                $key = $path.$item::key();
+            if (is_a($item, Fork::class, true) !== true) {
+                $key = $path . $item::key();
                 $index[$key] = $item;
             }
 
             if (is_a($item, Container::class, true) === true) {
-                $index = array_merge($index, $item::index($model, $path.$item::key().'/'));
+                $index = array_merge($index, $item::index($model, $path . $item::key() . '/'));
             }
         }
 

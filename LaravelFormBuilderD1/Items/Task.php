@@ -9,7 +9,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\Checkable;
 abstract class Task extends Container
 {
     use Checkable;
-    
+
     // View
     abstract public function title(): string;
 
@@ -59,12 +59,12 @@ abstract class Task extends Container
 
         return $items;
     }
-    
+
     // Routing
     public function backRoute(): string
     {
         // If inside task list, go back to task list
-        
+
         $previousPath = $this->form->previousItemPath($this->model->currentPath);
 
         if ($previousPath !== null) {

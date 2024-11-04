@@ -7,11 +7,11 @@ use AnthonyEdmonds\LaravelFormBuilder\Bases\Input;
 class Textarea extends Input
 {
     public function __construct(
-        string $label, 
-        string $name, 
-        string $autocomplete = 'on', 
-        ?string $hint = null, 
-        ?string $id = null, 
+        string $label,
+        string $name,
+        string $autocomplete = 'on',
+        ?string $hint = null,
+        ?string $id = null,
         mixed $value = null,
         public string $inputmode = 'text',
         public ?string $placeholder = null,

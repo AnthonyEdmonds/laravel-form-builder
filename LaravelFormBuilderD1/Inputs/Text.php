@@ -7,12 +7,12 @@ use AnthonyEdmonds\LaravelFormBuilder\Bases\Input;
 class Text extends Input
 {
     public function __construct(
-        string $label, 
-        string $name, 
-        string $autocomplete = 'on', 
-        ?string $hint = null, 
+        string $label,
+        string $name,
+        string $autocomplete = 'on',
+        ?string $hint = null,
         ?string $id = null,
-        string $type = 'text', 
+        string $type = 'text',
         mixed $value = null,
         public string $inputmode = 'text',
         public ?string $placeholder = null,

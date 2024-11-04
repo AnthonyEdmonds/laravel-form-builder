@@ -116,7 +116,7 @@ trait HasItems
          * Would technically work without instantiation, if items/children was a static method
          */
         foreach ($this->children as $child) {
-            if (is_a($child, Fork::class) !== true ) {
+            if (is_a($child, Fork::class) !== true) {
                 $index[] = $path . $child::KEY;
             }
 

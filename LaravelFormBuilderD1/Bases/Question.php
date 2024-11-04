@@ -13,23 +13,23 @@ abstract class Question extends Item implements View
 
     /** Whether to show the "other" button on the question page */
     public const bool CAN_SKIP = false;
-    
+
     /** Whether the question should be shown again after saving */
     public const bool LOOPING = false;
-    
+
     /** How to display the value of unanswered Questions */
     public const string NO_ANSWER_VALUE = 'Not given';
-    
+
     /** The method to use when saving this Question */
     public const string SAVE_METHOD = 'POST';
-    
+
     /** The method to use when skipping this Question */
     public const string SKIP_METHOD = 'POST';
-    
+
     // Input
     /** @return class-string<FormRequest> */
     abstract public function formRequest(): string;
-    
+
     /** Handle applying the given answers to the Model */
     abstract public function save(Request $request): void;
 
@@ -45,17 +45,17 @@ abstract class Question extends Item implements View
         request()->merge([
             'model' => $this->model,
         ]);
-        
+
         app($this->formRequest());
     }
-    
+
     // View
     /** Use a custom blade to provide more details */
     public function name(): string
     {
         return 'form-builder::items.question';
     }
-    
+
     /** The title of the Question page */
     abstract public function title(): string;
 
@@ -64,7 +64,7 @@ abstract class Question extends Item implements View
     {
         return '';
     }
-    
+
     /** The label of the submit button */
     public function saveLabel(): string
     {
@@ -104,7 +104,7 @@ abstract class Question extends Item implements View
             ],
         );
     }
-    
+
     public function actionRoute(): ?string
     {
         return route('forms.items.save', [
@@ -112,7 +112,7 @@ abstract class Question extends Item implements View
             $this->model->currentPath,
         ]);
     }
-    
+
     public function otherRoute(): ?string
     {
         return route('forms.items.skip', [

@@ -23,7 +23,8 @@ abstract class Item implements View
     public readonly Model $model;
 
     // Setup
-    public function __construct(Form $form, Model $model) {
+    public function __construct(Form $form, Model $model)
+    {
         $this->form = $form;
         $this->model = $model;
     }
@@ -65,7 +66,7 @@ abstract class Item implements View
                 ? $this->form->beginRoute()
                 : $this->form->exitRoute();
         }
-        
+
         return $this->form->itemRoute($this->form->previousItemPath($this->model->currentPath));
     }
 

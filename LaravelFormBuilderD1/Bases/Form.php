@@ -32,37 +32,37 @@ abstract class Form
     use HasKey;
 
     public const string EDIT = 'edit';
-    
+
     public const string NEW = 'new';
-    
+
     public const string RESUME = 'resume';
 
     public const string REVIEW = 'review';
-    
+
     public const string START = 'start';
-    
+
     public const string SUBMIT  = 'submit';
 
     /** Whether Users have the option to save without submitting */
     public const bool SAVE_ENABLED = false;
-    
+
     /**
      * @var Model|HasForm The Model for the current Form session
      * @noinspection PhpDocFieldTypeMismatchInspection
      */
     public readonly Model $model;
-    
+
     // Setup
-    /** 
+    /**
      * Whether this form can currently be accessed
      * @return true|string True, or why the Form cannot be accessed
      */
     abstract public function authorise(): true|string;
-    
+
     public function __construct(Model $model)
     {
         $this->model = $model;
-        
+
         $authorised = $this->authorise();
         if ($authorised !== true) {
             throw new AuthorizationException("This form cannot be accessed; $authorised");
@@ -90,14 +90,14 @@ abstract class Form
                 $model = $modelKey !== null
                     ? $modelClass::findOrFail($modelKey)
                     : new $modelClass();
-                
+
                 return new $formClass($model);
             }
         }
-        
+
         throw new FormNotFoundException("No form has been registered for \"$formKey\"");
     }
-    
+
     // Model
     /**
      * @return Model|HasForm Load a Model from the current session
@@ -109,14 +109,14 @@ abstract class Form
             ? Session::get($formKey)
             : throw new FormExpiredException('Your form session has expired; you must start again.');
     }
-    
+
     /** Store the Form Model into the current session */
     public function putModelIntoSession(): static
     {
         Session::put(static::key(), $this->model);
         return $this;
     }
-    
+
     /** @return class-string<Model|HasForm> The class name of the Model associated with this Form */
     public function modelClass(): string
     {
@@ -154,40 +154,40 @@ abstract class Form
 
         return $this->fresh();
     }
-    
+
     /** Start a new Form session */
     public function fresh(): RedirectResponse
     {
         $this->putModelIntoSession();
-        
+
         if (
             $this->model->exists === true
             && $this->checkScreen() !== null
         ) {
             return redirect($this->checkRoute());
         }
-        
+
         $firstItemPath = $this->firstItemPath();
         return redirect($this->itemRoute($firstItemPath));
     }
-    
+
     /** Save the Form and exit */
     public function save(): RedirectResponse
     {
         if (static::SAVE_ENABLED !== true) {
             return $this->submit();
         }
-        
+
         $canSave = $this->model->canSave();
         if ($canSave !== true) {
             return back()->withErrors([
                 'content' => $canSave,
             ]);
         }
-        
+
         $this->saveModel();
         Session::forget(static::key());
-        
+
         return redirect($this->exitRoute());
     }
 
@@ -203,14 +203,14 @@ abstract class Form
 
         $this->submitModel();
         Session::flash(static::key(), $this->model);
-        
+
         $nextRoute = $this->finishScreen() !== null
             ? $this->finishRoute()
             : $this->exitRoute();
-        
+
         return redirect($nextRoute);
     }
-    
+
     // Screens
     /** @return ?class-string<Begin> Classname of the Begin screen, or null */
     public function beginScreen(): ?string
@@ -235,7 +235,7 @@ abstract class Form
     {
         return Resume::class;
     }
-    
+
     /** Ask the User whether they want to resume their Form session */
     public function resume(): View
     {
@@ -253,13 +253,13 @@ abstract class Form
     {
         return $this->showScreen($this->checkScreen(), $this->submitRoute());
     }
-    
+
     /** Show the Finish Screen if set, or exit the Form */
     public function finish(): View|RedirectResponse
     {
         return $this->showScreen($this->finishScreen(), $this->exitRoute());
     }
-    
+
     protected function showScreen(?string $screenClass, string $redirect): View|RedirectResponse
     {
         return $screenClass === null
@@ -291,7 +291,7 @@ abstract class Form
     {
         return route('forms.resume', static::key());
     }
-    
+
     /** Link to force a fresh Form session */
     public function freshRoute(): string
     {
@@ -314,7 +314,7 @@ abstract class Form
     {
         return route('forms.submit', static::key());
     }
-    
+
     public function submitRoute(): string
     {
         return route('forms.submit', static::key());

@@ -45,14 +45,14 @@ class ItemController
         $item = Form::getModelFromSession($formKey)
             ->form()
             ->getItem($path);
-        
+
         if (is_a($item, Question::class) === true) {
             if ($item::CAN_SKIP === true) {
                 $item->skip();
                 $item->form->putModelIntoSession();
             }
         }
-        
+
         return redirect($item->nextRoute());
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class Checkboxes extends Input
 {
     public array $options;
-    
+
     public function __construct(
         string $label,
         string $name,
@@ -21,9 +21,9 @@ class Checkboxes extends Input
         $value = is_array($value) === false
             ? [$value]
             : $value;
-        
+
         parent::__construct($label, $name, $autocomplete, $hint, $id, 'checkboxes', $value);
-       
+
         $this->options = is_a($options, Collection::class) === true
             ? $options->toArray()
             : $options;

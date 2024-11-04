@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class Select extends Input
 {
     public array $options;
-    
+
     public function __construct(
         string $label,
         string $name,

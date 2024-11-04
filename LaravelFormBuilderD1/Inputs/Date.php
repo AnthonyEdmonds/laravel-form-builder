@@ -14,29 +14,29 @@ class Date extends Input
     public string $autocompleteYear;
 
     public string $dayId;
-    
+
     public string $dayName;
-    
+
     public ?int $dayValue;
-    
+
     public string $monthId;
-    
+
     public string $monthName;
-    
+
     public ?int $monthValue;
-    
+
     public string $yearId;
-    
+
     public string $yearName;
-    
+
     public ?int $yearValue;
-    
+
     public function __construct(
-        string $label, 
-        string $name, 
-        string $autocomplete = 'on', 
-        ?string $hint = null, 
-        ?string $id = null, 
+        string $label,
+        string $name,
+        string $autocomplete = 'on',
+        ?string $hint = null,
+        ?string $id = null,
         mixed $value = null,
         public bool $noDay = false,
         public bool $noMonth = false,
@@ -47,7 +47,7 @@ class Date extends Input
         $this->dayId = "$this->id-day";
         $this->monthId = "$this->id-month";
         $this->yearId = "$this->id-year";
-        
+
         $this->dayName = "$this->name-day";
         $this->monthName = "$this->name-month";
         $this->yearName = "$this->name-year";
@@ -59,10 +59,10 @@ class Date extends Input
         $this->autocompleteDay = $this->setAutocompleteDay();
         $this->autocompleteMonth = $this->setAutocompleteMonth();
         $this->autocompleteYear = $this->setAutocompleteYear();
-        
+
         $this->noDay = $this->setNoDay();
     }
-    
+
     public function setAutocompleteDay(): string
     {
         return match ($this->autocomplete) {
@@ -89,7 +89,7 @@ class Date extends Input
             default => $this->autocomplete,
         };
     }
-    
+
     public function setNoDay(): bool
     {
         return match ($this->autocomplete) {
@@ -97,13 +97,13 @@ class Date extends Input
             default => $this->noDay,
         };
     }
-    
+
     public function setDateValue(string $name, string $key): ?int
     {
         $value = is_a($this->value, Carbon::class) === true
             ? $this->value->$key
             : $this->value[$key] ?? null;
-        
+
         return old($name, $value);
     }
 }

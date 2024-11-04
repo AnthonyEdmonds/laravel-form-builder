@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $currentMode
  * @property string $currentPath
  * @property Form $form
- * 
+ *
  * @method Form form()
  * @method static Form form()
  *
@@ -26,7 +26,7 @@ trait HasForm
 
     /** Cache of the Form */
     protected Form $form;
-    
+
     // Setup
     /**
      * @param string $method
@@ -36,7 +36,7 @@ trait HasForm
     public function __call($method, $parameters)
     {
         return $method === 'form'
-            ? $this->newForm() 
+            ? $this->newForm()
             : parent::__call($method, $parameters);
     }
 
@@ -51,18 +51,18 @@ trait HasForm
             ? static::staticNewForm()
             : parent::__callStatic($method, $parameters);
     }
-    
+
     /**
      * @param string $key
      * @return Form|mixed
      */
     public function __get($key)
     {
-        return match($key) {
+        return match ($key) {
             'currentMode' => $this->currentMode,
             'currentPath' => $this->currentPath,
             'form' => $this->form,
-            default => parent::__get($key)
+            default => parent::__get($key),
         };
     }
 
@@ -96,7 +96,7 @@ trait HasForm
 
         return $this->form;
     }
-    
+
     // Setters
     /** Set the Form mode */
     public function setCurrentMode(string $mode): static
@@ -111,14 +111,14 @@ trait HasForm
         $this->currentPath = $path;
         return $this;
     }
-    
+
     // Utilities
     /** @return true|string True, or why this Model cannot be saved */
     public function canSave(): true|string
     {
         return true;
     }
-    
+
     /** @return true|string True, or why this Model cannot be submitted */
     public function canSubmit(): true|string
     {

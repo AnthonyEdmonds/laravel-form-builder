@@ -6,10 +6,10 @@ trait Renderable
 {
     /** @var array Data available to the blade */
     public array $data = [];
-    
+
     /** The name of the blade used to display this class */
     abstract public function name(): string;
-    
+
     /** Class properties which will be merged with the $data when rendered */
     abstract public function toArray(): array;
 

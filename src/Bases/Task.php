@@ -2,7 +2,4 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
-abstract class Task
-{
-
-}
+abstract class Task {}

@@ -11,12 +11,12 @@ abstract class Questions extends BaseQuestion
 {
     /** @var Input[] */
     public array $inputs;
-    
+
     // Setup
     public function __construct(Form $form, Model $model)
     {
         parent::__construct($form, $model);
-        
+
         $this->inputs = $this->inputs();
     }
 

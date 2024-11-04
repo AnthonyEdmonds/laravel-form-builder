@@ -2,7 +2,4 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
-abstract class Question
-{
-
-}
+abstract class Question {}

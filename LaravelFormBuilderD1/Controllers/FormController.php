@@ -37,7 +37,7 @@ class FormController
     {
         return $this->loadForm($formKey, 'check')->check();
     }
-    
+
     /** Save the Form session without submitting */
     public function save(string $formKey): RedirectResponse
     {
@@ -55,7 +55,7 @@ class FormController
     {
         $this->loadForm($formKey, 'finish')->finish();
     }
-    
+
     /** Make a new Form session */
     protected function newForm(string $formKey, string $path, ?string $modelKey = null): Form
     {
@@ -64,7 +64,7 @@ class FormController
             ->setCurrentPath($path)
             ->form();
     }
-    
+
     /** Get the current Form session */
     protected function loadForm(string $formKey, string $path): Form
     {

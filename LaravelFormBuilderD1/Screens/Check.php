@@ -87,7 +87,7 @@ class Check extends Screen
     {
         return $this->form->itemRoute($this->form->lastItemPath());
     }
-    
+
     public function otherRoute(): ?string
     {
         return $this->form->saveRoute();

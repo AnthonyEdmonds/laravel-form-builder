@@ -7,7 +7,8 @@ use Illuminate\View\Component;
 
 class ErrorSummary extends Component
 {
-    public function __construct(public string $title = 'There is a problem') {
+    public function __construct(public string $title = 'There is a problem')
+    {
         //
     }
 

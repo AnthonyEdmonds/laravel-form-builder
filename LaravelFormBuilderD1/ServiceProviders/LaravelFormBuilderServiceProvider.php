@@ -12,7 +12,7 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../Config/form-builder.php', 'form-builder');
+        $this->mergeConfigFrom(__DIR__ . '/../Config/form-builder.php', 'form-builder');
     }
 
     public function boot(): void
@@ -25,11 +25,11 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
     protected function bootPublishes(): void
     {
         $this->publishes([
-            __DIR__.'/../Config/form-builder.php' => config_path('form-builder.php'),
+            __DIR__ . '/../Config/form-builder.php' => config_path('form-builder.php'),
         ], 'laravel-form-builder-config');
 
         $this->publishes([
-            __DIR__.'/../Views' => resource_path('views/vendor/laravel-form-builder'),
+            __DIR__ . '/../Views' => resource_path('views/vendor/laravel-form-builder'),
         ], 'laravel-form-builder-views');
     }
 
@@ -51,7 +51,7 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                             Route::get('/submit', 'submit')->name('submit');
                             Route::get('/finish', 'finish')->name('finish');
                         });
-                    
+
                     Route::controller(ItemController::class)
                         ->prefix('/{path}')
                         ->name('items')
@@ -68,9 +68,9 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
     {
         Blade::componentNamespace('AnthonyEdmonds\\LaravelFormBuilder\\Components', 'form-builder-ui');
         Blade::componentNamespace('AnthonyEdmonds\\LaravelFormBuilder\\Inputs', 'form-builder');
-        
+
         $this->loadViewsFrom(
-            __DIR__.'/../Views',
+            __DIR__ . '/../Views',
             'form-builder',
         );
     }

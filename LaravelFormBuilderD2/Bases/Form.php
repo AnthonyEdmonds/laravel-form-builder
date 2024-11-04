@@ -120,10 +120,7 @@ abstract class Form
     }
 
     /** @return View Show the selected Item */
-    public function item(): View
-    {
-
-    }
+    public function item(): View {}
 
     /** @return View Show a "Check" screen which allows Users to review their answers */
     public function check(): View

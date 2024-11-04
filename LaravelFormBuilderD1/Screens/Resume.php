@@ -15,12 +15,12 @@ class Resume extends Screen
     {
         return 'form-builder::screens.resume';
     }
-    
+
     public function actionRoute(): ?string
     {
         return $this->form->itemRoute($this->model->currentPath);
     }
-    
+
     public function otherRoute(): ?string
     {
         return $this->form->freshRoute();
