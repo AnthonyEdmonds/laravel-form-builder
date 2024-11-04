@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\ServiceProviders;
 
+use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\FormController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +21,13 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Route::macro('laravelFormBuilder', function () {
-            Route::prefix('/forms/{formKey}')
+        Route::macro('laravelFormBuilder', function (string $formClass) {
+            /** @var class-string<Form> $formClass */
+            $key = $formClass::key();
+
+            Route::prefix("/form/$key")
                 ->controller(FormController::class)
-                ->name('form-builder.')
+                ->name('form.')
                 ->group(function () {
                     Route::get('/start/{modelKey?}', 'start')->name('start');
                     Route::get('/fresh/{modelKey?}', 'fresh')->name('fresh');

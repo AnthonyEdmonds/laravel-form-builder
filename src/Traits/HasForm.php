@@ -15,12 +15,6 @@ trait HasForm
 {
     protected Form $form;
 
-    // TODO
-    protected ?string $formMode = null;
-
-    // TODO
-    protected ?string $currentFormItemKey = null;
-
     public function __call($method, $parameters)
     {
         if ($method === 'form') {
@@ -46,11 +40,9 @@ trait HasForm
         $forms = config('form-builder.forms', []);
         $formClass = array_search($modelClass, $forms);
 
-        if ($formClass === false) {
-            throw new FormNotFoundException("No form has been registered for \"$modelClass\"");
-        }
-
-        return $formClass;
+        return $formClass === false
+            ? throw new FormNotFoundException("No form has been registered for \"$modelClass\"")
+            : $formClass;
     }
 
     public static function staticNewForm(): Form

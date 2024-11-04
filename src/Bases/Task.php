@@ -2,7 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
-abstract class Screen
+abstract class Task
 {
 
 }

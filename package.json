@@ -15,7 +15,7 @@
   "homepage": "https://github.com/AnthonyEdmonds/laravel-form-builder",
   "scripts": {
     "larastan": "php vendor/bin/phpstan analyse --memory-limit 512M",
-    "pint": "php ./vendor/bin/pint",
+    "pint": "php ./vendor/bin/pint --preset=per",
     "test": "php vendor/bin/paratest",
     "test-slow": "php vendor/bin/phpunit"
   },
