@@ -3,10 +3,12 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
 use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
-use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * Used in conjunction with the UsesForm interface
+ *
+ * @method Form form()
  * @method static Form form()
  *
  * @mixin Model
@@ -36,13 +38,7 @@ trait HasForm
     /** @return class-string<Form> */
     public static function formClass(): string
     {
-        $modelClass = static::class;
-        $forms = config('form-builder.forms', []);
-        $formClass = array_search($modelClass, $forms);
-
-        return $formClass === false
-            ? throw new FormNotFoundException("No form has been registered for \"$modelClass\"")
-            : $formClass;
+        return Form::formClassByModel(static::class);
     }
 
     public static function staticNewForm(): Form

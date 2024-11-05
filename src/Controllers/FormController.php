@@ -6,8 +6,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class FormController
-{
+class FormController {
     public function start(string $formKey, ?string $modelKey = null): RedirectResponse
     {
         return Form::new($formKey, $modelKey)->start();
@@ -20,36 +19,36 @@ class FormController
 
     public function resume(string $formKey): View
     {
-        return Form::load($formKey)->form()->resume();
+        return Form::load($formKey)->resume();
     }
 
     public function begin(string $formKey): View
     {
-        return Form::load($formKey)->form()->begin();
+        return Form::load($formKey)->begin();
     }
 
     public function check(string $formKey): View
     {
-        return Form::load($formKey)->form()->check();
+        return Form::load($formKey)->check();
     }
 
     public function save(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->form()->save();
+        return Form::load($formKey)->saveDraft();
     }
 
     public function submit(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->form()->submit();
+        return Form::load($formKey)->submit();
     }
 
     public function finish(string $formKey): View
     {
-        return Form::load($formKey)->form()->finish();
+        return Form::load($formKey)->finish();
     }
 
     public function exit(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->form()->exit();
+        return Form::load($formKey)->exit();
     }
 }

@@ -46,28 +46,9 @@ abstract class Form
     /** Whether Users have the option to save without submitting */
     public const bool SAVE_ENABLED = false;
 
-    /**
-     * @var Model|HasForm The Model for the current Form session
-     * @noinspection PhpDocFieldTypeMismatchInspection
-     */
-    public readonly Model $model;
-
     // Setup
-    /**
-     * Whether this form can currently be accessed
-     * @return true|string True, or why the Form cannot be accessed
-     */
-    abstract public function authorise(): true|string;
-
-    public function __construct(Model $model)
+    public function __construct()
     {
-        $this->model = $model;
-
-        $authorised = $this->authorise();
-        if ($authorised !== true) {
-            throw new AuthorizationException("This form cannot be accessed; $authorised");
-        }
-
         $this->indexItems($this->model);
     }
 

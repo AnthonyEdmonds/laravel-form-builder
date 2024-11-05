@@ -37,44 +37,15 @@ abstract class Form
     /** @var bool Whether the Form can be saved without submitting */
     protected bool $enableSaving = false;
 
-    /** @var Model The Model instance for the current Form session */
-    protected Model $model;
-
     // Setup
     /** @return string Route to where the User should go when quitting the Form */
     abstract protected function quitFormRoute(): string;
 
-    public function __construct(Model $model, bool $populate = true)
+    public function __construct(bool $populate = true)
     {
-        $this->model = $model;
-
         if ($populate === true) {
             $this->populateItems();
         }
-    }
-
-    // Actions
-    /** @return Form Create a new Form instance */
-    public static function new(string $formKey, ?string $modelKey = null): Form
-    {
-        $formClass = Form::formClassByKey($formKey);
-        $modelClass = $formClass::modelClass();
-
-        $model = $modelKey !== null
-            ? $modelClass::findOrFail($modelKey)
-            : new $modelClass();
-
-        return $model->form();
-    }
-
-    /** @return Model|HasForm Model from the current Form session */
-    public static function load(string $formKey): Model
-    {
-        if (Session::has($formKey) !== true) {
-            throw new FormExpiredException('The form you are trying to access has expired. Please start again.');
-        }
-
-        return Session::get($formKey);
     }
 
     /** @return RedirectResponse Begin or resume a Form session */
@@ -224,24 +195,6 @@ abstract class Form
     protected function finishClass(): ?string
     {
         return null;
-    }
-
-    /** @return class-string<self> The class name of a Form registered in the config */
-    protected static function formClassByKey(string $key): string
-    {
-        $forms = config('form-builder.forms', []);
-
-        /**
-         * @var Form $formClass
-         * @var Model|HasForm $modelClass
-         */
-        foreach ($forms as $formClass => $modelClass) {
-            if ($formClass::KEY === $key) {
-                return $formClass;
-            }
-        }
-
-        throw new FormNotFoundException("The \"$key\" form has not been registered");
     }
 
     // Routing
