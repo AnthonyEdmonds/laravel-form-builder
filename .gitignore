@@ -2,3 +2,5 @@
 /vendor
 /.idea
 /.phpunit.cache
+*:Zone.Identifier
+*.dia~
