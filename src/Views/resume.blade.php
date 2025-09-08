@@ -1,5 +1,6 @@
 Title
 
+Descriptive text
 Do you want to resume your session?
 
 Resume button

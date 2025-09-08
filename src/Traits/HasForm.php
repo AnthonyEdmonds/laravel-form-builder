@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 /**
  * Used in conjunction with the UsesForm interface
  * @mixin Model
+ * @mixin UsesForm
  */
 trait HasForm
 {

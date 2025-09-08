@@ -2,12 +2,16 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
+use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-abstract class Question extends Item implements ItemInterface
+abstract class Question extends Item implements ItemInterface, UsesStates
 {
+    use HasStates;
+
     // Setup
     final public function __construct(
         public Form $form,

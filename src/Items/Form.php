@@ -3,12 +3,17 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFound;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\ModelHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+
+// TODO If editing answer from summary page, skip back to summary
+// TODO If editing answer from task page, skip back to task
+// TODO Enable saving? Probably handled by overriding save on model
 
 abstract class Form extends Item implements ItemInterface
 {
@@ -99,31 +104,6 @@ abstract class Form extends Item implements ItemInterface
     /** @returns class-string<UsesForm> */
     abstract public static function modelClass(): string;
 
-    public static function loadModelFromDatabase(string $formKey, string $modelKey): UsesForm
-    {
-        /** @var class-string<Form> $formClass */
-        $formClass = Form::classnameByKey($formKey);
-
-        /** @var class-string<UsesForm> $class */
-        $class = $formClass::modelClass();
-
-        /** @var UsesForm $model */
-        $model = $class::query()->findOrFail($modelKey);
-
-        return $model;
-    }
-
-    public static function newModel(string $formKey): UsesForm
-    {
-        /** @var class-string<Form> $formClass */
-        $formClass = Form::classnameByKey($formKey);
-
-        /** @var class-string<UsesForm> $modelClass */
-        $modelClass = $formClass::modelClass();
-
-        return $modelClass::makeForForm();
-    }
-
     // Actions
     public function draft(): RedirectResponse
     {
@@ -141,7 +121,7 @@ abstract class Form extends Item implements ItemInterface
 
         $model = $modelHasSession === true
             ? SessionHelper::getFormSession($formKey)
-            : $formClass::loadModelFromDatabase($formKey, $modelKey);
+            : ModelHelper::loadModelFromDatabase($formClass, $modelKey);
 
         if ($modelHasSession === false) {
             SessionHelper::setFormSession($formKey, $model);
@@ -161,7 +141,7 @@ abstract class Form extends Item implements ItemInterface
         /** @var class-string<Form> $formClass */
         $formClass = Form::classnameByKey($formKey);
 
-        $model = $formClass::newModel($formKey);
+        $model = ModelHelper::newModel($formClass);
         SessionHelper::setFormSession($formKey, $model);
         $form = new $formClass($model);
 

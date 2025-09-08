@@ -10,6 +10,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Enums;
  * Not required       | User does not need to complete this task
  * Not yet started    | User has not started answering
  * There is a problem | An answer is in error, perhaps due to a change in another Task
+ * Unknown            | Could not determine the current status
  */
 enum State: string
 {
@@ -26,6 +27,8 @@ enum State: string
     case NotYetStarted = 'Not yet started';
 
     case ThereIsAProblem = 'There is a problem';
+
+    case Unknown = 'Unknown';
 
     public function colour(): Colour
     {

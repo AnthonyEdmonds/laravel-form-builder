@@ -3,10 +3,14 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\QuestionNotFound;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
+use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
 use Illuminate\Contracts\View\View;
 
-abstract class Task extends Container
+abstract class Task extends Container implements UsesStates
 {
+    use HasStates;
+
     // Setup
     final public function __construct(
         public Form $form,
