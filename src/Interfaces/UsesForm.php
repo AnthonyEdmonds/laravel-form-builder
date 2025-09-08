@@ -2,26 +2,34 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Interfaces;
 
-use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Used in conjunction with the HasForm trait
- *
- * @method Form form()
- * @method static Form form()
- *
  * @mixin Model
  */
 interface UsesForm
 {
-    public function __call($name, $arguments);
-
-    public static function __callStatic($name, $arguments);
-
+    // Form
     public static function formClass(): string;
 
-    public static function staticNewForm(): Form;
+    public static function newForm(): Form;
 
-    public function newForm(): Form;
+    public function form(): Form;
+
+    // Instantiation
+    public static function makeForForm(): UsesForm;
+
+    // Draft
+    public function draftIsEnabled(): bool;
+
+    public function draftIsValid(): true|string;
+
+    public function saveAsDraft(): true|string;
+
+    // Submit
+    public function submitIsValid(): true|string;
+
+    public function saveAndSubmit(): true|string;
 }

@@ -2,7 +2,6 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Bases;
 
-use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormExpiredException;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFoundException;
 use AnthonyEdmonds\LaravelFormBuilder\Screens\Begin;
 use AnthonyEdmonds\LaravelFormBuilder\Screens\Check;

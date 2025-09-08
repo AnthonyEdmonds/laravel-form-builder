@@ -2,39 +2,20 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Controllers;
 
-use AnthonyEdmonds\LaravelFormBuilder\Bases\Form;
-use Illuminate\Contracts\View\View;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
 
-class FormController {
-    public function start(string $formKey, ?string $modelKey = null): RedirectResponse
+class FormController extends Controller
+{
+    public function new(string $formKey): RedirectResponse
     {
-        return Form::new($formKey, $modelKey)->start();
+        return Form::new($formKey);
     }
 
-    public function fresh(string $formKey, ?string $modelKey = null): RedirectResponse
+    public function edit(string $formKey, string $modelKey): RedirectResponse
     {
-        return Form::new($formKey, $modelKey)->fresh();
-    }
-
-    public function resume(string $formKey): View
-    {
-        return Form::load($formKey)->resume();
-    }
-
-    public function begin(string $formKey): View
-    {
-        return Form::load($formKey)->begin();
-    }
-
-    public function check(string $formKey): View
-    {
-        return Form::load($formKey)->check();
-    }
-
-    public function save(string $formKey): RedirectResponse
-    {
-        return Form::load($formKey)->saveDraft();
+        return Form::edit($formKey, $modelKey);
     }
 
     public function submit(string $formKey): RedirectResponse
@@ -42,9 +23,9 @@ class FormController {
         return Form::load($formKey)->submit();
     }
 
-    public function finish(string $formKey): View
+    public function draft(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->finish();
+        return Form::load($formKey)->draft();
     }
 
     public function exit(string $formKey): RedirectResponse

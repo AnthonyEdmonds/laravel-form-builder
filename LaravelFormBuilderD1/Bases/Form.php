@@ -11,7 +11,6 @@ use AnthonyEdmonds\LaravelFormBuilder\Screens\Begin;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasItems;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasKey;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
