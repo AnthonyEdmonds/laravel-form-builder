@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\DraftNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\ModelHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
@@ -11,13 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
-// TODO If editing answer from summary page, skip back to summary
-// TODO If editing answer from task page, skip back to task
-
-/**
- * @property UsesForm|Model $model
- */
+/** @property UsesForm|Model $model */
 abstract class Form extends Item implements ItemInterface
 {
     use AuthorizesRequests;
@@ -115,7 +112,19 @@ abstract class Form extends Item implements ItemInterface
     // Actions
     public function draft(): RedirectResponse
     {
-        // TODO
+        if ($this->model->draftIsEnabled() === false) {
+            throw new DraftNotAllowed('This form does not support saving as a draft');
+        }
+
+        $draftIsValid = $this->model->draftIsValid();
+        if ($draftIsValid !== true) {
+            return Redirect::back(400)->withErrors([
+                'reason' => $draftIsValid,
+            ]);
+        }
+
+        $this->model->saveAsDraft();
+        SessionHelper::clearFormSession($this->key);
 
         return $this->exit();
     }
@@ -142,10 +151,10 @@ abstract class Form extends Item implements ItemInterface
 
         $form = new $formClass($model);
 
-        return Redirect::route(
+        return Redirect::to(
             $modelHasSession === true
                 ? $form->resume()->route()
-                : $form->tasks()->show(),
+                : $form->tasks()->route(),
         );
     }
 
@@ -159,7 +168,7 @@ abstract class Form extends Item implements ItemInterface
 
     public function exit(): RedirectResponse
     {
-        return Redirect::route(
+        return Redirect::to(
             $this->exitRoute(),
         );
     }
@@ -178,7 +187,7 @@ abstract class Form extends Item implements ItemInterface
         SessionHelper::setFormSession($formKey, $model);
         $form = new $formClass($model);
 
-        return Redirect::route(
+        return Redirect::to(
             $form->startIsEnabled() === true
                 ? $form->start()->route()
                 : $form->tasks()->show(),
@@ -192,15 +201,21 @@ abstract class Form extends Item implements ItemInterface
 
     public function submit(): RedirectResponse
     {
-        // TODO
-
-        if ($this->confirmationIsEnabled() === true) {
-            return Redirect::route(
-                $this->confirmation()->route(),
-            );
+        $submitIsValid = $this->model->submitIsValid();
+        if ($submitIsValid !== true) {
+            return Redirect::back(400)->withErrors([
+                'reason' => $submitIsValid,
+            ]);
         }
 
-        return $this->exit();
+        $this->model->saveAndSubmit();
+        Session::flash($this->key, $this->model);
+
+        return $this->confirmationIsEnabled() === true
+            ? Redirect::to(
+                $this->confirmation()->route(),
+            )
+            : $this->exit();
     }
 
     public function submitRoute(): string

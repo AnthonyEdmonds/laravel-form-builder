@@ -2,15 +2,23 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\SkipNotAllowed;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
+use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Throwable;
 
-abstract class Question extends Item implements ItemInterface, UsesStates
+abstract class Question extends Item implements ItemInterface, UsesStates, CanRender
 {
     use HasStates;
+    use Renderable;
 
     // Setup
     final public function __construct(
@@ -38,67 +46,238 @@ abstract class Question extends Item implements ItemInterface, UsesStates
 
     public function isComplete(): bool
     {
-        return $this->hasAnswer() === true;
+        return $this->hasAnswers() === true;
     }
 
     public function hasNotBeenStarted(): bool
     {
-        return $this->hasAnswer() === false;
+        return $this->hasAnswers() === false;
     }
 
-    // Answers
-    public function answer(): ?string
+    // CanRender
+    public function actions(): array
     {
-        $property = $this->answerProperty();
+        $actions = [
+            $this->saveLabel() => $this->saveRoute(),
+        ];
 
-        return $this->form->model->$property !== null
-            ? (string) $this->form->model->$property
-            : null;
+        if ($this->skipIsEnabled() === true) {
+            $actions[$this->skipLabel()] = $this->skipRoute();
+        }
+
+        $actions['Cancel and back'] = $this->task->route();
+        $actions['Exit'] = $this->form->exitRoute();
+
+        return $actions;
     }
 
-    public function answerProperty(): string
+    public function blade(): string
     {
-        return static::key();
+        return 'form-builder::question';
     }
 
-    public function blankAnswerLabel(): string
+    public function breadcrumbs(): array
+    {
+        return [
+            $this->form->label(),
+            $this->form->tasks()->label() => $this->form->tasks()->route(),
+            $this->task->label() => $this->task->route(),
+            $this->label() => $this->route(),
+        ];
+    }
+
+    public function title(): string
+    {
+        return $this->label();
+    }
+
+    // Fields
+
+    /**
+     * @return array<string, array<string, string|int|bool>> A list of keyed fields with options
+     * [
+     *     'name' => [
+     *         'hint' => 'Provide their full name',
+     *         'label' => 'What is their name?',
+     *         'optional' => false,
+     *     ],
+     * ]
+     * TODO Move to readme
+     */
+    abstract public function fields(): array;
+
+    public function blankAnswerLabel(string $fieldKey): string
     {
         return 'Not given';
     }
 
-    public function hasAnswer(): bool
+    public function formatAnswer(string $fieldKey): string
     {
-        return $this->answer() !== null;
+        return $this->getAnswer($fieldKey)
+            ?? $this->blankAnswerLabel($fieldKey);
     }
 
-    public function formattedAnswer(): string
+    public function formatFields(): array
     {
-        return $this->answer() ?? $this->blankAnswerLabel();
+        $fields = $this->fields();
+
+        foreach ($fields as $key => $field) {
+            $fields[$key]['answer'] = $this->getAnswer($key);
+        }
+
+        return $fields;
     }
+
+    public function formatted(): array
+    {
+        $formatted = [];
+        $fields = $this->fields();
+
+        foreach ($fields as $key => $field) {
+            $formatted[$key] = $this->formatAnswer($key);
+        }
+
+        return $formatted;
+    }
+
+    public function getAnswer(string $fieldKey): int|string|float|bool|null
+    {
+        return $this->form->model->$fieldKey;
+    }
+
+    public function hasAnswers(): bool
+    {
+        $fields = $this->fields();
+
+        foreach ($fields as $key => $field) {
+            if (
+                array_key_exists('optional', $field) === true
+                && $field['optional'] === true
+            ) {
+                continue;
+            }
+
+            if ($this->getAnswer($key) === null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Validation
+    abstract public function formRequest(): FormRequest;
 
     public function isValid(): bool
     {
-        // TODO
+        try {
+            $this->validate(); // TODO May need to put model fields into request()
+            return true;
+        } catch (Throwable $exception) {
+            return false;
+        }
     }
 
     public function validate(): void
     {
-        // TODO
+        request()->merge([
+            'model' => $this->form->model,
+        ]);
+
+        app($this->formRequest());
     }
 
-    // Actions
-    public function save(): RedirectResponse
-    {
-        // TODO
-    }
-
+    // Show
     public function show(): View
     {
-        // TODO
+        return $this->with('fields', $this->formatFields());
     }
 
-    public function skip(): RedirectResponse
+    // Save
+    public function save(FormRequest $formRequest): RedirectResponse
     {
-        // TODO
+        $this->validate();
+        $this->applySave($formRequest);
+        Session::put($this->form->key, $this->form->model);
+
+        if (
+            $this->loopingIsEnabled() === true
+            && $this->shouldLoop() === true
+        ) {
+            return Redirect::to(
+                $this->route(),
+            );
+        }
+
+        return $this->task->nextItem($this->key);
+    }
+
+    public function applySave(FormRequest $formRequest): void
+    {
+        $fields = $formRequest->validated();
+        foreach ($fields as $field => $value) {
+            $this->form->model->$field = $value;
+        }
+    }
+
+    public function loopingIsEnabled(): bool
+    {
+        return false;
+    }
+
+    public function shouldLoop(): bool
+    {
+        return true;
+    }
+
+    public function saveLabel(): string
+    {
+        return 'Save and continue';
+    }
+
+    public function saveRoute(): string
+    {
+        return route('forms.question.save', [
+            $this->form->key,
+            $this->task->key,
+            $this->key,
+        ]);
+    }
+
+    // Skip
+    public function skip(FormRequest $formRequest): RedirectResponse
+    {
+        if ($this->skipIsEnabled() === false) {
+            throw new SkipNotAllowed('You cannot skip this question');
+        }
+
+        $this->applySkip($formRequest);
+        Session::put($this->form->key, $this->form->model);
+
+        return $this->task->nextItem($this->key);
+    }
+
+    public function applySkip(FormRequest $formRequest): void
+    {
+        //
+    }
+
+    public function skipIsEnabled(): bool
+    {
+        return false;
+    }
+
+    public function skipLabel(): string
+    {
+        return 'Skip and continue';
+    }
+
+    public function skipRoute(): string
+    {
+        return route('forms.question.skip', [
+            $this->form->key,
+            $this->task->key,
+            $this->key,
+        ]);
     }
 }

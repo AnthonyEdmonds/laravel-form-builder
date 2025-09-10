@@ -20,6 +20,6 @@
     "test-slow": "php vendor/bin/phpunit"
   },
   "devDependencies": {
-    "husky": "^9"
+    "husky": "^8"
   }
 }

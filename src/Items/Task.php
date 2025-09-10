@@ -5,6 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\QuestionNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
@@ -48,6 +49,12 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     /** @returns class-string<Question>[] */
     abstract public function questions(): array;
 
+    /** @param Question $item */
+    public function formatItem(ItemInterface $item): array
+    {
+        return $this->formatQuestion($item);
+    }
+
     public function items(): array
     {
         return $this->questions();
@@ -66,6 +73,15 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
 
         return $question
             ?? throw new QuestionNotFound("No question has been registered on this form task with the key \"$questionKey\"");
+    }
+
+    // TODO Must support multiple fields
+    protected function formatQuestion(Question $question): array
+    {
+        return [
+            'fields' => $question->formatFields(),
+            'link' => $question->route(),
+        ];
     }
 
     // UsesStates
@@ -149,23 +165,9 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     // Actions
     public function show(): View
     {
-        $questions = [];
-        $questionClasses = $this->questions();
-
-        /** @var class-string<Question> $questionClass */
-        foreach ($questionClasses as $questionClass) {
-            $question = new $questionClass($this->form, $this);
-
-            $questions[] = [
-                'answer' => $question->answer(),
-                'label' => $question->label(),
-                'link' => $question->route(),
-            ];
-        }
-
         return $this
             ->with('colour', $this->statusColour())
-            ->with('questions', $questions)
+            ->with('questions', $this->formatItems())
             ->with('status', $this->status());
     }
 }

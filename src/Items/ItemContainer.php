@@ -11,8 +11,6 @@ abstract class ItemContainer extends Item implements ContainsItems
 {
     abstract public function formatItem(ItemInterface $item): array;
 
-    abstract public function formatItems(): array;
-
     /** @returns class-string<Item>[] */
     abstract public function items(): array;
 
@@ -58,6 +56,21 @@ abstract class ItemContainer extends Item implements ContainsItems
         );
     }
 
+    public function formatItems(): array
+    {
+        $items = [];
+        $itemClasses = $this->items();
+
+        /** @var class-string<Item> $itemClass */
+        foreach ($itemClasses as $itemClass) {
+            $items[] = $this->formatItem(
+                $this->makeItem($itemClass),
+            );
+        }
+
+        return $items;
+    }
+
     public function nextItem(string $currentKey): RedirectResponse
     {
         $nextItem = $this->findNextItem(
@@ -65,7 +78,7 @@ abstract class ItemContainer extends Item implements ContainsItems
             $this->items(),
         );
 
-        return Redirect::route(
+        return Redirect::to(
             $nextItem !== null
                 ? $nextItem->route()
                 : $this->route(),
@@ -79,7 +92,7 @@ abstract class ItemContainer extends Item implements ContainsItems
             $this->items(),
         );
 
-        return Redirect::route(
+        return Redirect::to(
             $previousItem !== null
                 ? $previousItem->route()
                 : $this->route(),

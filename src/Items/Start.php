@@ -2,11 +2,13 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class Start extends Item implements ItemInterface, CanRender
 {
@@ -67,7 +69,11 @@ class Start extends Item implements ItemInterface, CanRender
     // Actions
     public function fresh(): RedirectResponse
     {
-        // TODO
+        SessionHelper::setFormSession($this->form->key, $this->form->model);
+
+        return Redirect::to(
+            $this->form->tasks()->route(),
+        );
     }
 
     public function show(): View

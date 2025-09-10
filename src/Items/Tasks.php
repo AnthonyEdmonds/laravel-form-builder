@@ -42,30 +42,6 @@ abstract class Tasks extends ItemContainer implements CanRender
         return $this->formatTask($item);
     }
 
-    protected function formatTask(Task $task): array
-    {
-        return [
-            'colour' => $task->statusColour(),
-            'label' => $task->label(),
-            'link' => $task->route(),
-            'status' => $task->status(),
-        ];
-    }
-
-    public function formatItems(): array
-    {
-        $tasks = [];
-        $taskClasses = $this->tasks();
-
-        /** @var class-string<Task> $taskClass */
-        foreach ($taskClasses as $taskClass) {
-            $task = new $taskClass($this->form, $this);
-            $tasks[] = $this->formatItem($task);
-        }
-
-        return $tasks;
-    }
-
     /** @returns class-string<Task>[] */
     public function items(): array
     {
@@ -85,6 +61,16 @@ abstract class Tasks extends ItemContainer implements CanRender
 
         return $task
             ?? throw new TaskNotFound("No task has been registered on this form with the key \"$taskKey\"");
+    }
+
+    protected function formatTask(Task $task): array
+    {
+        return [
+            'colour' => $task->statusColour(),
+            'label' => $task->label(),
+            'link' => $task->route(),
+            'status' => $task->status(),
+        ];
     }
 
     // CanRender

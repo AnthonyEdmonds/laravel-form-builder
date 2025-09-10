@@ -68,9 +68,18 @@ class Summary extends Item implements ItemInterface, CanRender
     public function show(): View
     {
         $summary = [];
+        $tasks = $this->form->tasks();
+        $taskClasses = $tasks->tasks();
 
-        // TODO Each Task
-        // TODO Each Question
+        foreach ($taskClasses as $taskClass) {
+            $task = $tasks->makeItem($taskClass);
+
+            $label = $task->label();
+            $taskOverview = $tasks->formatItem($task);
+            $taskOverview['questions'] = $task->formatItems();
+
+            $summary[$label] = $taskOverview;
+        }
 
         return $this->with('summary', $summary);
     }
