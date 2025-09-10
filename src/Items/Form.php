@@ -7,14 +7,17 @@ use AnthonyEdmonds\LaravelFormBuilder\Helpers\ModelHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
 // TODO If editing answer from summary page, skip back to summary
 // TODO If editing answer from task page, skip back to task
-// TODO Enable saving? Probably handled by overriding save on model
 
+/**
+ * @property UsesForm|Model $model
+ */
 abstract class Form extends Item implements ItemInterface
 {
     use AuthorizesRequests;
@@ -60,6 +63,11 @@ abstract class Form extends Item implements ItemInterface
 
     // Item
     abstract public static function key(): string;
+
+    public function label(): string
+    {
+        return $this->model->modelName() . ' form';
+    }
 
     public function route(): string
     {
@@ -112,6 +120,11 @@ abstract class Form extends Item implements ItemInterface
         return $this->exit();
     }
 
+    public function draftRoute(): string
+    {
+        return route('forms.draft', $this->key);
+    }
+
     public static function edit(string $formKey, string $modelKey): RedirectResponse
     {
         /** @var class-string<Form> $formClass */
@@ -136,6 +149,26 @@ abstract class Form extends Item implements ItemInterface
         );
     }
 
+    public function editRoute(): string
+    {
+        return route('forms.edit', [
+            $this->key,
+            $this->model->getKey(),
+        ]);
+    }
+
+    public function exit(): RedirectResponse
+    {
+        return Redirect::route(
+            $this->exitRoute(),
+        );
+    }
+
+    public function exitRoute(): string
+    {
+        return route('/');
+    }
+
     public static function new(string $formKey): RedirectResponse
     {
         /** @var class-string<Form> $formClass */
@@ -152,6 +185,11 @@ abstract class Form extends Item implements ItemInterface
         );
     }
 
+    public function newRoute(): string
+    {
+        return route('forms.start', $this->key);
+    }
+
     public function submit(): RedirectResponse
     {
         // TODO
@@ -165,16 +203,8 @@ abstract class Form extends Item implements ItemInterface
         return $this->exit();
     }
 
-    // Exit
-    public function exitRoute(): string
+    public function submitRoute(): string
     {
-        return route('/');
-    }
-
-    public function exit(): RedirectResponse
-    {
-        return Redirect::route(
-            $this->exitRoute(),
-        );
+        return route('forms.submit', $this->key);
     }
 }

@@ -1,11 +1,20 @@
-Title
+<x-form-builder.breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-Descriptive text
+<main>
+    <h1>{{ $title }}</h1>
 
-List of questions
-- Name
-- Value
-- Status
+    <x-form-builder.description :description="$description" />
 
-Back button
-Exit button
+    <ul>
+        @forelse($questions as $question)
+            <li>
+                <a href="{{ $question['link'] }}">{{ $question['label'] }}</a>
+                <span>{{ $question['answer'] }}</span>
+            </li>
+        @empty
+            <li>No questions have been added to this task.</li>
+        @endforelse
+    </ul>
+
+    <x-form-builder.actions :actions="$actions" />
+</main>

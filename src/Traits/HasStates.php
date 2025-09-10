@@ -9,11 +9,14 @@ use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
 /** @mixin UsesStates */
 trait HasStates
 {
-    // TODO Based on Questions for Task
-    // TODO Based on answer validity for Question
-    abstract public function checkItemsStatuses(): array;
+    protected ?State $status = null;
 
-    public function status(): State
+    public function checkStatus(): State
+    {
+        return $this->matchStatus();
+    }
+
+    public function matchStatus(): State
     {
         return match (true) {
             $this->isNotRequired() => State::NotRequired,
@@ -27,23 +30,44 @@ trait HasStates
         };
     }
 
+    public function status(): State
+    {
+        if ($this->status === null) {
+            $this->status = $this->checkStatus();
+        }
+
+        return $this->status;
+    }
+
     public function statusColour(): Colour
     {
         return $this->status()->colour();
     }
 
     // Statuses
-    abstract public function cannotStart(): bool;
-
-    abstract public function isComplete(): bool;
-
-    abstract public function isInProgress(): bool;
-
-    abstract public function isIncomplete(): bool;
-
-    abstract public function isNotRequired(): bool;
+    abstract public function hasError(): bool;
 
     abstract public function hasNotBeenStarted(): bool;
 
-    abstract public function hasError(): bool;
+    abstract public function isComplete(): bool;
+
+    public function cannotStart(): bool
+    {
+        return false;
+    }
+
+    public function isInProgress(): bool
+    {
+        return false;
+    }
+
+    public function isNotRequired(): bool
+    {
+        return false;
+    }
+
+    public function isIncomplete(): bool
+    {
+        return false;
+    }
 }

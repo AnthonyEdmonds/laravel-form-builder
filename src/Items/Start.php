@@ -2,12 +2,16 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
+use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class Start extends Item implements ItemInterface
+class Start extends Item implements ItemInterface, CanRender
 {
+    use Renderable;
+
     // Setup
     final public function __construct(
         public Form $form,
@@ -21,9 +25,43 @@ class Start extends Item implements ItemInterface
         return 'start';
     }
 
+    public function label(): string
+    {
+        return 'Start';
+    }
+
     public function route(): string
     {
         return route('forms.start.show', $this->form->key);
+    }
+
+    // CanRender
+    public function actions(): array
+    {
+        return [
+            'Start' => $this->form->tasks()->route(),
+            'Exit' => $this->form->exitRoute(),
+        ];
+    }
+
+    public function blade(): string
+    {
+        return 'form-builder::start';
+    }
+
+    public function breadcrumbs(): array
+    {
+        return [
+            $this->form->label(),
+            $this->label() => $this->route(),
+        ];
+    }
+
+    public function title(): string
+    {
+        $class = $this->form->model->modelName();
+
+        return "Create a new $class";
     }
 
     // Actions
@@ -34,6 +72,6 @@ class Start extends Item implements ItemInterface
 
     public function show(): View
     {
-        // TODO
+        return $this;
     }
 }

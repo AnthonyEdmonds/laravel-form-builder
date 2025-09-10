@@ -1,11 +1,13 @@
-Title
+<x-form-builder.breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-Descriptive text
+<main>
+    <h1>{{ $title }}</h1>
 
--List of tasks
+    <x-form-builder.description :description="$description" />
+
+    - List of tasks
     - List of questions (link to view task)
-        - List of answers (link to change answer)
+    - List of answers (link to change answer)
 
-Submit button
-Draft button
-Exit button
+    <x-form-builder.actions :actions="$actions" />
+</main>

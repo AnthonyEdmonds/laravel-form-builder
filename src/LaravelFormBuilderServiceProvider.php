@@ -10,6 +10,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Controllers\StartController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\SummaryController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\TaskController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\TasksController;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +26,12 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
         $this->config();
         $this->routes();
         $this->views();
+        $this->components();
+    }
+
+    protected function components(): void
+    {
+        Blade::componentNamespace('AnthonyEdmonds\\LaravelFormBuilder\\Components', 'form-builder');
     }
 
     protected function config(): void
@@ -53,8 +60,6 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                         ->controller(ResumeController::class)
                         ->group(function () {
                             Route::get('/', 'show')->name('show');
-                            Route::post('/fresh', 'fresh')->name('fresh');
-                            Route::post('/resume', 'resume')->name('resume');
                         });
 
                     Route::prefix('/start')

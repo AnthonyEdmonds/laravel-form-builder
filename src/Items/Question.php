@@ -30,6 +30,62 @@ abstract class Question extends Item implements ItemInterface, UsesStates
         ]);
     }
 
+    // UsesStates
+    public function hasError(): bool
+    {
+        return $this->isValid() === false;
+    }
+
+    public function isComplete(): bool
+    {
+        return $this->hasAnswer() === true;
+    }
+
+    public function hasNotBeenStarted(): bool
+    {
+        return $this->hasAnswer() === false;
+    }
+
+    // Answers
+    public function answer(): ?string
+    {
+        $property = $this->answerProperty();
+
+        return $this->form->model->$property !== null
+            ? (string) $this->form->model->$property
+            : null;
+    }
+
+    public function answerProperty(): string
+    {
+        return static::key();
+    }
+
+    public function blankAnswerLabel(): string
+    {
+        return 'Not given';
+    }
+
+    public function hasAnswer(): bool
+    {
+        return $this->answer() !== null;
+    }
+
+    public function formattedAnswer(): string
+    {
+        return $this->answer() ?? $this->blankAnswerLabel();
+    }
+
+    public function isValid(): bool
+    {
+        // TODO
+    }
+
+    public function validate(): void
+    {
+        // TODO
+    }
+
     // Actions
     public function save(): RedirectResponse
     {

@@ -4,7 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Interfaces;
 
 use Illuminate\Http\RedirectResponse;
 
-interface Container
+interface ContainsItems
 {
     public function findItem(string $itemKey): ?Item;
 
@@ -13,6 +13,10 @@ interface Container
 
     /** @param class-string<Item>[] $items */
     public function findPreviousItem(string $currentKey, array $items): ?Item;
+
+    public function formatItems(): array;
+
+    public function formatItem(Item $item): array;
 
     /** @returns class-string<Item>[] */
     public function items(): array;

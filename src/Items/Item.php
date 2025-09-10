@@ -15,4 +15,6 @@ abstract class Item implements ItemInterface
 
     // Item
     abstract public static function key(): string;
+
+    abstract public function label(): string;
 }

@@ -7,7 +7,9 @@ use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 
 interface UsesStates
 {
-    public function checkItemsStatuses(): array;
+    public function checkStatus(): State;
+
+    public function matchStatus(): State;
 
     public function status(): State;
 
@@ -16,15 +18,15 @@ interface UsesStates
     // Statuses
     public function cannotStart(): bool;
 
-    public function isComplete(): bool;
-
-    public function isInProgress(): bool;
-
-    public function isIncomplete(): bool;
-
-    public function isNotRequired(): bool;
+    public function hasError(): bool;
 
     public function hasNotBeenStarted(): bool;
 
-    public function hasError(): bool;
+    public function isComplete(): bool;
+
+    public function isIncomplete(): bool;
+
+    public function isInProgress(): bool;
+
+    public function isNotRequired(): bool;
 }

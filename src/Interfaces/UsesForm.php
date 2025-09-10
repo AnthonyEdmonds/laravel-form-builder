@@ -18,6 +18,10 @@ interface UsesForm
 
     public function form(): Form;
 
+    public function viewRoute(): string;
+
+    public function modelName(): string;
+
     // Instantiation
     public static function makeForForm(): UsesForm;
 

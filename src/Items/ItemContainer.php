@@ -2,12 +2,17 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
-use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Container as ContainerInterface;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\ContainsItems;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
-abstract class Container extends Item implements ContainerInterface
+abstract class ItemContainer extends Item implements ContainsItems
 {
+    abstract public function formatItem(ItemInterface $item): array;
+
+    abstract public function formatItems(): array;
+
     /** @returns class-string<Item>[] */
     abstract public function items(): array;
 

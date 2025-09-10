@@ -1,8 +1,8 @@
-Title
+<x-form-builder.breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-Descriptive text
-Do you want to resume your session?
+<main>
+    <h1>{{ $title }}</h1>
 
-Resume button
-Fresh button
-Exit button
+    <x-form-builder.description :description="$description" />
+    <x-form-builder.actions :actions="$actions" />
+</main>

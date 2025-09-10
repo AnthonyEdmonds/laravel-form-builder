@@ -1,12 +1,20 @@
-Title
+<x-form-builder.breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-Descriptive text
+<main>
+    <h1>{{ $title }}</h1>
 
-List of tasks
-- Name
-- Description
-- Status
+    <x-form-builder.description :description="$description" />
 
-Check answers button
-Draft button
-Exit button
+    <ul>
+        @forelse($tasks as $task)
+            <li>
+                <a href="{{ $task['link'] }}">{{ $task['label'] }}</a>
+                <span class="{{ $task['colour'] }}">{{ $task['status'] }}</span>
+            </li>
+        @empty
+            <li>No tasks have been added to this form.</li>
+        @endforelse
+    </ul>
+
+    <x-form-builder.actions :actions="$actions" />
+</main>

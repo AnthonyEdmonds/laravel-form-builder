@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 /**
  * Used in conjunction with the UsesForm interface
@@ -18,6 +19,8 @@ trait HasForm
     protected Form $form;
 
     // Form
+    abstract public function viewRoute(): string;
+
     /** @return class-string<Form> */
     public static function formClass(): string
     {
@@ -51,6 +54,13 @@ trait HasForm
         }
 
         return $this->form;
+    }
+
+    public function modelName(): string
+    {
+        return Str::title(
+            class_basename($this),
+        );
     }
 
     // Instantiation
