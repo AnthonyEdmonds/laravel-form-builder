@@ -30,10 +30,10 @@ interface UsesForm
 
     public function draftIsValid(): true|string;
 
-    public function saveAsDraft(): true|string;
+    public function saveAsDraft(): void;
 
     // Submit
     public function submitIsValid(): true|string;
 
-    public function saveAndSubmit(): true|string;
+    public function saveAndSubmit(): void;
 }

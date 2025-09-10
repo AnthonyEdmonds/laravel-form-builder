@@ -29,9 +29,22 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     }
 
     // Item
+    public function label(): string
+    {
+        $fields = $this->fields();
+
+        if (empty($fields) === true) {
+            return 'Empty question';
+        }
+
+        $firstKey = array_key_first($fields);
+
+        return $fields[$firstKey]['label'];
+    }
+
     public function route(): string
     {
-        return route('forms.task.question.show', [
+        return route('forms.task.questions.show', [
             $this->form->key,
             $this->task->key,
             $this->key,

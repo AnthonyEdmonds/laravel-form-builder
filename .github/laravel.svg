@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" role="img" aria-label="Laravel: 11">
+            <title>Laravel: 11</title>
+            
+            <linearGradient id="s" x2="0" y2="100%">
+                <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+                <stop offset="1" stop-opacity=".1"/>
+            </linearGradient>
+            
+            <clipPath id="r">
+                <rect width="80" height="20" rx="3" fill="#fff"/>
+            </clipPath>
+            
+            <g clip-path="url(#r)">
+                <rect width="60" height="20" fill="#555"/>
+                <rect x="60" width="20" height="20" fill="#f47738"/>
+                <rect width="80" height="20" fill="url(#s)"/>
+            </g>
+            
+            <g fill="#ffffff" font-family="Consolas, monospace" font-size="12">
+                <text aria-hidden="true" x="30" y="15" fill="#010101" fill-opacity=".3" text-anchor="middle">Laravel</text>
+                <text x="30" y="14" fill="#ffffff" text-anchor="middle">Laravel</text>
+                
+                <text aria-hidden="true" x="70" y="15" fill="#010101" fill-opacity=".3" text-anchor="middle">11</text>
+                <text x="70" y="14" fill="#ffffff" text-anchor="middle">11</text>
+            </g>
+        </svg>

@@ -80,10 +80,10 @@ trait HasForm
 
     public function draftIsValid(): true|string
     {
-        // TODO
+        return true;
     }
 
-    public function saveAsDraft(): true|string
+    public function saveAsDraft(): void
     {
         $this->save();
     }
@@ -91,10 +91,10 @@ trait HasForm
     // Submit
     public function submitIsValid(): true|string
     {
-        // TODO
+        return true;
     }
 
-    public function saveAndSubmit(): true|string
+    public function saveAndSubmit(): void
     {
         $this->save();
     }

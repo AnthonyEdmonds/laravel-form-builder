@@ -20,6 +20,11 @@ abstract class Tasks extends ItemContainer implements CanRender
     }
 
     // Item
+    public static function key(): string
+    {
+        return 'tasks';
+    }
+
     public function label(): string
     {
         return 'Tasks';
@@ -51,7 +56,7 @@ abstract class Tasks extends ItemContainer implements CanRender
     /** @param class-string<Task> $itemClass */
     public function makeItem(string $itemClass): Task
     {
-        return new $itemClass($this->form);
+        return new $itemClass($this->form, $this);
     }
 
     public function task(string $taskKey): Task

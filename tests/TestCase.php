@@ -2,14 +2,22 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests;
 
-use AnthonyEdmonds\LaravelFormBuilder\ServiceProviders\LaravelFormBuilderServiceProvider;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\TestForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\TestUser;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
+use AnthonyEdmonds\LaravelFormBuilder\LaravelFormBuilderServiceProvider;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->useForms();
+    }
+
     protected function getPackageProviders($app): array
     {
         return [
@@ -17,10 +25,19 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
+    protected function startFormSession(): MyModel
+    {
+        $model = new MyModel();
+
+        SessionHelper::setFormSession(MyForm::key(), $model);
+
+        return $model;
+    }
+
     protected function useForms(): void
     {
         Config::set('form-builder.forms', [
-            TestForm::class => TestUser::class, 0,
+            MyForm::class,
         ]);
 
         $router = app('router');
