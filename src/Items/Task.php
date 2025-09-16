@@ -75,7 +75,6 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
             ?? throw new QuestionNotFound("No question has been registered on this form task with the key \"$questionKey\"");
     }
 
-    // TODO Must support multiple fields
     protected function formatQuestion(Question $question): array
     {
         return [
