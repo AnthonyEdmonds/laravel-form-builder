@@ -112,6 +112,7 @@ abstract class Tasks extends ItemContainer implements CanRender
         $class = $this->form->model->modelName();
         $key = $this->form->model->getKey();
 
+        /** @phpstan-ignore-next-line */
         return $this->form->model->exists === true
             ? "Editing $class #$key"
             : "Create a new $class";
