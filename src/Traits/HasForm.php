@@ -58,9 +58,12 @@ trait HasForm
 
     public function modelName(): string
     {
-        return Str::title(
+        return Str::of(
             class_basename($this),
-        );
+        )
+            ->snake()
+            ->replace('_', ' ')
+            ->title();
     }
 
     // Instantiation

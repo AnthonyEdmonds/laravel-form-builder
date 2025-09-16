@@ -118,7 +118,7 @@ abstract class Form extends Item implements ItemInterface
 
         $draftIsValid = $this->model->draftIsValid();
         if ($draftIsValid !== true) {
-            return Redirect::back(400)->withErrors([
+            return Redirect::back()->withErrors([
                 'reason' => $draftIsValid,
             ]);
         }
@@ -190,20 +190,20 @@ abstract class Form extends Item implements ItemInterface
         return Redirect::to(
             $form->startIsEnabled() === true
                 ? $form->start()->route()
-                : $form->tasks()->show(),
+                : $form->tasks()->route(),
         );
     }
 
     public function newRoute(): string
     {
-        return route('forms.start', $this->key);
+        return route('forms.new', $this->key);
     }
 
     public function submit(): RedirectResponse
     {
         $submitIsValid = $this->model->submitIsValid();
         if ($submitIsValid !== true) {
-            return Redirect::back(400)->withErrors([
+            return Redirect::back()->withErrors([
                 'reason' => $submitIsValid,
             ]);
         }

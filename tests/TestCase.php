@@ -5,6 +5,9 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\LaravelFormBuilderServiceProvider;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonConfirmationForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonDraftForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonStartForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -25,9 +28,11 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
-    protected function startFormSession(): MyModel
+    protected function startFormSession(?MyModel $model = null): MyModel
     {
-        $model = new MyModel();
+        if ($model === null) {
+            $model = new MyModel();
+        }
 
         SessionHelper::setFormSession(MyForm::key(), $model);
 
@@ -38,10 +43,14 @@ abstract class TestCase extends BaseTestCase
     {
         Config::set('form-builder.forms', [
             MyForm::class,
+            NonConfirmationForm::class,
+            NonDraftForm::class,
+            NonStartForm::class,
         ]);
 
         $router = app('router');
         $router->get('/')->name('/');
+        $router->get('/{key}')->name('my-model.show');
         $router->laravelFormBuilder();
     }
 

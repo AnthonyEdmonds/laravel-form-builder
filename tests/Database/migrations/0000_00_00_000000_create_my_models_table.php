@@ -10,6 +10,9 @@ return new class extends Migration {
         Schema::create('my_models', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            $table->boolean('draft_is_valid')->default(false);
+            $table->boolean('submit_is_valid')->default(false);
         });
     }
 
