@@ -78,7 +78,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             $actions[$this->skipLabel()] = $this->skipRoute();
         }
 
-        $actions['Cancel and back'] = $this->task->route();
+        $actions['Back'] = $this->task->previousItem($this->key);
+        $actions['Return to task'] = $this->task->route();
         $actions['Exit'] = $this->form->exitRoute();
 
         return $actions;
@@ -105,7 +106,6 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     }
 
     // Fields
-
     /**
      * @return array<string, array<string, string|int|bool>> A list of keyed fields with options
      * [
@@ -178,13 +178,38 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return true;
     }
 
+    public function isOptional(): bool
+    {
+        $fields = $this->fields();
+
+        foreach ($fields as $field) {
+            if (
+                array_key_exists('optional', $field) === false
+                || $field['optional'] === false
+            ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Validation
-    abstract public function formRequest(): FormRequest;
+    /** @returns class-string<FormRequest> */
+    abstract public function formRequest(): string;
 
     public function isValid(): bool
     {
+        $values = [];
+        $fields = $this->fields();
+
+        foreach ($fields as $key => $field) {
+            $values[$key] = $this->form->model->$key;
+        }
+
         try {
-            $this->validate(); // TODO May need to put model fields into request()
+            request()->merge($values);
+            $this->validate();
             return true;
         } catch (Throwable $exception) {
             return false;
@@ -200,13 +225,12 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         app($this->formRequest());
     }
 
-    // Show
+    // Actions
     public function show(): View
     {
         return $this->with('fields', $this->formatFields());
     }
 
-    // Save
     public function save(FormRequest $formRequest): RedirectResponse
     {
         $this->validate();
@@ -227,9 +251,10 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function applySave(FormRequest $formRequest): void
     {
-        $fields = $formRequest->validated();
+        $fields = $this->fields();
+
         foreach ($fields as $field => $value) {
-            $this->form->model->$field = $value;
+            $this->form->model->$field = $formRequest->get($field);
         }
     }
 
@@ -250,14 +275,13 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function saveRoute(): string
     {
-        return route('forms.question.save', [
+        return route('forms.task.questions.save', [
             $this->form->key,
             $this->task->key,
             $this->key,
         ]);
     }
 
-    // Skip
     public function skip(FormRequest $formRequest): RedirectResponse
     {
         if ($this->skipIsEnabled() === false) {
@@ -287,7 +311,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function skipRoute(): string
     {
-        return route('forms.question.skip', [
+        return route('forms.task.questions.skip', [
             $this->form->key,
             $this->task->key,
             $this->key,

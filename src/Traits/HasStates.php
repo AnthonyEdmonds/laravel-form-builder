@@ -20,10 +20,10 @@ trait HasStates
     {
         return match (true) {
             $this->isNotRequired() => State::NotRequired,
+            $this->hasNotBeenStarted() => State::NotYetStarted,
             $this->hasError() => State::ThereIsAProblem,
             $this->isIncomplete() => State::Incomplete,
             $this->isInProgress() => State::InProgress,
-            $this->hasNotBeenStarted() => State::NotYetStarted,
             $this->cannotStart() => State::CannotStartYet,
             $this->isComplete() => State::Completed,
             default => State::Unknown,

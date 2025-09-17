@@ -4,7 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Controllers\Question;
 
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\QuestionController;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Illuminate\Contracts\View\View;
@@ -25,7 +25,7 @@ class ShowTest extends TestCase
         $this->view = $this->controller->show(
             MyForm::key(),
             MyTask::key(),
-            MyQuestion::key(),
+            NameQuestion::key(),
         );
     }
 

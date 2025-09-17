@@ -19,7 +19,9 @@ class MyTask extends Task
     public function questions(): array
     {
         return [
-            MyQuestion::class,
+            NameQuestion::class,
+            AgeQuestion::class,
+            BirthdayQuestion::class,
         ];
     }
 }

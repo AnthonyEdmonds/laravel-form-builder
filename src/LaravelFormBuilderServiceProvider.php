@@ -88,8 +88,8 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                                 ->controller(QuestionController::class)
                                 ->group(function () {
                                     Route::get('/', 'show')->name('show');
-                                    Route::post('/', 'save')->name('save');
-                                    Route::post('/', 'skip')->name('skip');
+                                    Route::post('/save', 'save')->name('save');
+                                    Route::post('/skip', 'skip')->name('skip');
                                 });
                         });
 

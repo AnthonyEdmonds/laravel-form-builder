@@ -13,6 +13,9 @@ return new class extends Migration {
 
             $table->boolean('draft_is_valid')->default(false);
             $table->boolean('submit_is_valid')->default(false);
+            $table->string('name')->nullable();
+            $table->unsignedTinyInteger('age')->nullable();
+            $table->dateTime('birthday')->nullable();
         });
     }
 

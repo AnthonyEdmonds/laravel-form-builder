@@ -16,17 +16,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     use HasStates;
     use Renderable;
 
-    protected array $questionStatuses = [
-        State::NotRequired->name => 0,
-        State::ThereIsAProblem->name => 0,
-        State::Incomplete->name => 0,
-        State::InProgress->name => 0,
-        State::NotYetStarted->name => 0,
-        State::CannotStartYet->name => 0,
-        State::Completed->name => 0,
-        State::Unknown->name => 0,
-        'total' => 0,
-    ];
+    protected ?array $questionStatuses = null;
 
     // Setup
     final public function __construct(
@@ -86,7 +76,8 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     // UsesStates
     public function checkStatus(): State
     {
-        $this->checkQuestionStatuses();
+        $this->getQuestionStatuses();
+
         return $this->matchStatus();
     }
 
@@ -96,41 +87,72 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
 
         /** @var class-string<Question>[] $questions */
         $questions = $this->questions();
-        $this->questionStatuses['total'] = count($questions);
 
         foreach ($questions as $questionClass) {
             $question = new $questionClass($this->form, $this);
-            $questionStatus = $question->status();
-            $this->questionStatuses[$questionStatus->name]++;
+
+            if (
+                $question->isOptional() === false
+                || $question->hasAnswers() === true // TODO Not quite...
+            ) {
+                $questionStatus = $question->status();
+                $this->questionStatuses[$questionStatus->name]++;
+                $this->questionStatuses['total']++;
+            }
         }
+    }
+
+    public function getQuestionStatuses(): array
+    {
+        if ($this->questionStatuses === null) {
+            $this->checkQuestionStatuses();
+        }
+
+        return $this->questionStatuses;
     }
 
     public function hasError(): bool
     {
+        $this->getQuestionStatuses();
+
         return $this->questionStatuses[State::ThereIsAProblem->name] > 0;
     }
 
     public function hasNotBeenStarted(): bool
     {
+        $this->getQuestionStatuses();
+
         return $this->questionStatuses[State::NotYetStarted->name] === $this->questionStatuses['total'];
     }
 
     public function isComplete(): bool
     {
+        $this->getQuestionStatuses();
+
         return $this->questionStatuses[State::Completed->name] === $this->questionStatuses['total'];
     }
 
     public function isInProgress(): bool
     {
+        $this->getQuestionStatuses();
+
         return $this->questionStatuses[State::NotYetStarted->name] < $this->questionStatuses['total']
             && $this->questionStatuses[State::NotYetStarted->name] > 0;
     }
 
     protected function resetQuestionStatuses(): void
     {
-        foreach ($this->questionStatuses as $key => $value) {
-            $this->questionStatuses[$key] = 0;
-        }
+        $this->questionStatuses = [
+            State::NotRequired->name => 0,
+            State::ThereIsAProblem->name => 0,
+            State::Incomplete->name => 0,
+            State::InProgress->name => 0,
+            State::NotYetStarted->name => 0,
+            State::CannotStartYet->name => 0,
+            State::Completed->name => 0,
+            State::Unknown->name => 0,
+            'total' => 0,
+        ];
     }
 
     // CanRender

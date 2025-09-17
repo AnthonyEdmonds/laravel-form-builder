@@ -27,5 +27,8 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory>src/Views</directory>
+        </exclude>
     </source>
 </phpunit>

@@ -5,11 +5,11 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MyQuestion extends Question
+class EmptyQuestion extends Question
 {
     public static function key(): string
     {
-        return 'my-question';
+        return 'empty-question';
     }
 
     public function fields(): array
@@ -17,8 +17,8 @@ class MyQuestion extends Question
         return [];
     }
 
-    public function formRequest(): FormRequest
+    public function formRequest(): string
     {
-        return new FormRequest();
+        return FormRequest::class;
     }
 }
