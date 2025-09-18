@@ -193,6 +193,24 @@ If the `optional` property is omitted, the field will be treated as required.
 
 You can expand the list of available field properties based on the needs of your interface, such as the `hint` property.
 
+### Skippable Questions
+
+A flag is provided to allow users to skip a question.
+
+This can be useful for optional questions, where it may be clearer that the user does not have to give a response.
+
+If you enable skipping, it is recommended to customise the `applySkip()` function appropriately.
+
+### Looping Questions
+
+A flag is provided to redirect users back to the same `Question` after saving.
+
+This can be useful for adding multiple responses to the same question.
+
+When doing this, the `Question` should also be skippable, with the skip option being used to progress forward.
+
+If skipping is not enabled, the user will must be provided with a way to move forward.
+
 ### Statuses
 
 Each `Question` has a status based on the user's answers to each field.
