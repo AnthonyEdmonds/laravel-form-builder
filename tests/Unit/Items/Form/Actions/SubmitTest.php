@@ -61,7 +61,7 @@ class SubmitTest extends TestCase
         );
     }
 
-    public function testRedirectsWhenConfirmationInvalid(): void
+    public function testRedirectsWhenConfirmationDisabled(): void
     {
         $this->form = new NonConfirmationForm($this->model);
         $this->redirect = $this->form->submit();
@@ -69,7 +69,7 @@ class SubmitTest extends TestCase
         $this->assertDatabaseCount('my_models', 1);
 
         $this->assertEquals(
-            $this->form->exitRoute(),
+            $this->model->viewRoute(),
             $this->redirect->getTargetUrl(),
         );
     }

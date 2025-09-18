@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Throwable;
 
+// TODO v2 Disable when in not required, cannot start
 abstract class Question extends Item implements ItemInterface, UsesStates, CanRender
 {
     use HasStates;
@@ -106,17 +107,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     }
 
     // Fields
-    /**
-     * @return array<string, array<string, string|int|bool>> A list of keyed fields with options
-     * [
-     *     'name' => [
-     *         'hint' => 'Provide their full name',
-     *         'label' => 'What is their name?',
-     *         'optional' => false,
-     *     ],
-     * ]
-     * TODO Move to readme
-     */
+    /** @return array<string, array<string, string|int|bool>> A list of keyed fields with options */
     abstract public function fields(): array;
 
     public function blankAnswerLabel(string $fieldKey): string

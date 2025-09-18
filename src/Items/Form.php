@@ -211,11 +211,11 @@ abstract class Form extends Item implements ItemInterface
         $this->model->saveAndSubmit();
         Session::flash($this->key, $this->model);
 
-        return $this->confirmationIsEnabled() === true
-            ? Redirect::to(
-                $this->confirmation()->route(),
-            )
-            : $this->exit();
+        return Redirect::to(
+            $this->confirmationIsEnabled() === true
+                ? $this->confirmation()->route()
+                : $this->model->viewRoute(),
+        );
     }
 
     public function submitRoute(): string

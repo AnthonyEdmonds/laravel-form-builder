@@ -11,6 +11,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
+// TODO v2 Disable if cannot be started yet, not required
 abstract class Task extends ItemContainer implements UsesStates, CanRender
 {
     use HasStates;
