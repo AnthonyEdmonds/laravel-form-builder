@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class HasAnswersTest extends TestCase
+class HasAllAnswersTest extends TestCase
 {
     protected MyForm $form;
 
@@ -27,35 +27,22 @@ class HasAnswersTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
-    }
-
-    public function testSkipsWhenOptional(): void
-    {
-        $this->question = $this->task->question('age-question');
-        $this->model->age = null;
-
-        $this->assertTrue(
-            $this->question->hasAnswers(),
-        );
-    }
-
-    public function testFalseWhenNull(): void
-    {
         $this->question = $this->task->question('name-question');
-        $this->model->name = null;
+    }
 
+    public function testFalseWhenAnyBlank(): void
+    {
         $this->assertFalse(
-            $this->question->hasAnswers(),
+            $this->question->hasAllAnswers(),
         );
     }
 
-    public function testTrueWhenAnswered(): void
+    public function testTrueWhenAllAnswered(): void
     {
-        $this->question = $this->task->question('name-question');
         $this->model->name = 'Potato';
 
         $this->assertTrue(
-            $this->question->hasAnswers(),
+            $this->question->hasAllAnswers(),
         );
     }
 }

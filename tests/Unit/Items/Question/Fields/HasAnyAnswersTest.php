@@ -1,22 +1,22 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Container;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Fields;
 
+use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\AgeQuestion;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\BirthdayQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class QuestionsTest extends TestCase
+class HasAnyAnswersTest extends TestCase
 {
     protected MyForm $form;
 
     protected MyModel $model;
 
     protected Task $task;
+
+    protected Question $question;
 
     protected function setUp(): void
     {
@@ -27,17 +27,22 @@ class QuestionsTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
+        $this->question = $this->task->question('name-question');
     }
 
-    public function test(): void
+    public function testFalseWhenAllBlank(): void
     {
-        $this->assertEquals(
-            [
-                NameQuestion::class,
-                AgeQuestion::class,
-                BirthdayQuestion::class,
-            ],
-            $this->task->questions(),
+        $this->assertFalse(
+            $this->question->hasAnyAnswers(),
+        );
+    }
+
+    public function testTrueWhenAnyAnswered(): void
+    {
+        $this->model->name = 'Potato';
+
+        $this->assertTrue(
+            $this->question->hasAnyAnswers(),
         );
     }
 }

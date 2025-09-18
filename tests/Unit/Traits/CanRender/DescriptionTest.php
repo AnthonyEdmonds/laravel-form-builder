@@ -1,20 +1,21 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Container;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\CanRender;
 
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\AgeQuestion;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\BirthdayQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class QuestionsTest extends TestCase
+class DescriptionTest extends TestCase
 {
-    protected MyForm $form;
+    protected Form $form;
 
     protected MyModel $model;
+
+    protected Question $question;
 
     protected Task $task;
 
@@ -27,17 +28,14 @@ class QuestionsTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
+        $this->question = $this->task->question('name-question');
     }
 
     public function test(): void
     {
         $this->assertEquals(
-            [
-                NameQuestion::class,
-                AgeQuestion::class,
-                BirthdayQuestion::class,
-            ],
-            $this->task->questions(),
+            [],
+            $this->question->description(),
         );
     }
 }

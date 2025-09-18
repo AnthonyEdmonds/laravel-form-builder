@@ -24,5 +24,5 @@ interface CanRender extends View
     public function getData(): array;
 
     // Renderable
-    public function render(): string;
+    public function render(): View|string;
 }

@@ -1,22 +1,23 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\UsesStates;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\CanRender;
 
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class HasNotBeenStartedTest extends TestCase
+class GetDataTest extends TestCase
 {
-    protected MyForm $form;
+    protected Form $form;
 
     protected MyModel $model;
 
-    protected Task $task;
-
     protected Question $question;
+
+    protected Task $task;
 
     protected function setUp(): void
     {
@@ -28,21 +29,20 @@ class HasNotBeenStartedTest extends TestCase
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
         $this->question = $this->task->question('name-question');
+        $this->question->with('test', true);
     }
 
-    public function testTrueWhenUnanswered(): void
+    public function test(): void
     {
-        $this->assertTrue(
-            $this->question->hasNotBeenStarted(),
-        );
-    }
-
-    public function testFalseWhenAnswered(): void
-    {
-        $this->model->name = 'Potato';
-
-        $this->assertFalse(
-            $this->question->hasNotBeenStarted(),
+        $this->assertEquals(
+            [
+                'test' => true,
+                'actions' => $this->question->actions(),
+                'breadcrumbs' => $this->question->breadcrumbs(),
+                'description' => $this->question->description(),
+                'title' => $this->question->title(),
+            ],
+            $this->question->getData(),
         );
     }
 }

@@ -28,7 +28,7 @@ class FormatItemTest extends TestCase
 
     public function test(): void
     {
-        $question = $this->task->question('my-question');
+        $question = $this->task->question('name-question');
 
         $this->assertEquals(
             [

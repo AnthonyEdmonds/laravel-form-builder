@@ -59,12 +59,12 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function isComplete(): bool
     {
-        return $this->hasAnswers() === true;
+        return $this->isValid() === true;
     }
 
     public function hasNotBeenStarted(): bool
     {
-        return $this->hasAnswers() === false;
+        return $this->hasAnyAnswers() === false;
     }
 
     // CanRender
@@ -158,19 +158,33 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return $this->form->model->$fieldKey;
     }
 
-    public function hasAnswers(): bool
+    public function hasAnswer(string $fieldKey): bool
+    {
+        return array_key_exists(
+            $fieldKey,
+            $this->form->model->getAttributes(),
+        ) === true;
+    }
+
+    public function hasAnyAnswers(): bool
     {
         $fields = $this->fields();
 
         foreach ($fields as $key => $field) {
-            if (
-                array_key_exists('optional', $field) === true
-                && $field['optional'] === true
-            ) {
-                continue;
+            if ($this->hasAnswer($key) === true) {
+                return true;
             }
+        }
 
-            if ($this->getAnswer($key) === null) {
+        return false;
+    }
+
+    public function hasAllAnswers(): bool
+    {
+        $fields = $this->fields();
+
+        foreach ($fields as $key => $field) {
+            if ($this->hasAnswer($key) === false) {
                 return false;
             }
         }

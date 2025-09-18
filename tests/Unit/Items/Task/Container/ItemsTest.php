@@ -3,6 +3,8 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Container;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\AgeQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\BirthdayQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
@@ -32,6 +34,8 @@ class ItemsTest extends TestCase
         $this->assertEquals(
             [
                 NameQuestion::class,
+                AgeQuestion::class,
+                BirthdayQuestion::class,
             ],
             $this->task->items(),
         );

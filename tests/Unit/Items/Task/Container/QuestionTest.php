@@ -32,7 +32,7 @@ class QuestionTest extends TestCase
     {
         $this->assertInstanceOf(
             NameQuestion::class,
-            $this->task->question('my-question'),
+            $this->task->question('name-question'),
         );
     }
 

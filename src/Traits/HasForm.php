@@ -34,6 +34,7 @@ trait HasForm
             }
         }
 
+        $modelClass = class_basename($modelClass);
         throw new FormNotFound("No form has been registered for the \"$modelClass\" model");
     }
 
@@ -50,7 +51,7 @@ trait HasForm
             $formClass = $this->formClass();
 
             Session::put($formClass::key(), $this);
-            $this->form = new $formClass();
+            $this->form = new $formClass($this);
         }
 
         return $this->form;

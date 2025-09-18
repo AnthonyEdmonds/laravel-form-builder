@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
+use Illuminate\Contracts\View\View;
 
 /** @mixin CanRender */
 trait Renderable
@@ -50,7 +51,7 @@ trait Renderable
     }
 
     // Renderable
-    public function render(): string
+    public function render(): View|string
     {
         return view(
             $this->blade(),

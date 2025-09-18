@@ -5,6 +5,3 @@ parameters:
     level: 5
     paths:
         - src
-    ignoreErrors:
-        - '#Trait AnthonyEdmonds\\LaravelFormBuilder\\Traits\\HasForm is used zero times and is not analysed#'
-        - '#Parameter \#1 \$view of function view expects view-string\|null, string given#'
