@@ -52,6 +52,14 @@ The configuration file is required for registering forms.
 
 The views are optional, used primarily as a basis for building your own form UI components. 
 
+### Routes
+
+Add the Form Builder routes to your `routes/web.php`:
+
+```php
+Route::laravelFormBuilder();
+```
+
 ## Configuration
 
 The `config/form-builder.php` file contains the following options:
