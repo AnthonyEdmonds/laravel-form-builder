@@ -8,10 +8,11 @@
     <ul>
         @forelse($questions as $question)
             @foreach($question['fields'] as $key => $field)
-            <li>
-                <a href="{{ $question['link'] }}">{{ $question['label'] }}</a>
-                <span>{{ $question['answer'] }}</span>
-            </li>
+                <li>
+                    <a href="{{ $question['link'] }}">{{ $question['label'] }}</a>
+                    <span>{{ $question['answer'] }}</span>
+                </li>
+            @endforeach
         @empty
             <li>No questions have been added to this task.</li>
         @endforelse
