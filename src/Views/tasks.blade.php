@@ -16,5 +16,18 @@
         @endforelse
     </ul>
 
+    @isset($draft)
+        <form
+            action="{{ $draft['link'] }}"
+            enctype="multipart/form-data"
+            method="POST"
+        >
+            @csrf
+            @method('POST')
+
+            <button>{{ $draft['label'] }}</button>
+        </form>
+    @endisset
+
     <x-form-builder::actions :actions="$actions" />
 </main>

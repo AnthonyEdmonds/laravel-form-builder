@@ -1,41 +1,34 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Container;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Form\Actions;
 
-use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FormatItemTest extends TestCase
+class DraftLabelTest extends TestCase
 {
     protected MyForm $form;
 
     protected MyModel $model;
 
-    protected Task $task;
-
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->useDatabase();
 
         $this->model = new MyModel();
         $this->model->id = 1;
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
     }
 
     public function test(): void
     {
-        $question = $this->task->question('name-question');
-
         $this->assertEquals(
-            [
-                'fields' => $question->formatFields(true),
-                'link' => $question->route(),
-            ],
-            $this->task->formatItem($question),
+            'Save as draft',
+            $this->form->draftLabel(),
         );
     }
 }

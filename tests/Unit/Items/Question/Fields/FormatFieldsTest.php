@@ -30,13 +30,21 @@ class FormatFieldsTest extends TestCase
         $this->question = $this->task->question('name-question');
     }
 
-    public function test(): void
+    public function testFormatsAnswer(): void
+    {
+        $this->assertEquals(
+            $this->question->blankAnswerLabel('name'),
+            $this->question->formatFields(true)['name']['answer'],
+        );
+    }
+
+    public function testRawAnswer(): void
     {
         $this->model->name = 'Potato';
 
         $this->assertEquals(
             'Potato',
-            $this->question->formatFields()['name']['answer'],
+            $this->question->formatFields(false)['name']['answer'],
         );
     }
 }

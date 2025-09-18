@@ -129,6 +129,11 @@ abstract class Form extends Item implements ItemInterface
         return $this->exit();
     }
 
+    public function draftLabel(): string
+    {
+        return 'Save as draft';
+    }
+
     public function draftRoute(): string
     {
         return route('forms.draft', $this->key);
@@ -216,6 +221,11 @@ abstract class Form extends Item implements ItemInterface
                 ? $this->confirmation()->route()
                 : $this->model->viewRoute(),
         );
+    }
+
+    public function submitLabel(): string
+    {
+        return 'Submit';
     }
 
     public function submitRoute(): string

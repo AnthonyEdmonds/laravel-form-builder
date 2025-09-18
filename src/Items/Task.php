@@ -69,7 +69,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     protected function formatQuestion(Question $question): array
     {
         return [
-            'fields' => $question->formatFields(),
+            'fields' => $question->formatFields(true),
             'link' => $question->route(),
         ];
     }

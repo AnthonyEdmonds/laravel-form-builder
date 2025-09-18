@@ -34,9 +34,7 @@ class ActionsTest extends TestCase
     {
         $this->assertEquals(
             [
-                $this->question->saveLabel() => $this->question->saveRoute(),
-                $this->question->skipLabel() => $this->question->skipRoute(),
-                'Back' => $this->task->previousItem($this->question->key),
+                'Back' => $this->task->previousItem($this->question->key)->getTargetUrl(),
                 'Return to task' => $this->task->route(),
                 'Exit' => $this->form->exitRoute(),
             ],

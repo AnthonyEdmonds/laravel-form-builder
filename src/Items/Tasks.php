@@ -81,17 +81,10 @@ abstract class Tasks extends ItemContainer implements CanRender
     // CanRender
     public function actions(): array
     {
-        $actions = [
-            'Check answers' => $this->form->summary()->route(),
+        return [
+            'Check answers' => $this->form->summary()->route(), // TODO Customisable labels
+            'Exit' => $this->form->exitRoute(), // TODO Customisable labels
         ];
-
-        if ($this->form->model->draftIsEnabled() === true) {
-            $actions['Save as draft'] = $this->form->draftRoute();
-        }
-
-        $actions['Exit'] = $this->form->exitRoute();
-
-        return $actions;
     }
 
     public function blade(): string
@@ -120,6 +113,15 @@ abstract class Tasks extends ItemContainer implements CanRender
     // Actions
     public function show(): View
     {
-        return $this->with('tasks', $this->formatItems());
+        $this->with('tasks', $this->formatItems());
+
+        if ($this->form->model->draftIsEnabled() === true) {
+            $this->with('draft', [
+                'label' => $this->form->draftLabel(),
+                'link' => $this->form->draftRoute(),
+            ]);
+        }
+
+        return $this;
     }
 }

@@ -71,19 +71,11 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     // CanRender
     public function actions(): array
     {
-        $actions = [
-            $this->saveLabel() => $this->saveRoute(),
+        return [
+            'Back' => $this->task->previousItem($this->key)->getTargetUrl(), // TODO Customisable labels
+            'Return to task' => $this->task->route(), // TODO Customisable labels
+            'Exit' => $this->form->exitRoute(), // TODO Customisable labels
         ];
-
-        if ($this->skipIsEnabled() === true) {
-            $actions[$this->skipLabel()] = $this->skipRoute();
-        }
-
-        $actions['Back'] = $this->task->previousItem($this->key);
-        $actions['Return to task'] = $this->task->route();
-        $actions['Exit'] = $this->form->exitRoute();
-
-        return $actions;
     }
 
     public function blade(): string
@@ -121,12 +113,14 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             ?? $this->blankAnswerLabel($fieldKey);
     }
 
-    public function formatFields(): array
+    public function formatFields(bool $formatAnswers): array
     {
         $fields = $this->fields();
 
         foreach ($fields as $key => $field) {
-            $fields[$key]['answer'] = $this->getAnswer($key);
+            $fields[$key]['answer'] = $formatAnswers === true
+                ? $this->formatAnswer($key)
+                : $this->getAnswer($key);
         }
 
         return $fields;
@@ -233,7 +227,21 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     // Actions
     public function show(): View
     {
-        return $this->with('fields', $this->formatFields());
+        $this
+            ->with('fields', $this->formatFields(false))
+            ->with('save', [
+                'label' => $this->saveLabel(),
+                'link' => $this->saveRoute(),
+            ]);
+
+        if ($this->skipIsEnabled() === true) {
+            $this->with('skip', [
+                'label' => $this->skipLabel(),
+                'link' => $this->skipRoute(),
+            ]);
+        }
+
+        return $this;
     }
 
     public function save(FormRequest $formRequest): RedirectResponse

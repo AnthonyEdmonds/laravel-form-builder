@@ -15,11 +15,11 @@
             @forelse($task['questions'] as $question)
                 <li>
                     <ul>
-                    @forelse($question['fields'] as $label => $answer)
-                        <li><b>{{ $label }}</b> {{ $answer }}</li>
-                    @empty
-                        <li>No fields have been added to this question.</li>
-                    @endforelse
+                        @forelse($question['fields'] as $field)
+                            <li><b>{{ $field['label'] }}</b> {{ $field['answer'] }}</li>
+                        @empty
+                            <li>No fields have been added to this question.</li>
+                        @endforelse
                     </ul>
 
                     <a href="{{ $question['link'] }}">Change</a>
@@ -32,5 +32,21 @@
         <p>No tasks have been added to this form.</p>
     @endforelse
 
+    <form
+        action="{{ $submit['link'] }}"
+        enctype="multipart/form-data"
+        method="POST"
+    >
+        @csrf
+        @method('POST')
+
+        <button>{{ $submit['label'] }}</button>
+        @isset($draft)
+            <button formaction="{{ $draft['link'] }}">{{ $draft['label'] }}</button>
+        @endisset
+    </form>
+
     <x-form-builder::actions :actions="$actions"/>
 </main>
+
+// TODO Handle flow between summary to task and back

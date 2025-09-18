@@ -32,7 +32,6 @@ class ActionsTest extends TestCase
         $this->assertEquals(
             [
                 'Check answers' => $this->form->summary()->route(),
-                'Save as draft' => $this->form->draftRoute(),
                 'Exit' => $this->form->exitRoute(),
             ],
             $this->tasks->actions(),

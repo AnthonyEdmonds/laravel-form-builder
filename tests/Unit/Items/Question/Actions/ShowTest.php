@@ -45,8 +45,24 @@ class ShowTest extends TestCase
         $data = $this->view->getData();
 
         $this->assertEquals(
-            $this->question->formatFields(),
+            $this->question->formatFields(false),
             $data['fields'],
+        );
+
+        $this->assertEquals(
+            [
+                'label' => $this->question->saveLabel(),
+                'link' => $this->question->saveRoute(),
+            ],
+            $data['save'],
+        );
+
+        $this->assertEquals(
+            [
+                'label' => $this->question->skipLabel(),
+                'link' => $this->question->skipRoute(),
+            ],
+            $data['skip'],
         );
     }
 }

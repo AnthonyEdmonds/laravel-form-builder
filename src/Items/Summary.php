@@ -38,10 +38,8 @@ class Summary extends Item implements ItemInterface, CanRender
     public function actions(): array
     {
         return [
-            'Submit' => $this->form->submitRoute(),
-            'Save as draft' => $this->form->draftRoute(),
-            'Back to tasks' => $this->form->tasks()->route(),
-            'Exit' => $this->form->exitRoute(),
+            'Back to tasks' => $this->form->tasks()->route(), // TODO Customisable labels
+            'Exit' => $this->form->exitRoute(), // TODO Customisable labels
         ];
     }
 
@@ -69,7 +67,7 @@ class Summary extends Item implements ItemInterface, CanRender
     {
         $summary = [];
         $tasks = $this->form->tasks();
-        $taskClasses = $tasks->tasks();
+        $taskClasses = $tasks->tasks(); // TODO Move to Tasks
 
         foreach ($taskClasses as $taskClass) {
             $task = $tasks->makeItem($taskClass);
@@ -81,6 +79,20 @@ class Summary extends Item implements ItemInterface, CanRender
             $summary[$label] = $taskOverview;
         }
 
-        return $this->with('summary', $summary);
+        $this
+            ->with('submit', [
+                'label' => $this->form->submitLabel(),
+                'link' => $this->form->submitRoute(),
+            ])
+            ->with('summary', $summary);
+
+        if ($this->form->model->draftIsEnabled() === true) {
+            $this->with('draft', [
+                'label' => $this->form->draftLabel(),
+                'link' => $this->form->draftRoute(),
+            ]);
+        }
+
+        return $this;
     }
 }

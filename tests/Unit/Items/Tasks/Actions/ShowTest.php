@@ -44,5 +44,13 @@ class ShowTest extends TestCase
             $this->tasks->formatItems(),
             $data['tasks'],
         );
+
+        $this->assertEquals(
+            [
+                'label' => $this->form->draftLabel(),
+                'link' => $this->form->draftRoute(),
+            ],
+            $data['draft'],
+        );
     }
 }

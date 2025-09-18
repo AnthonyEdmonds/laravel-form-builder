@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Summary;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
+use Illuminate\Contracts\View\View;
 
 class ShowTest extends TestCase
 {
@@ -15,6 +16,8 @@ class ShowTest extends TestCase
     protected MyModel $model;
 
     protected Summary $summary;
+
+    protected View $view;
 
     protected function setUp(): void
     {
@@ -25,13 +28,36 @@ class ShowTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->summary = $this->form->summary();
+        $this->view = $this->summary->show();
     }
 
     public function test(): void
     {
         $this->assertInstanceOf(
             Summary::class,
-            $this->summary->show(),
+            $this->view,
+        );
+
+        $data = $this->view->getData();
+
+        $this->assertIsArray(
+            $data['summary'],
+        );
+
+        $this->assertEquals(
+            [
+                'label' => $this->form->submitLabel(),
+                'link' => $this->form->submitRoute(),
+            ],
+            $data['submit'],
+        );
+
+        $this->assertEquals(
+            [
+                'label' => $this->form->draftLabel(),
+                'link' => $this->form->draftRoute(),
+            ],
+            $data['draft'],
         );
     }
 }
