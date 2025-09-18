@@ -1,9 +1,9 @@
-<x-form-builder.breadcrumbs :breadcrumbs="$breadcrumbs" />
+<x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
 
 <main>
     <h1>{{ $title }}</h1>
 
-    <x-form-builder.description :description="$description" />
+    <x-form-builder::description :description="$description" />
 
     @forelse($fields as $key => $field)
         <div>
@@ -30,5 +30,5 @@
         <p>No fields have been added to this question.</p>
     @endforelse
 
-    <x-form-builder.actions :actions="$actions" />
+    <x-form-builder::actions :actions="$actions" />
 </main>

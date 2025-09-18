@@ -1,9 +1,9 @@
-<x-form-builder.breadcrumbs :breadcrumbs="$breadcrumbs"/>
+<x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs"/>
 
 <main>
     <h1>{{ $title }}</h1>
 
-    <x-form-builder.description :description="$description"/>
+    <x-form-builder::description :description="$description"/>
 
     @forelse($summary as $task)
         <h2>
@@ -32,5 +32,5 @@
         <p>No tasks have been added to this form.</p>
     @endforelse
 
-    <x-form-builder.actions :actions="$actions"/>
+    <x-form-builder::actions :actions="$actions"/>
 </main>
