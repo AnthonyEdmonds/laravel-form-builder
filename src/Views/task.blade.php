@@ -7,10 +7,10 @@
 
     <ul>
         @forelse($questions as $question)
-            @foreach($question['fields'] as $key => $field)
+            @foreach($question['fields'] as $field)
                 <li>
-                    <a href="{{ $question['link'] }}">{{ $field['label'] }}</a>
-                    <span>{{ $field['answer'] }}</span>
+                    <a href="{{ $question['link'] }}">{{ $field->label }}</a>
+                    <span>{{ $field->value }}</span>
                 </li>
             @endforeach
         @empty
