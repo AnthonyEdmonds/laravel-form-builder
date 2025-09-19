@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\CanRender;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\CanSummarise;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
@@ -9,7 +9,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class ActionsTest extends TestCase
+class SummariseTest extends TestCase
 {
     protected Form $form;
 
@@ -35,10 +35,17 @@ class ActionsTest extends TestCase
     {
         $this->assertEquals(
             [
-                $this->tasks->backLabel() => $this->tasks->route(),
-                $this->form->exitLabel() => $this->form->exitRoute(),
+                'colour' => $this->task->statusColour(),
+                'questions' => [
+                    $this->task->question('name-question')->summarise(),
+                    $this->task->question('age-question')->summarise(),
+                    $this->task->question('birthday-question')->summarise(),
+                ],
+                'label' => $this->task->label(),
+                'link' => $this->task->route(),
+                'status' => $this->task->status(),
             ],
-            $this->task->actions(),
+            $this->task->summarise(),
         );
     }
 }

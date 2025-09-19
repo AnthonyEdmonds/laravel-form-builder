@@ -178,6 +178,11 @@ abstract class Form extends Item implements ItemInterface
         );
     }
 
+    public function exitLabel(): string
+    {
+        return 'Exit form';
+    }
+
     public function exitRoute(): string
     {
         return route('/');

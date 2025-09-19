@@ -15,8 +15,8 @@
             @forelse($task['questions'] as $question)
                 <li>
                     <ul>
-                        @forelse($question['fields'] as $field)
-                            <li><b>{{ $field['label'] }}</b> {{ $field['answer'] }}</li>
+                        @forelse($question['fields'] as $label => $answer)
+                            <li><b>{{ $label }}</b> {{ $answer }}</li>
                         @empty
                             <li>No fields have been added to this question.</li>
                         @endforelse
@@ -48,5 +48,3 @@
 
     <x-form-builder::actions :actions="$actions"/>
 </main>
-
-// TODO Handle flow between summary to task and back

@@ -15,10 +15,10 @@ class AgeQuestion extends Question
 
     public function fields(): array
     {
-        return [ // TODO Update Question fields to not use keyed array
+        return [
             Field::range('age', 'How old are they?', 1, 99, 1)
                 ->setHint('Provide their age in years')
-                ->setOptional(true),
+                ->optional(),
         ];
     }
 

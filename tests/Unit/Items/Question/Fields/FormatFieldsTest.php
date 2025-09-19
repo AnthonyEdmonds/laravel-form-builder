@@ -34,7 +34,7 @@ class FormatFieldsTest extends TestCase
     {
         $this->assertEquals(
             $this->question->blankAnswerLabel('name'),
-            $this->question->formatFields(true)['name']['answer'],
+            $this->question->formatFields(true)[0]->value,
         );
     }
 
@@ -44,7 +44,7 @@ class FormatFieldsTest extends TestCase
 
         $this->assertEquals(
             'Potato',
-            $this->question->formatFields(false)['name']['answer'],
+            $this->question->formatFields(false)[0]->value,
         );
     }
 }

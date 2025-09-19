@@ -4,11 +4,13 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\TaskNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
-abstract class Tasks extends ItemContainer implements CanRender
+// TODO v2 Task groups
+abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
 {
     use Renderable;
 
@@ -39,7 +41,7 @@ abstract class Tasks extends ItemContainer implements CanRender
 
     // Container
     /** @returns class-string<Task>[] */
-    abstract public function tasks(): array; // TODO V2: task groups
+    abstract public function tasks(): array;
 
     /** @param Task $item */
     public function formatItem(ItemInterface $item): array
@@ -81,9 +83,11 @@ abstract class Tasks extends ItemContainer implements CanRender
     // CanRender
     public function actions(): array
     {
+        $summary = $this->form->summary();
+
         return [
-            'Check answers' => $this->form->summary()->route(), // TODO Customisable labels
-            'Exit' => $this->form->exitRoute(), // TODO Customisable labels
+            $summary->showLabel() => $summary->route(),
+            $this->form->exitLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -108,6 +112,25 @@ abstract class Tasks extends ItemContainer implements CanRender
         return $this->form->model->exists === true
             ? "Editing $class #$key"
             : "Create a new $class";
+    }
+
+    public function backLabel(): string
+    {
+        return 'Back to tasks';
+    }
+
+    // CanSummarise
+    public function summarise(): array
+    {
+        $summary = [];
+        $taskClasses = $this->tasks();
+
+        foreach ($taskClasses as $taskClass) {
+            $task = $this->makeItem($taskClass);
+            $summary[] = $task->summarise();
+        }
+
+        return $summary;
     }
 
     // Actions

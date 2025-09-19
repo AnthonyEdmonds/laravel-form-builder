@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
+// TODO Handle flow between summary to task and back
 class Summary extends Item implements ItemInterface, CanRender
 {
     use Renderable;
@@ -37,9 +38,11 @@ class Summary extends Item implements ItemInterface, CanRender
     // CanRender
     public function actions(): array
     {
+        $tasks = $this->form->tasks();
+
         return [
-            'Back to tasks' => $this->form->tasks()->route(), // TODO Customisable labels
-            'Exit' => $this->form->exitRoute(), // TODO Customisable labels
+            $tasks->backLabel() => $tasks->route(),
+            $this->form->exitLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -65,26 +68,12 @@ class Summary extends Item implements ItemInterface, CanRender
     // Actions
     public function show(): View
     {
-        $summary = [];
-        $tasks = $this->form->tasks();
-        $taskClasses = $tasks->tasks(); // TODO Move to Tasks
-
-        foreach ($taskClasses as $taskClass) {
-            $task = $tasks->makeItem($taskClass);
-
-            $label = $task->label();
-            $taskOverview = $tasks->formatItem($task);
-            $taskOverview['questions'] = $task->formatItems();
-
-            $summary[$label] = $taskOverview;
-        }
-
         $this
             ->with('submit', [
                 'label' => $this->form->submitLabel(),
                 'link' => $this->form->submitRoute(),
             ])
-            ->with('summary', $summary);
+            ->with('summary', $this->form->tasks()->summarise());
 
         if ($this->form->model->draftIsEnabled() === true) {
             $this->with('draft', [
@@ -94,5 +83,10 @@ class Summary extends Item implements ItemInterface, CanRender
         }
 
         return $this;
+    }
+
+    public function showLabel(): string
+    {
+        return 'Check answers';
     }
 }

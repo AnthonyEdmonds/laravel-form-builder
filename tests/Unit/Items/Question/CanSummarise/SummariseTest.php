@@ -1,15 +1,14 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Fields;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanSummarise;
 
-use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FieldsTest extends TestCase
+class SummariseTest extends TestCase
 {
     protected MyForm $form;
 
@@ -33,9 +32,17 @@ class FieldsTest extends TestCase
 
     public function test(): void
     {
-        $this->assertInstanceOf(
-            Field::class,
-            $this->question->fields()[0],
+        $this->assertEquals(
+            [
+                'colour' => $this->question->statusColour(),
+                'fields' => [
+                    'What is their name?' => $this->question->blankAnswerLabel('name'),
+                ],
+                'label' => $this->question->label(),
+                'link' => $this->question->route(),
+                'status' => $this->question->status(),
+            ],
+            $this->question->summarise(),
         );
     }
 }

@@ -1,23 +1,22 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\CanRender;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanRender;
 
-use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
-use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class ActionsTest extends TestCase
+class BackLabelTest extends TestCase
 {
-    protected Form $form;
+    protected MyForm $form;
 
     protected MyModel $model;
 
-    protected Tasks $tasks;
-
     protected Task $task;
+
+    protected Question $question;
 
     protected function setUp(): void
     {
@@ -27,18 +26,15 @@ class ActionsTest extends TestCase
         $this->model->id = 1;
 
         $this->form = new MyForm($this->model);
-        $this->tasks = $this->form->tasks();
-        $this->task = $this->tasks->task('my-task');
+        $this->task = $this->form->tasks()->task('my-task');
+        $this->question = $this->task->question('name-question');
     }
 
     public function test(): void
     {
         $this->assertEquals(
-            [
-                $this->tasks->backLabel() => $this->tasks->route(),
-                $this->form->exitLabel() => $this->form->exitRoute(),
-            ],
-            $this->task->actions(),
+            'Back',
+            $this->question->backLabel(),
         );
     }
 }

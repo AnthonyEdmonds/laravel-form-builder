@@ -5,7 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Helpers;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use Illuminate\Support\Collection;
 
-// TODO Renderable component
+// TODO Expand attributes, such as spellcheck, autocomplete, describedby, etc
 class Field
 {
     public string $accept = '*';
@@ -18,7 +18,11 @@ class Field
 
     public string $min = '';
 
+    public string $noOptionsMessage = 'No options available';
+
     public bool $optional = false;
+
+    public string $optionalLabel = '(optional)';
 
     public array $options = [];
 
@@ -26,7 +30,7 @@ class Field
 
     public InputType $type = InputType::Text;
 
-    public int|string|float|null $value = null;
+    public int|string|float|array|null $value = null;
 
     // Setup
     /**
@@ -56,9 +60,12 @@ class Field
         return $this->setOptional(false);
     }
 
-    public function setAccept(string $accept): static
+    public function setAccept(string|array $accept): static
     {
-        $this->accept = $accept;
+        $this->accept = is_array($accept) === true
+            ? implode(',', $accept)
+            : $accept;
+
         return $this;
     }
 
@@ -74,21 +81,33 @@ class Field
         return $this;
     }
 
-    public function setMax(string|int|float $max) :static
+    public function setMax(string|int|float $max): static
     {
         $this->max = (string) $max;
         return $this;
     }
 
-    public function setMin(string|int|float $min) :static
+    public function setMin(string|int|float $min): static
     {
         $this->min = (string) $min;
+        return $this;
+    }
+
+    public function setNoOptionsMessage(string $message): static
+    {
+        $this->noOptionsMessage = $message;
         return $this;
     }
 
     public function setOptional(bool $optional): static
     {
         $this->optional = $optional;
+        return $this;
+    }
+
+    public function setOptionalLabel(string $label): static
+    {
+        $this->optionalLabel = $label;
         return $this;
     }
 
@@ -101,7 +120,7 @@ class Field
         return $this;
     }
 
-    public function setStep(string|int|float $step) :static
+    public function setStep(string|int|float $step): static
     {
         $this->step = (string) $step;
         return $this;
@@ -113,13 +132,13 @@ class Field
         return $this;
     }
 
-    public function setValue(int|string|float|null $value): static
+    public function setValue(int|string|float|array|null $value): static
     {
         $this->value = $value;
         return $this;
     }
 
-    // Common field types
+    // Builders
     public static function checkboxes(
         string $name,
         string $label,
@@ -133,7 +152,7 @@ class Field
     public static function file(
         string $name,
         string $label,
-        string $accept = '*',
+        string|array $accept = '*',
     ): static {
         return static::make($name, $label)
             ->setAccept($accept)
@@ -144,7 +163,7 @@ class Field
         string $name,
         ?string $value,
     ): static {
-        return static::make($name, '') // TODO Hide from task / summary list
+        return static::make($name, '')
             ->setType(InputType::Hidden)
             ->setValue($value);
     }
@@ -152,7 +171,7 @@ class Field
     public static function input(
         string $name,
         string $label,
-        InputType $type,
+        InputType $type = InputType::Text,
     ): static {
         return static::make($name, $label)
             ->setType($type);

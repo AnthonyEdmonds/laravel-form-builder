@@ -2,8 +2,11 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\SkipNotAllowed;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
@@ -16,7 +19,8 @@ use Illuminate\Support\Facades\Session;
 use Throwable;
 
 // TODO v2 Disable when in not required, cannot start
-abstract class Question extends Item implements ItemInterface, UsesStates, CanRender
+// TODO Back label as part of interface?
+abstract class Question extends Item implements ItemInterface, UsesStates, CanRender, CanSummarise
 {
     use HasStates;
     use Renderable;
@@ -34,13 +38,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     {
         $fields = $this->fields();
 
-        if (empty($fields) === true) {
-            return 'Empty question';
-        }
-
-        $firstKey = array_key_first($fields);
-
-        return $fields[$firstKey]['label'];
+        return empty($fields) !== true
+            ? $fields[0]->label
+            : 'Empty question';
     }
 
     public function route(): string
@@ -72,9 +72,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     public function actions(): array
     {
         return [
-            'Back' => $this->task->previousItem($this->key)->getTargetUrl(), // TODO Customisable labels
-            'Return to task' => $this->task->route(), // TODO Customisable labels
-            'Exit' => $this->form->exitRoute(), // TODO Customisable labels
+            $this->backLabel() => $this->task->previousItem($this->key)->getTargetUrl(),
+            $this->task->backLabel() => $this->task->route(),
+            $this->form->exitLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -98,8 +98,13 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return $this->label();
     }
 
+    public function backLabel(): string
+    {
+        return 'Back';
+    }
+
     // Fields
-    /** @return array<string, array<string, string|int|bool>> A list of keyed fields with options */
+    /** @returns Field[] */
     abstract public function fields(): array;
 
     public function blankAnswerLabel(string $fieldKey): string
@@ -113,14 +118,20 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             ?? $this->blankAnswerLabel($fieldKey);
     }
 
+    // TODO Probably needs unlinking from format
     public function formatFields(bool $formatAnswers): array
     {
         $fields = $this->fields();
 
-        foreach ($fields as $key => $field) {
-            $fields[$key]['answer'] = $formatAnswers === true
-                ? $this->formatAnswer($key)
-                : $this->getAnswer($key);
+        /** @var Field $field */
+        foreach ($fields as $field) {
+            if ($field->type !== InputType::Hidden) {
+                $field->setValue(
+                    $formatAnswers === true
+                        ? $this->formatAnswer($field->name)
+                        : $this->getAnswer($field->name),
+                );
+            }
         }
 
         return $fields;
@@ -131,22 +142,22 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $formatted = [];
         $fields = $this->fields();
 
-        foreach ($fields as $key => $field) {
-            $formatted[$key] = $this->formatAnswer($key);
+        foreach ($fields as $field) {
+            $formatted[$field->name] = $this->formatAnswer($field->name);
         }
 
         return $formatted;
     }
 
-    public function getAnswer(string $fieldKey): int|string|float|bool|null
+    public function getAnswer(string $fieldName): int|string|float|bool|null
     {
-        return $this->form->model->$fieldKey;
+        return $this->form->model->$fieldName; // TODO Handle array
     }
 
-    public function hasAnswer(string $fieldKey): bool
+    public function hasAnswer(string $fieldName): bool
     {
         return array_key_exists(
-            $fieldKey,
+            $fieldName,
             $this->form->model->getAttributes(),
         ) === true;
     }
@@ -155,8 +166,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     {
         $fields = $this->fields();
 
-        foreach ($fields as $key => $field) {
-            if ($this->hasAnswer($key) === true) {
+        foreach ($fields as $field) {
+            if ($this->hasAnswer($field->name) === true) {
                 return true;
             }
         }
@@ -168,8 +179,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     {
         $fields = $this->fields();
 
-        foreach ($fields as $key => $field) {
-            if ($this->hasAnswer($key) === false) {
+        foreach ($fields as $field) {
+            if ($this->hasAnswer($field->name) === false) {
                 return false;
             }
         }
@@ -182,10 +193,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            if (
-                array_key_exists('optional', $field) === false
-                || $field['optional'] === false
-            ) {
+            if ($field->optional === false) {
                 return false;
             }
         }
@@ -202,8 +210,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $values = [];
         $fields = $this->fields();
 
-        foreach ($fields as $key => $field) {
-            $values[$key] = $this->form->model->$key;
+        foreach ($fields as $field) {
+            $values[$field->name] = $this->getAnswer($field->name);
         }
 
         try {
@@ -222,6 +230,28 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         ]);
 
         app($this->formRequest());
+    }
+
+    // CanSummarise
+    public function summarise(): array
+    {
+        $summary = [
+            'colour' => $this->statusColour(),
+            'fields' => [],
+            'label' => $this->label(),
+            'link' => $this->route(),
+            'status' => $this->status(),
+        ];
+
+        $fields = $this->fields();
+        /** @var Field $field */
+        foreach ($fields as $field) {
+            if ($field->type !== InputType::Hidden) {
+                $summary['fields'][$field->label] = $this->formatAnswer($field->name);
+            }
+        }
+
+        return $summary;
     }
 
     // Actions
@@ -266,8 +296,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     {
         $fields = $this->fields();
 
-        foreach ($fields as $field => $value) {
-            $this->form->model->$field = $formRequest->get($field);
+        foreach ($fields as $field) {
+            $attribute = $field->name;
+            $this->form->model->$attribute = $formRequest->get($field->name);
         }
     }
 

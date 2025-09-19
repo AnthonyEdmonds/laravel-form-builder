@@ -2,6 +2,8 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
+use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\BirthdayRequest;
 
@@ -15,11 +17,8 @@ class BirthdayQuestion extends Question
     public function fields(): array
     {
         return [
-            'birthday' => [
-                'hint' => 'Provide their date of birth',
-                'label' => 'When is their birthday?',
-                'optional' => false,
-            ],
+            Field::input('birthday', 'When is their birthday?', InputType::Date)
+                ->setHint('Provide their date of birth'),
         ];
     }
 
