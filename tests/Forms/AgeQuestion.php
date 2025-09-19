@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\AgeRequest;
 
@@ -15,11 +16,9 @@ class AgeQuestion extends Question
     public function fields(): array
     {
         return [
-            'age' => [
-                'hint' => 'Provide their age in years',
-                'label' => 'How old are they?',
-                'optional' => true,
-            ],
+            Field::range('age', 'How old are they?', 1, 99, 1)
+                ->setHint('Provide their age in years')
+                ->optional(),
         ];
     }
 

@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Summary\CanRender;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Summary;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
@@ -16,6 +17,8 @@ class ActionsTest extends TestCase
 
     protected Summary $summary;
 
+    protected Tasks $tasks;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,14 +28,15 @@ class ActionsTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->summary = $this->form->summary();
+        $this->tasks = $this->form->tasks();
     }
 
     public function test(): void
     {
         $this->assertEquals(
             [
-                'Back to tasks' => $this->form->tasks()->route(),
-                'Exit' => $this->form->exitRoute(),
+                $this->tasks->backLabel() => $this->tasks->route(),
+                $this->form->backLabel() => $this->form->exitRoute(),
             ],
             $this->summary->actions(),
         );

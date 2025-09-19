@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\NameRequest;
 
@@ -15,10 +16,8 @@ class NameQuestion extends Question
     public function fields(): array
     {
         return [
-            'name' => [
-                'hint' => 'Provide their full name',
-                'label' => 'What is their name?',
-            ],
+            Field::input('name', 'What is their name?')
+                ->setHint('Provide their full name'),
         ];
     }
 

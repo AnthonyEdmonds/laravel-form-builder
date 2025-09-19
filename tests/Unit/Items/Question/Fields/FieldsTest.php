@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Fields;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
@@ -32,9 +33,9 @@ class FieldsTest extends TestCase
 
     public function test(): void
     {
-        $this->assertArrayHasKey(
-            'name',
-            $this->question->fields(),
+        $this->assertInstanceOf(
+            Field::class,
+            $this->question->fields()[0],
         );
     }
 }

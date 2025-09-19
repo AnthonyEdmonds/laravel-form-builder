@@ -40,7 +40,8 @@ class ShowTest extends TestCase
 
         $data = $this->view->getData();
 
-        $this->assertIsArray(
+        $this->assertEquals(
+            $this->form->tasks()->summarise(),
             $data['summary'],
         );
 

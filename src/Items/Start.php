@@ -37,6 +37,11 @@ class Start extends Item implements ItemInterface, CanRender
         return route('forms.start.show', $this->form->key);
     }
 
+    public function backLabel(): string
+    {
+        return $this->form->backLabel();
+    }
+
     // CanRender
     public function actions(): array
     {

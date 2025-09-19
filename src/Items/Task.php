@@ -5,6 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\QuestionNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
@@ -12,7 +13,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
 // TODO v2 Disable if cannot be started yet, not required
-abstract class Task extends ItemContainer implements UsesStates, CanRender
+abstract class Task extends ItemContainer implements UsesStates, CanRender, CanSummarise
 {
     use HasStates;
     use Renderable;
@@ -34,6 +35,11 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
             $this->form->key,
             $this->key,
         ]);
+    }
+
+    public function backLabel(): string
+    {
+        return 'Back to task';
     }
 
     // Container
@@ -69,7 +75,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     protected function formatQuestion(Question $question): array
     {
         return [
-            'fields' => $question->formatFields(true),
+            'fields' => $question->formatFields(true), // TODO Replace with Summarise?
             'link' => $question->route(),
         ];
     }
@@ -154,9 +160,11 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     // CanRender
     public function actions(): array
     {
+        $tasks = $this->form->tasks();
+
         return [
-            'Back to tasks' => $this->form->tasks()->route(),
-            'Exit' => $this->form->exitRoute(),
+            $tasks->backLabel() => $tasks->route(),
+            $this->form->backLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -177,6 +185,26 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender
     public function title(): string
     {
         return $this->label();
+    }
+
+    // CanSummarise
+    public function summarise(): array
+    {
+        $summary = [
+            'colour' => $this->statusColour(),
+            'questions' => [],
+            'label' => $this->label(),
+            'link' => $this->route(),
+            'status' => $this->status(),
+        ];
+
+        $questionClasses = $this->questions();
+        foreach ($questionClasses as $questionClass) {
+            $question = $this->makeItem($questionClass);
+            $summary['questions'][] = $question->summarise();
+        }
+
+        return $summary;
     }
 
     // Actions

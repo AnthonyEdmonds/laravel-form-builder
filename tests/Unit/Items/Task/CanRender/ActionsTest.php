@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\CanRender;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
@@ -13,6 +14,8 @@ class ActionsTest extends TestCase
     protected Form $form;
 
     protected MyModel $model;
+
+    protected Tasks $tasks;
 
     protected Task $task;
 
@@ -24,15 +27,16 @@ class ActionsTest extends TestCase
         $this->model->id = 1;
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
+        $this->tasks = $this->form->tasks();
+        $this->task = $this->tasks->task('my-task');
     }
 
     public function test(): void
     {
         $this->assertEquals(
             [
-                'Back to tasks' => $this->form->tasks()->route(),
-                'Exit' => $this->form->exitRoute(),
+                $this->tasks->backLabel() => $this->tasks->route(),
+                $this->form->backLabel() => $this->form->exitRoute(),
             ],
             $this->task->actions(),
         );
