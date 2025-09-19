@@ -36,7 +36,7 @@ class ActionsTest extends TestCase
         $this->assertEquals(
             [
                 $this->summary->showLabel() => $this->summary->route(),
-                $this->form->exitLabel() => $this->form->exitRoute(),
+                $this->form->backLabel() => $this->form->exitRoute(),
             ],
             $this->tasks->actions(),
         );

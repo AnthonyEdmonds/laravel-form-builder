@@ -71,6 +71,11 @@ abstract class Form extends Item implements ItemInterface
         return route('forms.new', $this->key);
     }
 
+    public function backLabel(): string
+    {
+        return 'Exit form';
+    }
+
     // Flags
     public function confirmationIsEnabled(): bool
     {
@@ -176,11 +181,6 @@ abstract class Form extends Item implements ItemInterface
         return Redirect::to(
             $this->exitRoute(),
         );
-    }
-
-    public function exitLabel(): string
-    {
-        return 'Exit form';
     }
 
     public function exitRoute(): string

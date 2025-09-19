@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Session;
 use Throwable;
 
 // TODO v2 Disable when in not required, cannot start
-// TODO Back label as part of interface?
 abstract class Question extends Item implements ItemInterface, UsesStates, CanRender, CanSummarise
 {
     use HasStates;
@@ -52,6 +51,11 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         ]);
     }
 
+    public function backLabel(): string
+    {
+        return 'Back';
+    }
+
     // UsesStates
     public function hasError(): bool
     {
@@ -74,7 +78,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return [
             $this->backLabel() => $this->task->previousItem($this->key)->getTargetUrl(),
             $this->task->backLabel() => $this->task->route(),
-            $this->form->exitLabel() => $this->form->exitRoute(),
+            $this->form->backLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -96,11 +100,6 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     public function title(): string
     {
         return $this->label();
-    }
-
-    public function backLabel(): string
-    {
-        return 'Back';
     }
 
     // Fields

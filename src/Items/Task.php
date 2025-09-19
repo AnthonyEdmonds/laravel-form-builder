@@ -37,6 +37,11 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         ]);
     }
 
+    public function backLabel(): string
+    {
+        return 'Back to task';
+    }
+
     // Container
     /** @returns class-string<Question>[] */
     abstract public function questions(): array;
@@ -159,7 +164,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
 
         return [
             $tasks->backLabel() => $tasks->route(),
-            $this->form->exitLabel() => $this->form->exitRoute(),
+            $this->form->backLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -180,11 +185,6 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     public function title(): string
     {
         return $this->label();
-    }
-
-    public function backLabel(): string
-    {
-        return 'Back to task';
     }
 
     // CanSummarise

@@ -36,7 +36,7 @@ class ActionsTest extends TestCase
             [
                 $this->question->backLabel() => $this->task->previousItem($this->question->key)->getTargetUrl(),
                 $this->task->backLabel() => $this->task->route(),
-                $this->form->exitLabel() => $this->form->exitRoute(),
+                $this->form->backLabel() => $this->form->exitRoute(),
             ],
             $this->question->actions(),
         );

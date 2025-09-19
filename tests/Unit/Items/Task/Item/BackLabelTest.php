@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\CanRender;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Item;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;

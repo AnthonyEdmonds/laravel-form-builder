@@ -39,6 +39,11 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         ]);
     }
 
+    public function backLabel(): string
+    {
+        return 'Back to tasks';
+    }
+
     // Container
     /** @returns class-string<Task>[] */
     abstract public function tasks(): array;
@@ -87,7 +92,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
 
         return [
             $summary->showLabel() => $summary->route(),
-            $this->form->exitLabel() => $this->form->exitRoute(),
+            $this->form->backLabel() => $this->form->exitRoute(),
         ];
     }
 
@@ -112,11 +117,6 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         return $this->form->model->exists === true
             ? "Editing $class #$key"
             : "Create a new $class";
-    }
-
-    public function backLabel(): string
-    {
-        return 'Back to tasks';
     }
 
     // CanSummarise

@@ -9,4 +9,6 @@ interface Item
     public function label(): string;
 
     public function route(): string;
+
+    public function backLabel(): string;
 }

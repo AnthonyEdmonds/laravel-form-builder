@@ -34,6 +34,11 @@ class Resume extends Item implements ItemInterface, CanRender
         return route('forms.resume.show', $this->form->key);
     }
 
+    public function backLabel(): string
+    {
+        return $this->form->backLabel();
+    }
+
     // CanRender
     public function actions(): array
     {

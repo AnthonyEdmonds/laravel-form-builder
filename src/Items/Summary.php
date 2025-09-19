@@ -35,6 +35,11 @@ class Summary extends Item implements ItemInterface, CanRender
         return route('forms.summary.show', $this->form->key);
     }
 
+    public function backLabel(): string
+    {
+        return $this->form->tasks()->backLabel();
+    }
+
     // CanRender
     public function actions(): array
     {
@@ -42,7 +47,7 @@ class Summary extends Item implements ItemInterface, CanRender
 
         return [
             $tasks->backLabel() => $tasks->route(),
-            $this->form->exitLabel() => $this->form->exitRoute(),
+            $this->form->backLabel() => $this->form->exitRoute(),
         ];
     }
 
