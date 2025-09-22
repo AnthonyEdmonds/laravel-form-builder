@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
@@ -43,9 +44,18 @@ class Resume extends Item implements ItemInterface, CanRender
     public function actions(): array
     {
         return [
-            'Resume session' => $this->form->tasks()->route(),
-            'Start again' => $this->form->start()->route(),
-            'Exit' => $this->form->exitRoute(),
+            'resume' => Link::make(
+                $this->resumeLabel(),
+                $this->form->tasks()->route(),
+            ),
+            'restart' => Link::make(
+                $this->restartLabel(),
+                $this->form->start()->route(),
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 
@@ -71,5 +81,15 @@ class Resume extends Item implements ItemInterface, CanRender
     public function show(): View
     {
         return $this;
+    }
+
+    public function restartLabel(): string
+    {
+        return 'Start again';
+    }
+
+    public function resumeLabel(): string
+    {
+        return 'Resume session';
     }
 }

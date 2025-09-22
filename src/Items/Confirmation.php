@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
@@ -43,8 +44,14 @@ class Confirmation extends Item implements ItemInterface, CanRender
     public function actions(): array
     {
         return [
-            'View' => $this->form->model->viewRoute(),
-            'Exit' => $this->form->exitRoute(),
+            'view' => Link::make(
+                $this->viewLabel(),
+                $this->form->model->viewRoute(),
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 
@@ -73,5 +80,10 @@ class Confirmation extends Item implements ItemInterface, CanRender
     public function show(): View
     {
         return $this;
+    }
+
+    public function viewLabel(): string
+    {
+        return 'View' . $this->form->model->modelName();
     }
 }

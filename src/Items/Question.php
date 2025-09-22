@@ -5,6 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\SkipNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
@@ -76,9 +77,18 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     public function actions(): array
     {
         return [
-            $this->backLabel() => $this->task->previousItem($this->key)->getTargetUrl(),
-            $this->task->backLabel() => $this->task->route(),
-            $this->form->backLabel() => $this->form->exitRoute(),
+            'back' => Link::make(
+                $this->backLabel(),
+                $this->task->previousItem($this->key)->getTargetUrl(),
+            ),
+            'task' => Link::make(
+                $this->task->backLabel(),
+                $this->task->route(),
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 

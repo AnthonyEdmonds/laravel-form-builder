@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
@@ -46,8 +47,15 @@ class Start extends Item implements ItemInterface, CanRender
     public function actions(): array
     {
         return [
-            'Start' => $this->form->tasks()->route(),
-            'Exit' => $this->form->exitRoute(),
+            'start' => Link::make(
+                $this->startLabel(),
+                $this->form->tasks()->route(),
+                'POST',
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 
@@ -84,5 +92,10 @@ class Start extends Item implements ItemInterface, CanRender
     public function show(): View
     {
         return $this;
+    }
+
+    public function startLabel(): string
+    {
+        return 'Start now';
     }
 }

@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\QuestionNotFound;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
@@ -163,8 +164,14 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         $tasks = $this->form->tasks();
 
         return [
-            $tasks->backLabel() => $tasks->route(),
-            $this->form->backLabel() => $this->form->exitRoute(),
+            'back' => Link::make(
+                $tasks->backLabel(),
+                $tasks->route(),
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 

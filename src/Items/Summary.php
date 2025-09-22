@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
@@ -46,8 +47,14 @@ class Summary extends Item implements ItemInterface, CanRender
         $tasks = $this->form->tasks();
 
         return [
-            $tasks->backLabel() => $tasks->route(),
-            $this->form->backLabel() => $this->form->exitRoute(),
+            'back' => Link::make(
+                $tasks->backLabel(),
+                $tasks->route(),
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 

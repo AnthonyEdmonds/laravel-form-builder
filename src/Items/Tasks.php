@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\TaskNotFound;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
@@ -91,8 +92,14 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         $summary = $this->form->summary();
 
         return [
-            $summary->showLabel() => $summary->route(),
-            $this->form->backLabel() => $this->form->exitRoute(),
+            'summary' => Link::make(
+                $summary->showLabel(),
+                $summary->route(),
+            ),
+            'exit' => Link::make(
+                $this->form->backLabel(),
+                $this->form->exitRoute(),
+            ),
         ];
     }
 
