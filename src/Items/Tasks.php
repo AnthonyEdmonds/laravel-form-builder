@@ -80,9 +80,11 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     {
         return [
             'colour' => $task->statusColour(),
+            'hint' => $task->description(),
+            'id' => $task->key,
             'label' => $task->label(),
-            'link' => $task->route(),
             'status' => $task->status(),
+            'url' => $task->route(),
         ];
     }
 
@@ -146,10 +148,10 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         $this->with('tasks', $this->formatItems());
 
         if ($this->form->model->draftIsEnabled() === true) {
-            $this->with('draft', [
-                'label' => $this->form->draftLabel(),
-                'link' => $this->form->draftRoute(),
-            ]);
+            $this->with('draft', Link::make(
+                $this->form->draftLabel(),
+                $this->form->draftRoute(),
+            ));
         }
 
         return $this;

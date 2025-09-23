@@ -33,9 +33,11 @@ class FormatItemTest extends TestCase
         $this->assertEquals(
             [
                 'colour' => $task->statusColour(),
+                'hint' => $task->description(),
+                'id' => $task->key,
                 'label' => $task->label(),
-                'link' => $task->route(),
                 'status' => $task->status(),
+                'url' => $task->route(),
             ],
             $this->tasks->formatItem($task),
         );

@@ -7,8 +7,11 @@
 
     <ul>
         @forelse($tasks as $task)
-            <li>
-                <a href="{{ $task['link'] }}">{{ $task['label'] }}</a>
+            <li id="{{ $task['id'] }}">
+                <a href="{{ $task['url'] }}">{{ $task['label'] }}</a>
+                @foreach($task['hint'] as $hint)
+                    <p>{{ $hint }}</p>
+                @endforeach
                 <span class="{{ $task['colour'] }}">{{ $task['status'] }}</span>
             </li>
         @empty
@@ -18,14 +21,14 @@
 
     @isset($draft)
         <form
-            action="{{ $draft['link'] }}"
+            action="{{ $draft->link }}"
             enctype="multipart/form-data"
             method="POST"
         >
             @csrf
             @method('POST')
 
-            <button>{{ $draft['label'] }}</button>
+            <button>{{ $draft->label }}</button>
         </form>
     @endisset
 
