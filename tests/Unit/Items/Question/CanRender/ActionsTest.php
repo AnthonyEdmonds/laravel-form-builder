@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanRender;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
@@ -34,9 +35,18 @@ class ActionsTest extends TestCase
     {
         $this->assertEquals(
             [
-                $this->question->backLabel() => $this->task->previousItem($this->question->key)->getTargetUrl(),
-                $this->task->backLabel() => $this->task->route(),
-                $this->form->backLabel() => $this->form->exitRoute(),
+                'back' => Link::make(
+                    $this->question->backLabel(),
+                    $this->task->previousItem($this->question->key)->getTargetUrl(),
+                ),
+                'task' => Link::make(
+                    $this->task->backLabel(),
+                    $this->task->route(),
+                ),
+                'exit' => Link::make(
+                    $this->form->backLabel(),
+                    $this->form->exitRoute(),
+                ),
             ],
             $this->question->actions(),
         );

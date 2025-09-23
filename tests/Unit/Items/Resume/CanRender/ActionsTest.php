@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Resume\CanRender;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Resume;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
@@ -31,9 +32,18 @@ class ActionsTest extends TestCase
     {
         $this->assertEquals(
             [
-                'Resume session' => $this->form->tasks()->route(),
-                'Start again' => $this->form->start()->route(),
-                'Exit' => $this->form->exitRoute(),
+                'resume' => Link::make(
+                    $this->resume->resumeLabel(),
+                    $this->form->tasks()->route(),
+                ),
+                'restart' => Link::make(
+                    $this->resume->restartLabel(),
+                    $this->form->start()->route(),
+                ),
+                'exit' => Link::make(
+                    $this->form->backLabel(),
+                    $this->form->exitRoute(),
+                ),
             ],
             $this->resume->actions(),
         );

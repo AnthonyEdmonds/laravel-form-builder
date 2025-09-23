@@ -3,9 +3,9 @@
 ])
 
 <ul>
-    @foreach($actions as $label => $link)
+    @foreach($actions as $action)
         <li>
-            <a href="{{ $link }}">{{ $label }}</a>
+            <a href="{{ $action->link }}">{{ $action->label }}</a>
         </li>
     @endforeach
 </ul>

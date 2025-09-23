@@ -50,7 +50,6 @@ class Start extends Item implements ItemInterface, CanRender
             'start' => Link::make(
                 $this->startLabel(),
                 $this->form->tasks()->route(),
-                'POST',
             ),
             'exit' => Link::make(
                 $this->form->backLabel(),

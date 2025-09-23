@@ -68,7 +68,7 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                         ->controller(StartController::class)
                         ->group(function () {
                             Route::get('/', 'show')->name('show');
-                            Route::post('/fresh', 'fresh')->name('fresh');
+                            Route::get('/fresh', 'fresh')->name('fresh');
                         });
 
                     Route::prefix('/tasks')

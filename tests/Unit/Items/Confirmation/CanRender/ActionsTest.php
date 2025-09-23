@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Confirmation\CanRender;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Confirmation;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
@@ -32,8 +33,14 @@ class ActionsTest extends TestCase
     {
         $this->assertEquals(
             [
-                'View' => $this->form->model->viewRoute(),
-                'Exit' => $this->form->exitRoute(),
+                'view' => Link::make(
+                    $this->confirmation->viewLabel(),
+                    $this->form->model->viewRoute(),
+                ),
+                'exit' => Link::make(
+                    $this->form->backLabel(),
+                    $this->form->exitRoute(),
+                ),
             ],
             $this->confirmation->actions(),
         );
