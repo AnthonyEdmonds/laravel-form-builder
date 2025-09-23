@@ -35,8 +35,8 @@ class FormatAnswerTest extends TestCase
         $this->model->name = 'Potato';
 
         $this->assertEquals(
-            $this->question->getAnswer('name'),
-            $this->question->formatAnswer('name'),
+            $this->question->getRawAnswer('name'),
+            $this->question->getFormattedAnswer('name'),
         );
     }
 
@@ -46,7 +46,7 @@ class FormatAnswerTest extends TestCase
 
         $this->assertEquals(
             $this->question->blankAnswerLabel('name'),
-            $this->question->formatAnswer('name'),
+            $this->question->getFormattedAnswer('name'),
         );
     }
 }

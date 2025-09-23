@@ -37,7 +37,7 @@ class Confirmation extends Item implements ItemInterface, CanRender
 
     public function backLabel(): string
     {
-        return $this->form->backLabel();
+        return $this->form->exitLabel();
     }
 
     // CanRender
@@ -49,7 +49,7 @@ class Confirmation extends Item implements ItemInterface, CanRender
                 $this->form->model->viewRoute(),
             ),
             'exit' => Link::make(
-                $this->form->backLabel(),
+                $this->form->exitLabel(),
                 $this->form->exitRoute(),
             ),
         ];

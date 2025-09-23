@@ -16,11 +16,12 @@ class RadiosTest extends TestCase
 
         $this->field = Field::radios(
             'my-name',
-            'My label',
+            'My question?',
             [
                 'A' => 'Yes',
                 'B' => 'No',
             ],
+            'My label',
         );
     }
 

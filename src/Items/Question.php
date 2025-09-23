@@ -2,10 +2,11 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
-use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\MissingLabel;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\SkipNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanFormat;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Session;
 use Throwable;
 
 // TODO v2 Disable when in not required, cannot start
-abstract class Question extends Item implements ItemInterface, UsesStates, CanRender, CanSummarise
+abstract class Question extends Item implements ItemInterface, UsesStates, CanRender, CanSummarise, CanFormat
 {
     use HasStates;
     use Renderable;
@@ -38,9 +39,11 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     {
         $fields = $this->fields();
 
-        return empty($fields) !== true
-            ? $fields[0]->label
-            : 'Empty question';
+        return match (true) {
+            empty($fields) === true => 'Empty question',
+            count($fields) > 1 => throw new MissingLabel('You must provide a label when a question has multiple fields'),
+            default => $fields[0]->label,
+        };
     }
 
     public function route(): string
@@ -86,7 +89,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 $this->task->route(),
             ),
             'exit' => Link::make(
-                $this->form->backLabel(),
+                $this->form->exitLabel(),
                 $this->form->exitRoute(),
             ),
         ];
@@ -118,47 +121,16 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function blankAnswerLabel(string $fieldKey): string
     {
-        return 'Not given';
+        return 'Not provided';
     }
 
-    public function formatAnswer(string $fieldKey): string
+    public function getFormattedAnswer(string $fieldKey): string
     {
-        return $this->getAnswer($fieldKey)
+        return $this->getRawAnswer($fieldKey)
             ?? $this->blankAnswerLabel($fieldKey);
     }
 
-    // TODO Probably needs unlinking from format
-    public function formatFields(bool $formatAnswers): array
-    {
-        $fields = $this->fields();
-
-        /** @var Field $field */
-        foreach ($fields as $field) {
-            if ($field->type !== InputType::Hidden) {
-                $field->setValue(
-                    $formatAnswers === true
-                        ? $this->formatAnswer($field->name)
-                        : $this->getAnswer($field->name),
-                );
-            }
-        }
-
-        return $fields;
-    }
-
-    public function formatted(): array
-    {
-        $formatted = [];
-        $fields = $this->fields();
-
-        foreach ($fields as $field) {
-            $formatted[$field->name] = $this->formatAnswer($field->name);
-        }
-
-        return $formatted;
-    }
-
-    public function getAnswer(string $fieldName): int|string|float|bool|null
+    public function getRawAnswer(string $fieldName): mixed
     {
         return $this->form->model->$fieldName; // TODO Handle array
     }
@@ -220,7 +192,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            $values[$field->name] = $this->getAnswer($field->name);
+            $values[$field->name] = $this->getRawAnswer($field->name);
         }
 
         try {
@@ -244,40 +216,43 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     // CanSummarise
     public function summarise(): array
     {
-        $summary = [
-            'colour' => $this->statusColour(),
-            'fields' => [],
-            'label' => $this->label(),
-            'link' => $this->route(),
-            'status' => $this->status(),
-        ];
+        $summary = [];
 
         $fields = $this->fields();
-        /** @var Field $field */
         foreach ($fields as $field) {
-            if ($field->type !== InputType::Hidden) {
-                $summary['fields'][$field->label] = $this->formatAnswer($field->name);
-            }
+            $summary[$field->label] = [
+                'value' => $this->getFormattedAnswer($field->name),
+                'action' => [
+                    'label' => 'Change',
+                    'url' => $this->route(),
+                ],
+            ];
         }
 
         return $summary;
+    }
+
+    // CanFormat
+    public function format(): array
+    {
+        return $this->summarise();
     }
 
     // Actions
     public function show(): View
     {
         $this
-            ->with('fields', $this->formatFields(false))
-            ->with('save', [
-                'label' => $this->saveLabel(),
-                'link' => $this->saveRoute(),
-            ]);
+            ->with('fields', $this->summarise())
+            ->with('save', Link::make(
+                $this->saveLabel(),
+                $this->saveRoute(),
+            ));
 
         if ($this->skipIsEnabled() === true) {
-            $this->with('skip', [
-                'label' => $this->skipLabel(),
-                'link' => $this->skipRoute(),
-            ]);
+            $this->with('skip', Link::make(
+                $this->skipLabel(),
+                $this->skipRoute(),
+            ));
         }
 
         return $this;

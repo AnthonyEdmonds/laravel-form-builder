@@ -16,8 +16,9 @@ class FileTest extends TestCase
 
         $this->field = Field::file(
             'my-name',
-            'My label',
+            'My question?',
             'text/csv',
+            'My label',
         );
     }
 

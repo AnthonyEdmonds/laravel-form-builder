@@ -5,6 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\QuestionNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanFormat;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanSummarise;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
@@ -14,7 +15,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
 // TODO v2 Disable if cannot be started yet, not required
-abstract class Task extends ItemContainer implements UsesStates, CanRender, CanSummarise
+abstract class Task extends ItemContainer implements UsesStates, CanRender, CanSummarise, CanFormat
 {
     use HasStates;
     use Renderable;
@@ -75,10 +76,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
 
     protected function formatQuestion(Question $question): array
     {
-        return [
-            'fields' => $question->formatFields(true), // TODO Replace with Summarise?
-            'link' => $question->route(),
-        ];
+        return $question->format();
     }
 
     // UsesStates
@@ -169,7 +167,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
                 $tasks->route(),
             ),
             'exit' => Link::make(
-                $this->form->backLabel(),
+                $this->form->exitLabel(),
                 $this->form->exitRoute(),
             ),
         ];
@@ -197,21 +195,34 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     // CanSummarise
     public function summarise(): array
     {
-        $summary = [
-            'colour' => $this->statusColour(),
-            'questions' => [],
-            'label' => $this->label(),
-            'link' => $this->route(),
-            'status' => $this->status(),
-        ];
+        $answers = [];
 
-        $questionClasses = $this->questions();
-        foreach ($questionClasses as $questionClass) {
+        $questions = $this->questions();
+        foreach ($questions as $questionClass) {
             $question = $this->makeItem($questionClass);
-            $summary['questions'][] = $question->summarise();
+            $answers[] = $question->summarise();
         }
 
-        return $summary;
+        return [
+            'title' => $this->label(),
+            'list' => $answers,
+            'actions' => [
+                'Change answers' => $this->route(),
+            ],
+        ];
+    }
+
+    // CanFormat
+    public function format(): array
+    {
+        return [
+            'colour' => $this->statusColour()->value,
+            'hint' => $this->description(),
+            'id' => $this->key,
+            'label' => $this->label(),
+            'status' => $this->status()->value,
+            'url' => $this->route(),
+        ];
     }
 
     // Actions

@@ -28,48 +28,48 @@ class NextTask extends Task
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 1;
+            ->getRawAnswer('age') === 1;
     }
 
     public function hasNotBeenStarted(): bool
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 2;
+            ->getRawAnswer('age') === 2;
     }
 
     public function isComplete(): bool
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 3;
+            ->getRawAnswer('age') === 3;
     }
 
     public function cannotStart(): bool
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 4;
+            ->getRawAnswer('age') === 4;
     }
 
     public function isInProgress(): bool
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 5;
+            ->getRawAnswer('age') === 5;
     }
 
     public function isNotRequired(): bool
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 6;
+            ->getRawAnswer('age') === 6;
     }
 
     public function isIncomplete(): bool
     {
         return $this
             ->question('age-question')
-            ->getAnswer('age') === 7;
+            ->getRawAnswer('age') === 7;
     }
 }

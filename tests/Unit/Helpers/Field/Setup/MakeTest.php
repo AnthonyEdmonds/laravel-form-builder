@@ -11,7 +11,7 @@ class MakeTest extends TestCase
     {
         $this->assertInstanceOf(
             Field::class,
-            Field::make('my-name', 'My label'),
+            Field::make('my-name', 'My question?', 'My label'),
         );
     }
 }

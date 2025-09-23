@@ -16,11 +16,12 @@ class CheckboxesTest extends TestCase
 
         $this->field = Field::checkboxes(
             'my-name',
-            'My label',
+            'My question?',
             [
                 'A' => 'Yes',
                 'B' => 'No',
             ],
+            'My label',
         );
     }
 

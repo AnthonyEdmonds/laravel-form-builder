@@ -9,18 +9,28 @@ class ConstructTest extends TestCase
 {
     protected Field $field;
 
-    protected function setUp(): void
+    public function testUsesLabel(): void
     {
-        parent::setUp();
+        $this->field = new Field('my-name', 'My question?', 'My label');
 
-        $this->field = new Field('my-name', 'My label');
-    }
-
-    public function test(): void
-    {
         $this->assertEquals(
             'my-name',
             $this->field->id,
+        );
+
+        $this->assertEquals(
+            'My label',
+            $this->field->label,
+        );
+    }
+
+    public function testGeneratesLabel(): void
+    {
+        $this->field = new Field('my-name', 'My question?');
+
+        $this->assertEquals(
+            'My name',
+            $this->field->label,
         );
     }
 }

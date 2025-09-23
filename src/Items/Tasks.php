@@ -78,14 +78,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
 
     protected function formatTask(Task $task): array
     {
-        return [
-            'colour' => $task->statusColour(),
-            'hint' => $task->description(),
-            'id' => $task->key,
-            'label' => $task->label(),
-            'status' => $task->status(),
-            'url' => $task->route(),
-        ];
+        return $task->format();
     }
 
     // CanRender
@@ -99,7 +92,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
                 $summary->route(),
             ),
             'exit' => Link::make(
-                $this->form->backLabel(),
+                $this->form->exitLabel(),
                 $this->form->exitRoute(),
             ),
         ];
@@ -132,11 +125,11 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     public function summarise(): array
     {
         $summary = [];
-        $taskClasses = $this->tasks();
 
-        foreach ($taskClasses as $taskClass) {
+        $tasks = $this->tasks();
+        foreach ($tasks as $taskClass) {
             $task = $this->makeItem($taskClass);
-            $summary[] = $task->summarise();
+            $summary = $task->summarise();
         }
 
         return $summary;

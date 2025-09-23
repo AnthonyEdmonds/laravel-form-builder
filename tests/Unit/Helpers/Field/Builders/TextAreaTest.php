@@ -16,6 +16,7 @@ class TextAreaTest extends TestCase
 
         $this->field = Field::textarea(
             'my-name',
+            'My question?',
             'My label',
         );
     }

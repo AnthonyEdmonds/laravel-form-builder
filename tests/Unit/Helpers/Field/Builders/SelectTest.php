@@ -16,11 +16,12 @@ class SelectTest extends TestCase
 
         $this->field = Field::select(
             'my-name',
-            'My label',
+            'My question?',
             [
                 'A' => 'Yes',
                 'B' => 'No',
             ],
+            'My label',
         );
     }
 

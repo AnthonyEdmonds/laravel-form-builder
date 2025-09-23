@@ -16,10 +16,11 @@ class RangeTest extends TestCase
 
         $this->field = Field::range(
             'my-name',
-            'My label',
+            'My question?',
             0,
             '1.23',
             0.01,
+            'My label',
         );
     }
 

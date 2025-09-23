@@ -16,6 +16,7 @@ class PasswordTest extends TestCase
 
         $this->field = Field::password(
             'my-name',
+            'My question?',
             'My label',
         );
     }

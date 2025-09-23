@@ -52,7 +52,7 @@ class Summary extends Item implements ItemInterface, CanRender
                 $tasks->route(),
             ),
             'exit' => Link::make(
-                $this->form->backLabel(),
+                $this->form->exitLabel(),
                 $this->form->exitRoute(),
             ),
         ];
@@ -81,17 +81,17 @@ class Summary extends Item implements ItemInterface, CanRender
     public function show(): View
     {
         $this
-            ->with('submit', [
-                'label' => $this->form->submitLabel(),
-                'link' => $this->form->submitRoute(),
-            ])
+            ->with('submit', Link::make(
+                $this->form->submitLabel(),
+                $this->form->submitRoute(),
+            ))
             ->with('summary', $this->form->tasks()->summarise());
 
         if ($this->form->model->draftIsEnabled() === true) {
-            $this->with('draft', [
-                'label' => $this->form->draftLabel(),
-                'link' => $this->form->draftRoute(),
-            ]);
+            $this->with('draft', Link::make(
+                $this->form->draftLabel(),
+                $this->form->draftRoute(),
+            ));
         }
 
         return $this;

@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Helpers;
 
 use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 // TODO Expand attributes, such as spellcheck, autocomplete, describedby, etc
 class Field
@@ -13,6 +14,8 @@ class Field
     public string $hint = '';
 
     public string $id;
+
+    public string $label;
 
     public string $max = '';
 
@@ -34,19 +37,30 @@ class Field
 
     // Setup
     /**
-     * @param string $name Should correspond to a Model attribute, unless configured otherwise on the Question
-     * @param string $label Should be phrased as a question, such as "What is your name?"
+     * @param string $name Should correspond to a Model attribute, unless configured otherwise on the Question, such as "name"
+     * @param string $question Should be phrased as a question, such as "What is your name?"
+     * @param ?string $label How the field should be shown when summarising, such as "Name"
      */
     final public function __construct(
         public string $name,
-        public string $label,
+        public string $question,
+        ?string $label = null,
     ) {
         $this->id = $name;
+
+        $this->label = $label !== null
+            ? $label
+            : Str::of($name)
+                ->replace(['_', '.', '-'], ' ')
+                ->ucfirst();
     }
 
-    public static function make(string $name, string $label): static
-    {
-        return new static($name, $label);
+    public static function make(
+        string $name,
+        string $question,
+        ?string $label = null,
+    ): static {
+        return new static($name, $question, $label);
     }
 
     // Setters
@@ -78,6 +92,12 @@ class Field
     public function setId(string $id): static
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function setLabel(string $label): static
+    {
+        $this->label = $label;
         return $this;
     }
 
@@ -141,20 +161,22 @@ class Field
     // Builders
     public static function checkboxes(
         string $name,
-        string $label,
+        string $question,
         array|Collection $options,
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setOptions($options)
             ->setType(InputType::Checkbox);
     }
 
     public static function file(
         string $name,
-        string $label,
+        string $question,
         string|array $accept = '*',
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setAccept($accept)
             ->setType(InputType::File);
     }
@@ -163,46 +185,50 @@ class Field
         string $name,
         ?string $value,
     ): static {
-        return static::make($name, '')
+        return static::make($name, '', '')
             ->setType(InputType::Hidden)
             ->setValue($value);
     }
 
     public static function input(
         string $name,
-        string $label,
+        string $question,
         InputType $type = InputType::Text,
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setType($type);
     }
 
     public static function password(
         string $name,
-        string $label,
+        string $question,
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setType(InputType::Password);
     }
 
     public static function radios(
         string $name,
-        string $label,
+        string $question,
         array|Collection $options,
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setOptions($options)
             ->setType(InputType::Radio);
     }
 
     public static function range(
         string $name,
-        string $label,
+        string $question,
         string|int|float $min = '',
         string|int|float $max = '',
         string|int|float $step = '',
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setMin($min)
             ->setMax($max)
             ->setStep($step)
@@ -211,19 +237,21 @@ class Field
 
     public static function select(
         string $name,
-        string $label,
+        string $question,
         array|Collection $options,
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setOptions($options)
             ->setType(InputType::Select);
     }
 
     public static function textarea(
         string $name,
-        string $label,
+        string $question,
+        ?string $label = null,
     ): static {
-        return static::make($name, $label)
+        return static::make($name, $question, $label)
             ->setType(InputType::TextArea);
     }
 }

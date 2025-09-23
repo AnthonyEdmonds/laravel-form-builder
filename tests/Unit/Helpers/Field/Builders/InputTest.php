@@ -16,8 +16,9 @@ class InputTest extends TestCase
 
         $this->field = Field::input(
             'my-name',
-            'My value',
+            'My question?',
             InputType::Date,
+            'My label',
         );
     }
 

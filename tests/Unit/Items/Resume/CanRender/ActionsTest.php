@@ -41,7 +41,7 @@ class ActionsTest extends TestCase
                     $this->form->start()->route(),
                 ),
                 'exit' => Link::make(
-                    $this->form->backLabel(),
+                    $this->form->exitLabel(),
                     $this->form->exitRoute(),
                 ),
             ],

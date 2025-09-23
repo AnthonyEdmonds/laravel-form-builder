@@ -37,7 +37,7 @@ class Resume extends Item implements ItemInterface, CanRender
 
     public function backLabel(): string
     {
-        return $this->form->backLabel();
+        return $this->form->exitLabel();
     }
 
     // CanRender
@@ -53,7 +53,7 @@ class Resume extends Item implements ItemInterface, CanRender
                 $this->form->start()->route(),
             ),
             'exit' => Link::make(
-                $this->form->backLabel(),
+                $this->form->exitLabel(),
                 $this->form->exitRoute(),
             ),
         ];

@@ -73,7 +73,7 @@ abstract class Form extends Item implements ItemInterface
 
     public function backLabel(): string
     {
-        return 'Exit form';
+        return '';
     }
 
     // Flags
@@ -181,6 +181,13 @@ abstract class Form extends Item implements ItemInterface
         return Redirect::to(
             $this->exitRoute(),
         );
+    }
+
+    public function exitLabel(): string
+    {
+        return $this->model->isDirty() === true
+            ? 'Exit without saving'
+            : 'Exit form';
     }
 
     public function exitRoute(): string

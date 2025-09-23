@@ -36,7 +36,7 @@ class GetAnswerTest extends TestCase
 
         $this->assertEquals(
             'Potato',
-            $this->question->getAnswer('name'),
+            $this->question->getRawAnswer('name'),
         );
     }
 }

@@ -28,7 +28,7 @@ class BackLabelTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            $this->form->backLabel(),
+            $this->form->exitLabel(),
             $this->confirmation->backLabel(),
         );
     }
