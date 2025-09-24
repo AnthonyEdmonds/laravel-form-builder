@@ -207,11 +207,16 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         }
 
         return [
-            'title' => $this->label(),
-            'list' => $answers,
             'actions' => [
-                $this->changeLabel() => $this->route(),
+                'change' => [
+                    'label' => $this->changeLabel(),
+                    'url' => $this->route(),
+                ],
             ],
+            'colour' => $this->statusColour()->value,
+            'list' => $answers,
+            'status' => $this->status()->value,
+            'title' => $this->label(),
         ];
     }
 

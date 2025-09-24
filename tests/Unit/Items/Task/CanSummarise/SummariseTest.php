@@ -35,15 +35,20 @@ class SummariseTest extends TestCase
     {
         $this->assertEquals(
             [
-                'title' => $this->task->label(),
+                'actions' => [
+                    'change' => [
+                        'label' => $this->task->changeLabel(),
+                        'url' => $this->task->route(),
+                    ],
+                ],
+                'colour' => $this->task->statusColour()->value,
                 'list' => array_merge(
                     $this->task->question('name-question')->summarise(),
                     $this->task->question('age-question')->summarise(),
                     $this->task->question('birthday-question')->summarise(),
                 ),
-                'actions' => [
-                    $this->task->changeLabel() => $this->task->route(),
-                ],
+                'status' => $this->task->status()->value,
+                'title' => $this->task->label(),
             ],
             $this->task->summarise(),
         );
