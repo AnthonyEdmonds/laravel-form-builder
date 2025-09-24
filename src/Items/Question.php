@@ -223,13 +223,18 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             $summary[$field->label] = [
                 'value' => $this->getFormattedAnswer($field->name),
                 'action' => [
-                    'label' => 'Change',
+                    'label' => $this->changeLabel(),
                     'url' => $this->route(),
                 ],
             ];
         }
 
         return $summary;
+    }
+
+    public function changeLabel(): string
+    {
+        return 'Change';
     }
 
     // CanFormat

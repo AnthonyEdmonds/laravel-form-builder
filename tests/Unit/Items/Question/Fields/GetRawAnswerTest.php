@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FormattedTest extends TestCase
+class GetRawAnswerTest extends TestCase
 {
     protected MyForm $form;
 
@@ -35,8 +35,8 @@ class FormattedTest extends TestCase
         $this->model->name = 'Potato';
 
         $this->assertEquals(
-            ['name' => 'Potato'],
-            $this->question->formatted(),
+            'Potato',
+            $this->question->getRawAnswer('name'),
         );
     }
 }

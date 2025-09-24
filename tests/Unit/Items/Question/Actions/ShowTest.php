@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Actions;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
@@ -45,23 +46,23 @@ class ShowTest extends TestCase
         $data = $this->view->getData();
 
         $this->assertEquals(
-            $this->question->formatFields(false),
+            $this->question->summarise(),
             $data['fields'],
         );
 
         $this->assertEquals(
-            [
-                'label' => $this->question->saveLabel(),
-                'link' => $this->question->saveRoute(),
-            ],
+            Link::make(
+                $this->question->saveLabel(),
+                $this->question->saveRoute(),
+            ),
             $data['save'],
         );
 
         $this->assertEquals(
-            [
-                'label' => $this->question->skipLabel(),
-                'link' => $this->question->skipRoute(),
-            ],
+            Link::make(
+                $this->question->skipLabel(),
+                $this->question->skipRoute(),
+            ),
             $data['skip'],
         );
     }

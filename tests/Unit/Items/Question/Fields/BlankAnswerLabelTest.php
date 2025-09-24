@@ -33,7 +33,7 @@ class BlankAnswerLabelTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            'Not given',
+            'Not provided',
             $this->question->blankAnswerLabel('name'),
         );
     }

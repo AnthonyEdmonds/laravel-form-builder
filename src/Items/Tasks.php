@@ -129,7 +129,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         $tasks = $this->tasks();
         foreach ($tasks as $taskClass) {
             $task = $this->makeItem($taskClass);
-            $summary = $task->summarise();
+            $summary[] = $task->summarise();
         }
 
         return $summary;

@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FormatFieldsTest extends TestCase
+class GetFormattedAnswerTest extends TestCase
 {
     protected MyForm $form;
 
@@ -30,21 +30,23 @@ class FormatFieldsTest extends TestCase
         $this->question = $this->task->question('name-question');
     }
 
-    public function testFormatsAnswer(): void
-    {
-        $this->assertEquals(
-            $this->question->blankAnswerLabel('name'),
-            $this->question->formatFields(true)[0]->value,
-        );
-    }
-
-    public function testRawAnswer(): void
+    public function testValueWhenAnswered(): void
     {
         $this->model->name = 'Potato';
 
         $this->assertEquals(
-            'Potato',
-            $this->question->formatFields(false)[0]->value,
+            $this->question->getRawAnswer('name'),
+            $this->question->getFormattedAnswer('name'),
+        );
+    }
+
+    public function testBlankWhenNot(): void
+    {
+        $this->model->name = null;
+
+        $this->assertEquals(
+            $this->question->blankAnswerLabel('name'),
+            $this->question->getFormattedAnswer('name'),
         );
     }
 }

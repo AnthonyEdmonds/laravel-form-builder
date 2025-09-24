@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Item;
 
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\MissingLabel;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\EmptyQuestion;
@@ -28,17 +29,6 @@ class LabelTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
-
-    }
-
-    public function testUsesFirstField(): void
-    {
-        $this->question = $this->task->question('name-question');
-
-        $this->assertEquals(
-            'What is their name?',
-            $this->question->label(),
-        );
     }
 
     public function testEmptyWhenNoFields(): void
@@ -47,6 +37,25 @@ class LabelTest extends TestCase
 
         $this->assertEquals(
             'Empty question',
+            $this->question->label(),
+        );
+    }
+
+    public function testThrowsWhenMultipleFields(): void
+    {
+        $this->expectException(MissingLabel::class);
+        $this->expectExceptionMessage('You must provide a label when a question has multiple fields');
+
+        $this->question = $this->task->question('birthday-question');
+        $this->question->label();
+    }
+
+    public function testUsesFirstField(): void
+    {
+        $this->question = $this->task->question('name-question');
+
+        $this->assertEquals(
+            'Name',
             $this->question->label(),
         );
     }

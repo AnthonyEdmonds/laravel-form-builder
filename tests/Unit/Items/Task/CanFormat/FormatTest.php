@@ -1,15 +1,16 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Container;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\CanFormat;
 
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FormatItemTest extends TestCase
+class FormatTest extends TestCase
 {
-    protected MyForm $form;
+    protected Form $form;
 
     protected MyModel $model;
 
@@ -18,6 +19,8 @@ class FormatItemTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->useDatabase();
 
         $this->model = new MyModel();
         $this->model->id = 1;
@@ -28,11 +31,16 @@ class FormatItemTest extends TestCase
 
     public function test(): void
     {
-        $question = $this->task->question('name-question');
-
         $this->assertEquals(
-            $question->format(),
-            $this->task->formatItem($question),
+            [
+                'colour' => $this->task->statusColour()->value,
+                'hint' => $this->task->description(),
+                'id' => $this->task->key,
+                'label' => $this->task->label(),
+                'status' => $this->task->status()->value,
+                'url' => $this->task->route(),
+            ],
+            $this->task->format(),
         );
     }
 }

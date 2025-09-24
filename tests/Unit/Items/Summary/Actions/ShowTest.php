@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Summary\Actions;
 
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Summary;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
@@ -46,18 +47,18 @@ class ShowTest extends TestCase
         );
 
         $this->assertEquals(
-            [
-                'label' => $this->form->submitLabel(),
-                'link' => $this->form->submitRoute(),
-            ],
+            Link::make(
+                $this->form->submitLabel(),
+                $this->form->submitRoute(),
+            ),
             $data['submit'],
         );
 
         $this->assertEquals(
-            [
-                'label' => $this->form->draftLabel(),
-                'link' => $this->form->draftRoute(),
-            ],
+            Link::make(
+                $this->form->draftLabel(),
+                $this->form->draftRoute(),
+            ),
             $data['draft'],
         );
     }

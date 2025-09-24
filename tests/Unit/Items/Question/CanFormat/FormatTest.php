@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Fields;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanFormat;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FormatAnswerTest extends TestCase
+class FormatTest extends TestCase
 {
     protected MyForm $form;
 
@@ -30,23 +30,11 @@ class FormatAnswerTest extends TestCase
         $this->question = $this->task->question('name-question');
     }
 
-    public function testValueWhenAnswered(): void
+    public function test(): void
     {
-        $this->model->name = 'Potato';
-
         $this->assertEquals(
-            $this->question->getRawAnswer('name'),
-            $this->question->getFormattedAnswer('name'),
-        );
-    }
-
-    public function testBlankWhenNot(): void
-    {
-        $this->model->name = null;
-
-        $this->assertEquals(
-            $this->question->blankAnswerLabel('name'),
-            $this->question->getFormattedAnswer('name'),
+            $this->question->summarise(),
+            $this->question->format(),
         );
     }
 }

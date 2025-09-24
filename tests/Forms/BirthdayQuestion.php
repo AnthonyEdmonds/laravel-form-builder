@@ -19,6 +19,7 @@ class BirthdayQuestion extends Question
         return [
             Field::input('birthday', 'When is their birthday?', InputType::Date)
                 ->setHint('Provide their date of birth'),
+            Field::input('other', 'Another field?'),
         ];
     }
 

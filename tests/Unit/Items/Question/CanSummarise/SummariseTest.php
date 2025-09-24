@@ -34,13 +34,13 @@ class SummariseTest extends TestCase
     {
         $this->assertEquals(
             [
-                'colour' => $this->question->statusColour(),
-                'fields' => [
-                    'What is their name?' => $this->question->blankAnswerLabel('name'),
+                'Name' => [
+                    'value' => $this->question->getFormattedAnswer('name'),
+                    'action' => [
+                        'label' => $this->question->changeLabel(),
+                        'url' => $this->question->route(),
+                    ],
                 ],
-                'label' => $this->question->label(),
-                'link' => $this->question->route(),
-                'status' => $this->question->status(),
             ],
             $this->question->summarise(),
         );
