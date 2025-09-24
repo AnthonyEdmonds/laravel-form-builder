@@ -3,11 +3,12 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Helpers;
 
 use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 // TODO Expand attributes, such as spellcheck, autocomplete, describedby, etc
-class Field
+class Field implements Arrayable
 {
     public string $accept = '*';
 
@@ -35,7 +36,7 @@ class Field
 
     public InputType $type = InputType::Text;
 
-    public int|string|float|array|null $value = null;
+    public mixed $value = null;
 
     // Setup
     /**
@@ -63,6 +64,29 @@ class Field
         ?string $label = null,
     ): static {
         return new static($name, $question, $label);
+    }
+
+    // Arrayable
+    public function toArray(): array
+    {
+        return [
+            'accept' => $this->accept,
+            'hint' => $this->hint,
+            'id' => $this->id,
+            'isTitle' => $this->isTitle,
+            'label' => $this->label,
+            'max' => $this->max,
+            'min' => $this->min,
+            'name' => $this->name,
+            'noOptionsMessage' => $this->noOptionsMessage,
+            'optional' => $this->optional,
+            'optionalLabel' => $this->optionalLabel,
+            'options' => $this->options,
+            'question' => $this->question,
+            'step' => $this->step,
+            'type' => $this->type->value,
+            'value' => $this->value,
+        ];
     }
 
     // Setters
@@ -154,7 +178,7 @@ class Field
         return $this;
     }
 
-    public function setValue(int|string|float|array|null $value): static
+    public function setValue(mixed $value): static
     {
         $this->value = $value;
         return $this;
