@@ -30,7 +30,7 @@ class TitleTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            'Do you want to resume your last session?',
+            'Would you like to resume your session?',
             $this->resume->title(),
         );
     }

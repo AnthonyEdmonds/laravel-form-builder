@@ -26,7 +26,23 @@ class NewTest extends TestCase
         $this->model->id = 1;
     }
 
-    public function testRedirectWhenStartEnabled(): void
+    public function testRedirectsWhenSessionExists(): void
+    {
+        $this->form = new MyForm($this->model);
+        SessionHelper::setFormSession($this->form->key, $this->model);
+        $this->redirect = Form::new($this->form->key);
+
+        $this->assertTrue(
+            SessionHelper::formHasSession($this->form->key),
+        );
+
+        $this->assertEquals(
+            $this->form->resume()->route(),
+            $this->redirect->getTargetUrl(),
+        );
+    }
+
+    public function testRedirectsWhenStartEnabled(): void
     {
         $this->form = new MyForm($this->model);
         $this->redirect = Form::new($this->form->key);
@@ -41,7 +57,7 @@ class NewTest extends TestCase
         );
     }
 
-    public function testRedirectWhenStartDisabled(): void
+    public function testRedirectsWhenStartDisabled(): void
     {
         $this->form = new NonStartForm($this->model);
         $this->redirect = Form::new($this->form->key);

@@ -74,7 +74,7 @@ class Resume extends Item implements ItemInterface, CanRender
 
     public function title(): string
     {
-        return 'Do you want to resume your last session?';
+        return 'Would you like to resume your session?';
     }
 
     // Actions

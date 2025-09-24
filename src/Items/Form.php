@@ -148,7 +148,6 @@ abstract class Form extends Item implements ItemInterface
     {
         /** @var class-string<Form> $formClass */
         $formClass = Form::classnameByKey($formKey);
-
         $modelHasSession = SessionHelper::modelHasSession($formKey, $modelKey) === true;
 
         $model = $modelHasSession === true
@@ -199,10 +198,14 @@ abstract class Form extends Item implements ItemInterface
     {
         /** @var class-string<Form> $formClass */
         $formClass = Form::classnameByKey($formKey);
-
         $model = ModelHelper::newModel($formClass);
-        SessionHelper::setFormSession($formKey, $model);
         $form = new $formClass($model);
+
+        if (SessionHelper::formHasSession($formKey) === true) {
+            return Redirect::to($form->resume()->route());
+        }
+
+        SessionHelper::setFormSession($formKey, $model);
 
         return Redirect::to(
             $form->startIsEnabled() === true
