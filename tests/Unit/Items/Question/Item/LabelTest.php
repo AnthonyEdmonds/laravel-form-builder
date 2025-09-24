@@ -55,7 +55,7 @@ class LabelTest extends TestCase
         $this->question = $this->task->question('name-question');
 
         $this->assertEquals(
-            'Name',
+            'What is their name?',
             $this->question->label(),
         );
     }
