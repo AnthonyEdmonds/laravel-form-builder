@@ -42,7 +42,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return match (true) {
             empty($fields) === true => 'Empty question',
             count($fields) > 1 => throw new MissingLabel('You must provide a label when a question has multiple fields'),
-            default => $fields[0]->label,
+            default => $fields[0]->question,
         };
     }
 
@@ -115,6 +115,11 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return $this->label();
     }
 
+    public function hideTitle(): bool
+    {
+        return count($this->fields()) === 1;
+    }
+
     // Fields
     /** @returns Field[] */
     abstract public function fields(): array;
@@ -182,6 +187,24 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return true;
     }
 
+    public function formatFields(): array
+    {
+        $fields = $this->fields();
+        $isTitle = count($fields) === 1;
+
+        foreach ($fields as $field) {
+            $field->setValue(
+                $this->getRawAnswer($field->name),
+            );
+
+            if ($isTitle === true) {
+                $field->title();
+            }
+        }
+
+        return $fields;
+    }
+
     // Validation
     /** @returns class-string<FormRequest> */
     abstract public function formRequest(): string;
@@ -247,7 +270,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     public function show(): View
     {
         $this
-            ->with('fields', $this->summarise())
+            ->with('fields', $this->formatFields())
+            ->with('hideTitle', $this->hideTitle())
             ->with('save', Link::make(
                 $this->saveLabel(),
                 $this->saveRoute(),

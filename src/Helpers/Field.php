@@ -15,6 +15,8 @@ class Field
 
     public string $id;
 
+    public bool $isTitle = false;
+
     public string $label;
 
     public string $max = '';
@@ -155,6 +157,12 @@ class Field
     public function setValue(int|string|float|array|null $value): static
     {
         $this->value = $value;
+        return $this;
+    }
+
+    public function title(): static
+    {
+        $this->isTitle = true;
         return $this;
     }
 

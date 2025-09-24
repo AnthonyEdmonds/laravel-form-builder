@@ -1,12 +1,14 @@
 <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
 
 <main>
-    <h1>{{ $title }}</h1>
+    @if($hideTitle === false)
+        <h1>{{ $title }}</h1>
 
-    <x-form-builder::description :description="$description" />
+        <x-form-builder::description :description="$description" />
+    @endif
 
     <form
-        action="{{ $save['link'] }}"
+        action="{{ $save->link }}"
         enctype="multipart/form-data"
         method="POST"
     >
@@ -19,9 +21,9 @@
             <p>No fields have been added to this question.</p>
         @endforelse
 
-        <button>{{ $save['label'] }}</button>
+        <button>{{ $save->label }}</button>
         @isset($skip)
-            <button formaction="{{ $skip['link'] }}">{{ $skip['label'] }}</button>
+            <button formaction="{{ $skip->link }}">{{ $skip->label }}</button>
         @endisset
     </form>
 

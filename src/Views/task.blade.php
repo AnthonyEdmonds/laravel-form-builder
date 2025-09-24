@@ -6,13 +6,12 @@
     <x-form-builder::description :description="$description" />
 
     <ul>
-        @forelse($questions as $question)
-            @foreach($question['fields'] as $field)
-                <li>
-                    <a href="{{ $question['link'] }}">{{ $field->label }}</a>
-                    <span>{{ $field->value }}</span>
-                </li>
-            @endforeach
+        @forelse($questions as $label => $details)
+            <li>
+                <b>{{ $label }}:</b>
+                <span>{{ $details['value'] }}</span>
+                <a href="{{ $details['action']['url'] }}">{{ $details['action']['label'] }}</a>
+            </li>
         @empty
             <li>No questions have been added to this task.</li>
         @endforelse

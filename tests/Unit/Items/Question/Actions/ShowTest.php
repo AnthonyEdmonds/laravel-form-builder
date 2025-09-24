@@ -46,8 +46,12 @@ class ShowTest extends TestCase
         $data = $this->view->getData();
 
         $this->assertEquals(
-            $this->question->summarise(),
+            $this->question->formatFields(),
             $data['fields'],
+        );
+
+        $this->assertTrue(
+            $data['hideTitle'],
         );
 
         $this->assertEquals(

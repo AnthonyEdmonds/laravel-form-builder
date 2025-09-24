@@ -5,12 +5,20 @@
 @use(AnthonyEdmonds\LaravelFormBuilder\Enums\InputType)
 
 <div>
+    @if($field->isTitle === true)
+        <h1>
+    @endif
+
     <label for="{{ $field->id }}">
-        {{ $field->label }}
+        {{ $field->question }}
         @if($field->optional === true)
             <span>{{ $field->optionalLabel }}</span>
         @endif
     </label>
+
+    @if($field->isTitle === true)
+        </h1>
+    @endif
 
     @empty($field->hint)
     @else

@@ -48,7 +48,7 @@ class ShowTest extends TestCase
 
         $this->assertEquals(
             $data['questions'],
-            $this->task->formatItems(),
+            $this->task->summarise()['list'],
         );
 
         $this->assertEquals(

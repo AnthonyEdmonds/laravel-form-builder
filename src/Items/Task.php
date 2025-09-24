@@ -200,7 +200,10 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         $questions = $this->questions();
         foreach ($questions as $questionClass) {
             $question = $this->makeItem($questionClass);
-            $answers[] = $question->summarise();
+            $answers = array_merge(
+                $answers,
+                $question->summarise(),
+            );
         }
 
         return [
@@ -235,7 +238,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     {
         return $this
             ->with('colour', $this->statusColour())
-            ->with('questions', $this->formatItems())
+            ->with('questions', $this->summarise()['list'])
             ->with('status', $this->status());
     }
 }
