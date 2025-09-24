@@ -37,6 +37,10 @@ class ActionsTest extends TestCase
                     $this->form->model->viewLabel(),
                     $this->form->model->viewRoute(),
                 ),
+                'restart' => Link::make(
+                    $this->form->resume()->restartLabel(),
+                    $this->form->newRoute(),
+                ),
                 'exit' => Link::make(
                     $this->form->exitLabel(),
                     $this->form->exitRoute(),

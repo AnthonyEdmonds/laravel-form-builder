@@ -48,6 +48,10 @@ class Confirmation extends Item implements ItemInterface, CanRender
                 $this->form->model->viewLabel(),
                 $this->form->model->viewRoute(),
             ),
+            'restart' => Link::make(
+                $this->form->resume()->restartLabel(),
+                $this->form->newRoute(),
+            ),
             'exit' => Link::make(
                 $this->form->exitLabel(),
                 $this->form->exitRoute(),
@@ -79,6 +83,6 @@ class Confirmation extends Item implements ItemInterface, CanRender
     // Actions
     public function show(): View
     {
-        return $this;
+        return $this->with('model', $this->form->model);
     }
 }

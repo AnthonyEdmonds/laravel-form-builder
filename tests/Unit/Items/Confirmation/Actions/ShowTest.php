@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
+use Illuminate\Contracts\View\View;
 
 class ShowTest extends TestCase
 {
@@ -15,6 +16,8 @@ class ShowTest extends TestCase
     protected Form $form;
 
     protected MyModel $model;
+
+    protected View $view;
 
     protected function setUp(): void
     {
@@ -26,13 +29,20 @@ class ShowTest extends TestCase
         $this->form = new MyForm($this->model);
 
         $this->confirmation = new Confirmation($this->form);
+        $this->view = $this->confirmation->show();
     }
 
     public function test(): void
     {
         $this->assertInstanceOf(
             Confirmation::class,
-            $this->confirmation->show(),
+            $this->view,
+        );
+
+        $data = $this->view->getData();
+
+        $this->assertTrue(
+            $this->model->is($data['model']),
         );
     }
 }
