@@ -57,7 +57,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function backLabel(): string
     {
-        return 'Back';
+        return 'Previous question';
     }
 
     // UsesStates
@@ -243,7 +243,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
         $fields = $this->fields();
         foreach ($fields as $field) {
-            $summary[$field->label] = [
+            $summary[$field->displayName] = [
                 'value' => $this->getFormattedAnswer($field->name),
                 'action' => [
                     'label' => $this->changeLabel(),

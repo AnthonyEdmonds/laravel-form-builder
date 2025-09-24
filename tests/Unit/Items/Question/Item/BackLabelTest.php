@@ -33,7 +33,7 @@ class BackLabelTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            'Back',
+            'Previous question',
             $this->question->backLabel(),
         );
     }

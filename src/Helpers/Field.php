@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
+// TODO Label must be question, label must be... display name?
 // TODO Expand attributes, such as spellcheck, autocomplete, describedby, etc
 class Field implements Arrayable
 {
@@ -18,7 +19,7 @@ class Field implements Arrayable
 
     public bool $isTitle = false;
 
-    public string $label;
+    public string $displayName;
 
     public string $max = '';
 
@@ -41,18 +42,18 @@ class Field implements Arrayable
     // Setup
     /**
      * @param string $name Should correspond to a Model attribute, unless configured otherwise on the Question, such as "name"
-     * @param string $question Should be phrased as a question, such as "What is your name?"
-     * @param ?string $label How the field should be shown when summarising, such as "Name"
+     * @param string $label Should be phrased as a question, such as "What is your name?"
+     * @param ?string $displayName How the field should be shown when summarising, such as "Name"
      */
     final public function __construct(
         public string $name,
-        public string $question,
-        ?string $label = null,
+        public string $label,
+        ?string $displayName = null,
     ) {
         $this->id = $name;
 
-        $this->label = $label !== null
-            ? $label
+        $this->displayName = $displayName !== null
+            ? $displayName
             : Str::of($name)
                 ->replace(['_', '.', '-'], ' ')
                 ->ucfirst();
@@ -60,10 +61,10 @@ class Field implements Arrayable
 
     public static function make(
         string $name,
-        string $question,
-        ?string $label = null,
+        string $label,
+        ?string $displayName = null,
     ): static {
-        return new static($name, $question, $label);
+        return new static($name, $label, $displayName);
     }
 
     // Arrayable
@@ -74,6 +75,7 @@ class Field implements Arrayable
             'hint' => $this->hint,
             'id' => $this->id,
             'isTitle' => $this->isTitle,
+            'displayName' => $this->displayName,
             'label' => $this->label,
             'max' => $this->max,
             'min' => $this->min,
@@ -82,7 +84,6 @@ class Field implements Arrayable
             'optional' => $this->optional,
             'optionalLabel' => $this->optionalLabel,
             'options' => $this->options,
-            'question' => $this->question,
             'step' => $this->step,
             'type' => $this->type->value,
             'value' => $this->value,
@@ -106,6 +107,12 @@ class Field implements Arrayable
             ? implode(',', $accept)
             : $accept;
 
+        return $this;
+    }
+
+    public function setDisplayName(string $displayName): static
+    {
+        $this->displayName = $displayName;
         return $this;
     }
 
@@ -193,22 +200,22 @@ class Field implements Arrayable
     // Builders
     public static function checkboxes(
         string $name,
-        string $question,
+        string $label,
         array|Collection $options,
-        ?string $label = null,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setOptions($options)
             ->setType(InputType::Checkbox);
     }
 
     public static function file(
         string $name,
-        string $question,
+        string $label,
         string|array $accept = '*',
-        ?string $label = null,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setAccept($accept)
             ->setType(InputType::File);
     }
@@ -224,43 +231,43 @@ class Field implements Arrayable
 
     public static function input(
         string $name,
-        string $question,
+        string $label,
         InputType $type = InputType::Text,
-        ?string $label = null,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setType($type);
     }
 
     public static function password(
         string $name,
-        string $question,
-        ?string $label = null,
+        string $label,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setType(InputType::Password);
     }
 
     public static function radios(
         string $name,
-        string $question,
+        string $label,
         array|Collection $options,
-        ?string $label = null,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setOptions($options)
             ->setType(InputType::Radio);
     }
 
     public static function range(
         string $name,
-        string $question,
+        string $label,
         string|int|float $min = '',
         string|int|float $max = '',
         string|int|float $step = '',
-        ?string $label = null,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setMin($min)
             ->setMax($max)
             ->setStep($step)
@@ -269,21 +276,21 @@ class Field implements Arrayable
 
     public static function select(
         string $name,
-        string $question,
+        string $label,
         array|Collection $options,
-        ?string $label = null,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setOptions($options)
             ->setType(InputType::Select);
     }
 
     public static function textarea(
         string $name,
-        string $question,
-        ?string $label = null,
+        string $label,
+        ?string $displayName = null,
     ): static {
-        return static::make($name, $question, $label)
+        return static::make($name, $label, $displayName)
             ->setType(InputType::TextArea);
     }
 }

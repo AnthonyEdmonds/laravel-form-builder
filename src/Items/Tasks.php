@@ -42,7 +42,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
 
     public function backLabel(): string
     {
-        return 'Back to tasks';
+        return 'Back to task list';
     }
 
     // Container

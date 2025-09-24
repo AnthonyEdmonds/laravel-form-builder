@@ -20,7 +20,7 @@ class ConstructTest extends TestCase
 
         $this->assertEquals(
             'My label',
-            $this->field->label,
+            $this->field->displayName,
         );
     }
 
@@ -30,7 +30,7 @@ class ConstructTest extends TestCase
 
         $this->assertEquals(
             'My name',
-            $this->field->label,
+            $this->field->displayName,
         );
     }
 }

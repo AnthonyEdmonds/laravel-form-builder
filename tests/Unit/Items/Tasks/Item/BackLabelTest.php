@@ -32,7 +32,7 @@ class BackLabelTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            'Back to tasks',
+            'Back to task list',
             $this->tasks->backLabel(),
         );
     }

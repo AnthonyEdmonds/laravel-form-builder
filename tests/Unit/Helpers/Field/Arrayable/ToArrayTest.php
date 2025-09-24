@@ -29,6 +29,7 @@ class ToArrayTest extends TestCase
         $this->assertEquals(
             [
                 'accept' => $this->field->accept,
+                'displayName' => $this->field->displayName,
                 'hint' => $this->field->hint,
                 'id' => $this->field->id,
                 'isTitle' => $this->field->isTitle,
@@ -40,7 +41,6 @@ class ToArrayTest extends TestCase
                 'optional' => $this->field->optional,
                 'optionalLabel' => $this->field->optionalLabel,
                 'options' => $this->field->options,
-                'question' => $this->field->question,
                 'step' => $this->field->step,
                 'type' => $this->field->type->value,
                 'value' => $this->field->value,
