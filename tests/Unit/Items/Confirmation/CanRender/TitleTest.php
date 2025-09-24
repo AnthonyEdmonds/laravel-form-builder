@@ -31,7 +31,7 @@ class TitleTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            'My Model #1 has been submitted',
+            'My Model submitted',
             $this->confirmation->title(),
         );
     }

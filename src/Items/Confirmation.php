@@ -75,9 +75,8 @@ class Confirmation extends Item implements ItemInterface, CanRender
     public function title(): string
     {
         $class = $this->form->model->modelName();
-        $key = $this->form->model->getKey();
 
-        return "$class #$key has been submitted";
+        return "$class submitted";
     }
 
     // Actions
