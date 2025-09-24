@@ -49,8 +49,8 @@ class Start extends Item implements ItemInterface, CanRender
     {
         return [
             'start' => Link::make(
-                $this->startLabel(),
-                $this->form->tasks()->route(),
+                $this->freshLabel(),
+                $this->freshRoute(),
             ),
             'exit' => Link::make(
                 $this->form->exitLabel(),
@@ -92,13 +92,18 @@ class Start extends Item implements ItemInterface, CanRender
         );
     }
 
+    public function freshLabel(): string
+    {
+        return 'Start now';
+    }
+
+    public function freshRoute(): string
+    {
+        return route('forms.start.fresh', $this->form->key);
+    }
+
     public function show(): View
     {
         return $this;
-    }
-
-    public function startLabel(): string
-    {
-        return 'Start now';
     }
 }
