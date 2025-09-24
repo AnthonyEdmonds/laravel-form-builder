@@ -34,7 +34,7 @@ class ActionsTest extends TestCase
             [
                 'start' => Link::make(
                     $this->start->freshLabel(),
-                    $this->form->tasks()->route(),
+                    $this->start->freshRoute(),
                 ),
                 'exit' => Link::make(
                     $this->form->exitLabel(),
