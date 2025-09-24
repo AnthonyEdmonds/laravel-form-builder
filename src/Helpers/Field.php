@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-// TODO Label must be question, label must be... display name?
 // TODO Expand attributes, such as spellcheck, autocomplete, describedby, etc
 class Field implements Arrayable
 {

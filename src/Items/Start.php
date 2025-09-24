@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\ModelHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
@@ -81,7 +82,10 @@ class Start extends Item implements ItemInterface, CanRender
     // Actions
     public function fresh(): RedirectResponse
     {
-        SessionHelper::setFormSession($this->form->key, $this->form->model);
+        SessionHelper::setFormSession(
+            $this->form->key,
+            ModelHelper::newModel($this->form::class),
+        );
 
         return Redirect::to(
             $this->form->tasks()->route(),

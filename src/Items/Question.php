@@ -137,7 +137,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function getRawAnswer(string $fieldName): mixed
     {
-        return $this->form->model->$fieldName; // TODO Handle array
+        return $this->form->model->$fieldName;
     }
 
     public function hasAnswer(string $fieldName): bool
