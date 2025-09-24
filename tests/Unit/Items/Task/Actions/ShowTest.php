@@ -43,7 +43,7 @@ class ShowTest extends TestCase
 
         $this->assertEquals(
             $data['colour'],
-            $this->task->statusColour(),
+            $this->task->statusColour()->value,
         );
 
         $this->assertEquals(
@@ -53,7 +53,7 @@ class ShowTest extends TestCase
 
         $this->assertEquals(
             $data['status'],
-            $this->task->status(),
+            $this->task->status()->value,
         );
     }
 }
