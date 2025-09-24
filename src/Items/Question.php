@@ -42,7 +42,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return match (true) {
             empty($fields) === true => 'Empty question',
             count($fields) > 1 => throw new MissingLabel('You must provide a label when a question has multiple fields'),
-            default => $fields[0]->question,
+            default => $fields[0]->label,
         };
     }
 
