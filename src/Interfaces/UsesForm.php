@@ -20,6 +20,8 @@ interface UsesForm
 
     public function viewRoute(): string;
 
+    public function viewLabel(): string;
+
     public function modelName(): string;
 
     // Instantiation

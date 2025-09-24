@@ -21,6 +21,11 @@ trait HasForm
     // Form
     abstract public function viewRoute(): string;
 
+    public function viewLabel(): string
+    {
+        return 'View ' . $this->modelName();
+    }
+
     /** @return class-string<Form> */
     public static function formClass(): string
     {

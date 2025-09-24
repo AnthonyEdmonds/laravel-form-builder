@@ -34,7 +34,7 @@ class ActionsTest extends TestCase
         $this->assertEquals(
             [
                 'view' => Link::make(
-                    $this->confirmation->viewLabel(),
+                    $this->form->model->viewLabel(),
                     $this->form->model->viewRoute(),
                 ),
                 'exit' => Link::make(
