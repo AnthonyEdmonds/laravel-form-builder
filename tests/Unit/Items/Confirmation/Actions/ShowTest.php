@@ -42,6 +42,10 @@ class ShowTest extends TestCase
         $data = $this->view->getData();
 
         $this->assertTrue(
+            $data['hideTitle'],
+        );
+
+        $this->assertTrue(
             $this->model->is($data['model']),
         );
     }
