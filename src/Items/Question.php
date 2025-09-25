@@ -244,11 +244,15 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
         foreach ($fields as $field) {
             $summary[$field->displayName] = [
-                'value' => $this->getFormattedAnswer($field->name),
-                'action' => [
-                    'label' => $this->changeLabel(),
-                    'url' => $this->route(),
+                'actions' => [
+                    'change' => [
+                        'label' => $this->changeLabel(),
+                        'url' => $this->route(),
+                    ],
                 ],
+                'colour' => $this->statusColour()->value,
+                'status' => $this->status()->value,
+                'value' => $this->getFormattedAnswer($field->name),
             ];
         }
 

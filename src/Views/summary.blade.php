@@ -16,7 +16,7 @@
                 <li>
                     <b>{{ $label }}</b>
                     {{ $details['value'] }}
-                    <a href="{{ $details['action']['url'] }}">{{ $details['action']['label'] }}</a>
+                    <a href="{{ $details['action']['change']['url'] }}">{{ $details['action']['change']['label'] }}</a>
                 </li>
             @empty
                 <li>No questions have been added to this task.</li>

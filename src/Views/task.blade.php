@@ -10,7 +10,7 @@
             <li>
                 <b>{{ $label }}:</b>
                 <span>{{ $details['value'] }}</span>
-                <a href="{{ $details['action']['url'] }}">{{ $details['action']['label'] }}</a>
+                <a href="{{ $details['actions']['change']['url'] }}">{{ $details['action']['change']['label'] }}</a>
             </li>
         @empty
             <li>No questions have been added to this task.</li>
