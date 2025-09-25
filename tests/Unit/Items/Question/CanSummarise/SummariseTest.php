@@ -38,7 +38,7 @@ class SummariseTest extends TestCase
                     'actions' => [
                         'change' => [
                             'label' => $this->question->changeLabel(),
-                            'url' => $this->question->route(),
+                            'url' => $this->question->route() . '?return=summary',
                         ],
                     ],
                     'colour' => $this->question->statusColour()->value,

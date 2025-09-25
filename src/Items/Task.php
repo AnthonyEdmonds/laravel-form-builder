@@ -214,6 +214,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
                 ],
             ],
             'colour' => $this->statusColour()->value,
+            'id' => $this->key,
             'list' => $answers,
             'status' => $this->status()->value,
             'title' => $this->label(),

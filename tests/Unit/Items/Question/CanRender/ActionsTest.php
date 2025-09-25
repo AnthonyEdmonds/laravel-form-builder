@@ -51,4 +51,17 @@ class ActionsTest extends TestCase
             $this->question->actions(),
         );
     }
+
+    public function testWhenReturnToSummary(): void
+    {
+        $this->question->returnToSummary = true;
+
+        $this->assertEquals(
+            Link::make(
+                $this->question->backLabel(),
+                $this->form->summary()->route() . "#{$this->task->key}",
+            ),
+            $this->question->actions()['back'],
+        );
+    }
 }

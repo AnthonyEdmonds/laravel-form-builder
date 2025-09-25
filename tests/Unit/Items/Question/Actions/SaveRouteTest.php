@@ -41,4 +41,18 @@ class SaveRouteTest extends TestCase
             $this->question->saveRoute(),
         );
     }
+
+    public function testReturnToSummary(): void
+    {
+        $this->question->returnToSummary = true;
+
+        $this->assertEquals(
+            route('forms.task.questions.save', [
+                $this->form->key,
+                $this->task->key,
+                $this->question->key,
+            ]) . '?return=summary',
+            $this->question->saveRoute(),
+        );
+    }
 }

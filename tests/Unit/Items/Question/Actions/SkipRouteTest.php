@@ -41,4 +41,18 @@ class SkipRouteTest extends TestCase
             $this->question->skipRoute(),
         );
     }
+
+    public function testReturnToSummary(): void
+    {
+        $this->question->returnToSummary = true;
+
+        $this->assertEquals(
+            route('forms.task.questions.skip', [
+                $this->form->key,
+                $this->task->key,
+                $this->question->key,
+            ]) . '?return=summary',
+            $this->question->skipRoute(),
+        );
+    }
 }

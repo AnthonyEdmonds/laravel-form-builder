@@ -8,7 +8,6 @@ use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
-// TODO Handle flow between summary to task and back
 class Summary extends Item implements ItemInterface, CanRender
 {
     use Renderable;

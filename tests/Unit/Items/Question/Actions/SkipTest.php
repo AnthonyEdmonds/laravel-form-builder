@@ -54,6 +54,18 @@ class SkipTest extends TestCase
         );
     }
 
+    public function testRedirectsToSummary(): void
+    {
+        $this->question = $this->task->question('name-question');
+        $this->question->returnToSummary = true;
+        $this->redirect = $this->question->skip($this->formRequest);
+
+        $this->assertEquals(
+            $this->form->summary()->route() . "#{$this->task->key}",
+            $this->redirect->getTargetUrl(),
+        );
+    }
+
     public function testThrowsWhenNotAllowed(): void
     {
         $this->expectException(SkipNotAllowed::class);

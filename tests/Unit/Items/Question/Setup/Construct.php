@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Item;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Setup;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class BackLabelTest extends TestCase
+class Construct extends TestCase
 {
     protected MyForm $form;
 
@@ -27,24 +27,22 @@ class BackLabelTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
+
+    }
+
+    public function testReturnTrueWhenSummary(): void
+    {
+        request()->query->set('return', 'summary');
+
         $this->question = $this->task->question('name-question');
+
+        $this->assertTrue($this->question->returnToSummary);
     }
 
-    public function testWhenCheckAnswers(): void
+    public function testReturnFalseWhenNot(): void
     {
-        $this->question->returnToSummary = true;
+        $this->question = $this->task->question('name-question');
 
-        $this->assertEquals(
-            'Back to check answers',
-            $this->question->backLabel(),
-        );
-    }
-
-    public function testPrevious(): void
-    {
-        $this->assertEquals(
-            'Previous question',
-            $this->question->backLabel(),
-        );
+        $this->assertFalse($this->question->returnToSummary);
     }
 }

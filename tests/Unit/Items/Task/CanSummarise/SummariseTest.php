@@ -42,6 +42,7 @@ class SummariseTest extends TestCase
                     ],
                 ],
                 'colour' => $this->task->statusColour()->value,
+                'id' => $this->task->key,
                 'list' => array_merge(
                     $this->task->question('name-question')->summarise(),
                     $this->task->question('age-question')->summarise(),

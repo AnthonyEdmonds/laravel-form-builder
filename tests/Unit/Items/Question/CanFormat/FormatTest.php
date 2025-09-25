@@ -33,7 +33,19 @@ class FormatTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            $this->question->summarise(),
+            [
+                'Name' => [
+                    'actions' => [
+                        'change' => [
+                            'label' => $this->question->changeLabel(),
+                            'url' => $this->question->route(),
+                        ],
+                    ],
+                    'colour' => $this->question->statusColour()->value,
+                    'status' => $this->question->status()->value,
+                    'value' => $this->question->getFormattedAnswer('name'),
+                ],
+            ],
             $this->question->format(),
         );
     }

@@ -53,6 +53,18 @@ class SaveTest extends TestCase
         );
     }
 
+    public function testRedirectsToSummary(): void
+    {
+        $this->question = $this->task->question('name-question');
+        $this->question->returnToSummary = true;
+        $this->redirect = $this->question->save($this->formRequest);
+
+        $this->assertEquals(
+            $this->form->summary()->route() . "#{$this->task->key}",
+            $this->redirect->getTargetUrl(),
+        );
+    }
+
     public function testRedirectsToLoop(): void
     {
         $this->question = $this->task->question('birthday-question');

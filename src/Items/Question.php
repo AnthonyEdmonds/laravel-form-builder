@@ -26,12 +26,18 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     use HasStates;
     use Renderable;
 
+    public bool $returnToSummary = false;
+
     // Setup
     final public function __construct(
         public Form $form,
         public Task $task,
     ) {
         parent::__construct();
+
+        if (request()->query('return') === 'summary') {
+            $this->returnToSummary = true;
+        }
     }
 
     // Item
@@ -48,16 +54,24 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function route(): string
     {
-        return route('forms.task.questions.show', [
+        $route = route('forms.task.questions.show', [
             $this->form->key,
             $this->task->key,
             $this->key,
         ]);
+
+        if ($this->returnToSummary === true) {
+            $route .= '?return=summary';
+        }
+
+        return $route;
     }
 
     public function backLabel(): string
     {
-        return 'Previous question';
+        return $this->returnToSummary === true
+            ? 'Back to check answers'
+            : 'Previous question';
     }
 
     // UsesStates
@@ -82,7 +96,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return [
             'back' => Link::make(
                 $this->backLabel(),
-                $this->task->previousItem($this->key)->getTargetUrl(),
+                $this->returnToSummary === true
+                    ? $this->form->summary()->route() . "#{$this->task->key}"
+                    : $this->task->previousItem($this->key)->getTargetUrl(),
             ),
             'task' => Link::make(
                 $this->task->backLabel(),
@@ -239,15 +255,30 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     // CanSummarise
     public function summarise(): array
     {
+        return $this->makeSummaryItems(true);
+    }
+
+    public function changeLabel(): string
+    {
+        return 'Change';
+    }
+
+    protected function makeSummaryItems(bool $backToSummary): array
+    {
         $summary = [];
 
         $fields = $this->fields();
         foreach ($fields as $field) {
+            $route = $this->route();
+            if ($backToSummary === true) {
+                $route .= '?return=summary';
+            }
+
             $summary[$field->displayName] = [
                 'actions' => [
                     'change' => [
                         'label' => $this->changeLabel(),
-                        'url' => $this->route(),
+                        'url' => $route,
                     ],
                 ],
                 'colour' => $this->statusColour()->value,
@@ -259,15 +290,10 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return $summary;
     }
 
-    public function changeLabel(): string
-    {
-        return 'Change';
-    }
-
     // CanFormat
     public function format(): array
     {
-        return $this->summarise();
+        return $this->makeSummaryItems(false);
     }
 
     // Actions
@@ -306,7 +332,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             );
         }
 
-        return $this->task->nextItem($this->key);
+        return $this->returnToSummary === true
+            ? Redirect::to($this->form->summary()->route() . "#{$this->task->key}")
+            : $this->task->nextItem($this->key);
     }
 
     public function applySave(FormRequest $formRequest): void
@@ -336,11 +364,17 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function saveRoute(): string
     {
-        return route('forms.task.questions.save', [
+        $route = route('forms.task.questions.save', [
             $this->form->key,
             $this->task->key,
             $this->key,
         ]);
+
+        if ($this->returnToSummary === true) {
+            $route .= '?return=summary';
+        }
+
+        return $route;
     }
 
     public function skip(FormRequest $formRequest): RedirectResponse
@@ -352,7 +386,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $this->applySkip($formRequest);
         Session::put($this->form->key, $this->form->model);
 
-        return $this->task->nextItem($this->key);
+        return $this->returnToSummary === true
+            ? Redirect::to($this->form->summary()->route() . "#{$this->task->key}")
+            : $this->task->nextItem($this->key);
     }
 
     public function applySkip(FormRequest $formRequest): void
@@ -372,10 +408,16 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function skipRoute(): string
     {
-        return route('forms.task.questions.skip', [
+        $route = route('forms.task.questions.skip', [
             $this->form->key,
             $this->task->key,
             $this->key,
         ]);
+
+        if ($this->returnToSummary === true) {
+            $route .= '?return=summary';
+        }
+
+        return $route;
     }
 }
