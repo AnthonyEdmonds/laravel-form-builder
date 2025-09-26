@@ -27,7 +27,6 @@ class ConstructTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
-
     }
 
     public function testReturnTrueWhenSummary(): void
