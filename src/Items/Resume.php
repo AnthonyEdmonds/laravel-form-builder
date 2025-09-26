@@ -50,7 +50,7 @@ class Resume extends Item implements ItemInterface, CanRender
             ),
             'restart' => Link::make(
                 $this->restartLabel(),
-                $this->form->start()->route(),
+                $this->form->start()->route(), // TODO Avoid start page on edit
             ),
             'exit' => Link::make(
                 $this->form->exitLabel(),

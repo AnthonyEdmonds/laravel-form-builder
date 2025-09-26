@@ -275,12 +275,13 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             }
 
             $summary[$field->displayName] = [
-                'colour' => $this->statusColour()->value,
-                'status' => $this->status()->value,
+                'label' => $field->displayName,
                 'value' => $this->getFormattedAnswer($field->name),
             ];
 
             if ($hasActions === true) {
+                $summary[$field->displayName]['colour'] = $this->statusColour()->value;
+                $summary[$field->displayName]['status'] = $this->status()->value;
                 $summary[$field->displayName]['actions'] = [
                     'change' => [
                         'label' => $this->changeLabel(),

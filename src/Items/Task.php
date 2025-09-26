@@ -207,14 +207,14 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         }
 
         $summary = [
-            'colour' => $this->statusColour()->value,
             'id' => $this->key,
             'list' => $answers,
-            'status' => $this->status()->value,
             'title' => $this->label(),
         ];
 
         if ($hasActions === true) {
+            $summary['colour'] = $this->statusColour()->value;
+            $summary['status'] = $this->status()->value;
             $summary['actions'] = [
                 'change' => [
                     'label' => $this->changeLabel(),
