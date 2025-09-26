@@ -38,7 +38,7 @@ class ActionsTest extends TestCase
                 ),
                 'restart' => Link::make(
                     $this->resume->restartLabel(),
-                    $this->form->start()->route(),
+                    $this->resume->restartRoute(),
                 ),
                 'exit' => Link::make(
                     $this->form->exitLabel(),
