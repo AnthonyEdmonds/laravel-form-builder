@@ -7,10 +7,13 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-// TODO Expand attributes, such as spellcheck, autocomplete, describedby, etc
 class Field implements Arrayable
 {
     public string $accept = '*';
+
+    public string $autocomplete = 'on';
+
+    public ?int $count = null;
 
     public string $hint = '';
 
@@ -19,6 +22,10 @@ class Field implements Arrayable
     public bool $isTitle = false;
 
     public string $displayName;
+
+    public bool $isInline = false;
+
+    public string $inputmode = 'text';
 
     public string $max = '';
 
@@ -32,11 +39,27 @@ class Field implements Arrayable
 
     public array $options = [];
 
+    public ?string $placeholder = null;
+
+    public ?string $prefix = null;
+
+    public int $rows = 5;
+
+    public bool $spellcheck = false;
+
     public string $step = '';
+
+    public ?string $suffix = null;
+
+    public ?int $threshold = null;
 
     public InputType $type = InputType::Text;
 
     public mixed $value = null;
+
+    public ?int $width = null;
+
+    public ?int $words = null;
 
     // Setup
     /**
@@ -71,10 +94,14 @@ class Field implements Arrayable
     {
         return [
             'accept' => $this->accept,
+            'autocomplete' => $this->autocomplete,
+            'count' => $this->count,
+            'displayName' => $this->displayName,
             'hint' => $this->hint,
             'id' => $this->id,
+            'inputmode' => $this->inputmode,
+            'isInline' => $this->isInline,
             'isTitle' => $this->isTitle,
-            'displayName' => $this->displayName,
             'label' => $this->label,
             'max' => $this->max,
             'min' => $this->min,
@@ -83,9 +110,17 @@ class Field implements Arrayable
             'optional' => $this->optional,
             'optionalLabel' => $this->optionalLabel,
             'options' => $this->options,
+            'placeholder' => $this->placeholder,
+            'prefix' => $this->prefix,
+            'rows' => $this->rows,
+            'spellcheck' => $this->spellcheck,
             'step' => $this->step,
+            'suffix' => $this->suffix,
+            'threshold' => $this->threshold,
             'type' => $this->type->value,
             'value' => $this->value,
+            'width' => $this->width,
+            'words' => $this->words,
         ];
     }
 
@@ -109,6 +144,18 @@ class Field implements Arrayable
         return $this;
     }
 
+    public function setAutocomplete(string $autocomplete): static
+    {
+        $this->autocomplete = $autocomplete;
+        return $this;
+    }
+
+    public function setCount(int $count): static
+    {
+        $this->count = $count;
+        return $this;
+    }
+
     public function setDisplayName(string $displayName): static
     {
         $this->displayName = $displayName;
@@ -124,6 +171,18 @@ class Field implements Arrayable
     public function setId(string $id): static
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function setInputmode(string $mode): static
+    {
+        $this->inputmode = $mode;
+        return $this;
+    }
+
+    public function setIsInline(bool $inline): static
+    {
+        $this->isInline = $inline;
         return $this;
     }
 
@@ -172,9 +231,45 @@ class Field implements Arrayable
         return $this;
     }
 
+    public function setPlaceholder(string $placeholder): static
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
+    public function setPrefix(string $prefix): static
+    {
+        $this->prefix = $prefix;
+        return $this;
+    }
+
+    public function setRows(int $rows): static
+    {
+        $this->rows = $rows;
+        return $this;
+    }
+
+    public function setSpellcheck(bool $enabled): static
+    {
+        $this->spellcheck = $enabled;
+        return $this;
+    }
+
     public function setStep(string|int|float $step): static
     {
         $this->step = (string) $step;
+        return $this;
+    }
+
+    public function setSuffix(string $suffix): static
+    {
+        $this->suffix = $suffix;
+        return $this;
+    }
+
+    public function setThreshold(int $threshold): static
+    {
+        $this->threshold = $threshold;
         return $this;
     }
 
@@ -187,6 +282,18 @@ class Field implements Arrayable
     public function setValue(mixed $value): static
     {
         $this->value = $value;
+        return $this;
+    }
+
+    public function setWidth(int $width): static
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function setWords(int $words): static
+    {
+        $this->words = $words;
         return $this;
     }
 

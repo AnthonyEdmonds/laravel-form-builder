@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class Construct extends TestCase
+class ConstructTest extends TestCase
 {
     protected MyForm $form;
 
