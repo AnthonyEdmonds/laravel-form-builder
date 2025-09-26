@@ -61,6 +61,7 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                         ->controller(ResumeController::class)
                         ->group(function () {
                             Route::get('/', 'show')->name('show');
+                            Route::get('/restart', 'restart')->name('restart');
                         });
 
                     Route::prefix('/start')
@@ -68,7 +69,6 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                         ->controller(StartController::class)
                         ->group(function () {
                             Route::get('/', 'show')->name('show');
-                            Route::get('/fresh', 'fresh')->name('fresh');
                         });
 
                     Route::prefix('/tasks')

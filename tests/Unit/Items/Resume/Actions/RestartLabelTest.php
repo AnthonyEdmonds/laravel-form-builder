@@ -1,20 +1,20 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Start\Actions;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Resume\Actions;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
-use AnthonyEdmonds\LaravelFormBuilder\Items\Start;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Resume;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FreshLabelTest extends TestCase
+class RestartLabelTest extends TestCase
 {
     protected Form $form;
 
     protected MyModel $model;
 
-    protected Start $start;
+    protected Resume $resume;
 
     protected function setUp(): void
     {
@@ -24,14 +24,14 @@ class FreshLabelTest extends TestCase
         $this->model->id = 1;
 
         $this->form = new MyForm($this->model);
-        $this->start = $this->form->start();
+        $this->resume = $this->form->resume();
     }
 
     public function test(): void
     {
         $this->assertEquals(
-            'Start now',
-            $this->start->freshLabel(),
+            'Start again',
+            $this->resume->restartLabel(),
         );
     }
 }

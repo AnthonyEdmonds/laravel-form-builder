@@ -33,8 +33,8 @@ class ActionsTest extends TestCase
         $this->assertEquals(
             [
                 'start' => Link::make(
-                    $this->start->freshLabel(),
-                    $this->start->freshRoute(),
+                    $this->form->tasks()->label(),
+                    $this->form->tasks()->route(),
                 ),
                 'exit' => Link::make(
                     $this->form->exitLabel(),

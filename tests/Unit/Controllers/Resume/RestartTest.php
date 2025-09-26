@@ -1,15 +1,15 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Controllers\Start;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Controllers\Resume;
 
-use AnthonyEdmonds\LaravelFormBuilder\Controllers\StartController;
+use AnthonyEdmonds\LaravelFormBuilder\Controllers\ResumeController;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Illuminate\Http\RedirectResponse;
 
-class FreshTest extends TestCase
+class RestartTest extends TestCase
 {
-    protected StartController $controller;
+    protected ResumeController $controller;
 
     protected RedirectResponse $redirect;
 
@@ -19,14 +19,14 @@ class FreshTest extends TestCase
 
         $this->startFormSession();
 
-        $this->controller = new StartController();
-        $this->redirect = $this->controller->fresh(MyForm::key());
+        $this->controller = new ResumeController();
+        $this->redirect = $this->controller->restart(MyForm::key());
     }
 
     public function test(): void
     {
         $this->assertEquals(
-            route('forms.tasks.show', MyForm::key()),
+            route('forms.start.show', MyForm::key()),
             $this->redirect->getTargetUrl(),
         );
     }

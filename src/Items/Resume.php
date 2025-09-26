@@ -3,10 +3,14 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\ModelHelper;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class Resume extends Item implements ItemInterface, CanRender
 {
@@ -83,9 +87,32 @@ class Resume extends Item implements ItemInterface, CanRender
         return $this;
     }
 
+    public function restart(): RedirectResponse
+    {
+        $isEditing = $this->form->model->exists === true;
+
+        SessionHelper::setFormSession(
+            $this->form->key,
+            $isEditing === true
+                ? ModelHelper::loadModelFromDatabase($this->form::class, $this->form->model->getKey())
+                : ModelHelper::newModel($this->form::class),
+        );
+
+        return Redirect::to(
+            $isEditing === true
+                ? $this->form->tasks()->route()
+                : $this->form->start()->route(),
+        );
+    }
+
     public function restartLabel(): string
     {
         return 'Start again';
+    }
+
+    public function restartRoute(): string
+    {
+        return route('forms.resume.restart', $this->form->key);
     }
 
     public function resumeLabel(): string

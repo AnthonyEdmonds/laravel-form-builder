@@ -3,14 +3,10 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
-use AnthonyEdmonds\LaravelFormBuilder\Helpers\ModelHelper;
-use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanRender;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 
 class Start extends Item implements ItemInterface, CanRender
 {
@@ -49,8 +45,8 @@ class Start extends Item implements ItemInterface, CanRender
     {
         return [
             'start' => Link::make(
-                $this->freshLabel(),
-                $this->freshRoute(),
+                $this->form->tasks()->label(),
+                $this->form->tasks()->route(),
             ),
             'exit' => Link::make(
                 $this->form->exitLabel(),
@@ -80,28 +76,6 @@ class Start extends Item implements ItemInterface, CanRender
     }
 
     // Actions
-    public function fresh(): RedirectResponse
-    {
-        SessionHelper::setFormSession(
-            $this->form->key,
-            ModelHelper::newModel($this->form::class),
-        );
-
-        return Redirect::to(
-            $this->form->tasks()->route(),
-        );
-    }
-
-    public function freshLabel(): string
-    {
-        return 'Start now';
-    }
-
-    public function freshRoute(): string
-    {
-        return route('forms.start.fresh', $this->form->key);
-    }
-
     public function show(): View
     {
         return $this;
