@@ -46,7 +46,7 @@ class SummariseTest extends TestCase
                     'value' => $this->question->getFormattedAnswer('name'),
                 ],
             ],
-            $this->question->summarise(),
+            $this->question->summarise(true),
         );
     }
 }

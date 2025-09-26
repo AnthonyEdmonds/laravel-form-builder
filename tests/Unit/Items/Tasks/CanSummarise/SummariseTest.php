@@ -32,8 +32,8 @@ class SummariseTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            $this->tasks->task('my-task')->summarise(),
-            $this->tasks->summarise()[0],
+            $this->tasks->task('my-task')->summarise(true),
+            $this->tasks->summarise(true)[0],
         );
     }
 }

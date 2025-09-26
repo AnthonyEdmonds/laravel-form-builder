@@ -45,7 +45,7 @@ class ViewTest extends TestCase
         );
 
         $this->assertEquals(
-            $this->model->form()->tasks()->summarise(),
+            $this->model->form()->tasks()->summarise(false),
             $data['summary'],
         );
     }

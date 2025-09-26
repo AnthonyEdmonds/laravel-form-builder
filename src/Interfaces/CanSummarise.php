@@ -4,5 +4,5 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Interfaces;
 
 interface CanSummarise
 {
-    public function summarise(): array;
+    public function summarise(bool $hasActions): array;
 }

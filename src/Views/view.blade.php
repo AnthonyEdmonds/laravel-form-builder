@@ -1,8 +1,5 @@
 @forelse($summary as $task)
-    <h2>
-        {{ $task['label'] }}
-        <span class="{{ $task['colour'] }}">{{ $task['status'] }}</span>
-    </h2>
+    <h2>{{ $task['title'] }}</h2>
 
     <ul>
         @forelse($task['list'] as $label => $details)

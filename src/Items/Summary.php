@@ -84,7 +84,7 @@ class Summary extends Item implements ItemInterface, CanRender
                 $this->form->submitLabel(),
                 $this->form->submitRoute(),
             ))
-            ->with('summary', $this->form->tasks()->summarise());
+            ->with('summary', $this->form->tasks()->summarise(true));
 
         if ($this->form->model->draftIsEnabled() === true) {
             $this->with('draft', Link::make(

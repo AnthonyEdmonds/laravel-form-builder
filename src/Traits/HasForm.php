@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 // TODO v2 Customise editable fields
+// TODO View in readme
 /**
  * Used in conjunction with the UsesForm interface
  * @mixin Model
@@ -36,7 +37,7 @@ trait HasForm
                 'summary',
                 $this->form()
                     ->tasks()
-                    ->summarise(),
+                    ->summarise(false),
             );
     }
 

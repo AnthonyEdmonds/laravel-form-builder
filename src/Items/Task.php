@@ -193,7 +193,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     }
 
     // CanSummarise
-    public function summarise(): array
+    public function summarise(bool $hasActions): array
     {
         $answers = [];
 
@@ -202,23 +202,28 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
             $question = $this->makeItem($questionClass);
             $answers = array_merge(
                 $answers,
-                $question->summarise(),
+                $question->summarise($hasActions),
             );
         }
 
-        return [
-            'actions' => [
-                'change' => [
-                    'label' => $this->changeLabel(),
-                    'url' => $this->route(),
-                ],
-            ],
+        $summary = [
             'colour' => $this->statusColour()->value,
             'id' => $this->key,
             'list' => $answers,
             'status' => $this->status()->value,
             'title' => $this->label(),
         ];
+
+        if ($hasActions === true) {
+            $summary['actions'] = [
+                'change' => [
+                    'label' => $this->changeLabel(),
+                    'url' => $this->route(),
+                ],
+            ];
+        }
+
+        return $summary;
     }
 
     public function changeLabel(): string
