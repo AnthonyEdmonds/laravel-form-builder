@@ -3,12 +3,15 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFound;
+use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
+// TODO v2 Customise editable fields
 /**
  * Used in conjunction with the UsesForm interface
  * @mixin Model
@@ -20,6 +23,22 @@ trait HasForm
 
     // Form
     abstract public function viewRoute(): string;
+
+    public function view(): View
+    {
+        return view('form-builder::view')
+            ->with('edit', Link::make(
+                'Edit ' . $this->modelName(),
+                $this->form()->editRoute(),
+            ))
+            ->with('model', $this)
+            ->with(
+                'summary',
+                $this->form()
+                    ->tasks()
+                    ->summarise(),
+            );
+    }
 
     public function viewLabel(): string
     {

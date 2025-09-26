@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Interfaces;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +18,8 @@ interface UsesForm
     public static function newForm(): Form;
 
     public function form(): Form;
+
+    public function view(): View;
 
     public function viewRoute(): string;
 

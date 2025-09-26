@@ -7,6 +7,7 @@
 
     @forelse($summary as $task)
         <h2>
+            {{ $task['label'] }}
             <a href="{{ $task['actions']['change']['url'] }}">{{ $task['actions']['change']['label'] }}</a>
             <span class="{{ $task['colour'] }}">{{ $task['status'] }}</span>
         </h2>
