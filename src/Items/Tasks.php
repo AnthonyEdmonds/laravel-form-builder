@@ -135,6 +135,16 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         return $summary;
     }
 
+    public function canChange(): bool
+    {
+        return true;
+    }
+
+    public function changeLabel(): string
+    {
+        return 'Change';
+    }
+
     // Actions
     public function show(): View
     {

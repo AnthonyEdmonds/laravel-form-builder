@@ -12,14 +12,18 @@ class ResumeController extends Controller
     public function show(string $formKey): View
     {
         return Form::load($formKey)
+            ->checkAccess()
             ->resume()
+            ->checkAccess()
             ->show();
     }
 
     public function restart(string $formKey): RedirectResponse
     {
         return Form::load($formKey)
+            ->checkAccess()
             ->resume()
+            ->checkAccess()
             ->restart();
     }
 }

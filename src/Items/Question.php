@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\MissingLabel;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\SkipNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
@@ -20,7 +21,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Throwable;
 
-// TODO v2 Disable when in not required, cannot start
 abstract class Question extends Item implements ItemInterface, UsesStates, CanRender, CanSummarise, CanFormat
 {
     use HasStates;
@@ -258,6 +258,19 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return $this->makeSummaryItems($hasActions, true);
     }
 
+    public function canChange(): bool
+    {
+        if ($this->canAccess() === false) {
+            return false;
+        }
+
+        return match ($this->status()) {
+            State::CannotStartYet,
+            State::NotRequired => false,
+            default => true,
+        };
+    }
+
     public function changeLabel(): string
     {
         return 'Change';
@@ -266,6 +279,10 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     protected function makeSummaryItems(bool $hasActions, bool $backToSummary): array
     {
         $summary = [];
+
+        if ($hasActions === true) {
+            $hasActions = $this->canChange();
+        }
 
         $fields = $this->fields();
         foreach ($fields as $field) {

@@ -11,8 +11,12 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
 
+            $table->boolean('can_access')->default(false);
+            $table->boolean('cannot_start')->default(false);
             $table->boolean('draft_is_valid')->default(false);
             $table->boolean('submit_is_valid')->default(false);
+            $table->boolean('not_required')->default(false);
+
             $table->string('name')->nullable();
             $table->unsignedTinyInteger('age')->nullable();
             $table->dateTime('birthday')->nullable();

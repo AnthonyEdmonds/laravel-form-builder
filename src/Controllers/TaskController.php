@@ -11,8 +11,11 @@ class TaskController extends Controller
     public function show(string $formKey, string $taskKey): View
     {
         return Form::load($formKey)
+            ->checkAccess()
             ->tasks()
+            ->checkAccess()
             ->task($taskKey)
+            ->checkAccess()
             ->show();
     }
 }

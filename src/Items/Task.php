@@ -14,7 +14,6 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\HasStates;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
-// TODO v2 Disable if cannot be started yet, not required
 abstract class Task extends ItemContainer implements UsesStates, CanRender, CanSummarise, CanFormat
 {
     use HasStates;
@@ -197,6 +196,10 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     {
         $answers = [];
 
+        if ($hasActions === true) {
+            $hasActions = $this->canChange();
+        }
+
         $questions = $this->questions();
         foreach ($questions as $questionClass) {
             $question = $this->makeItem($questionClass);
@@ -224,6 +227,19 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         }
 
         return $summary;
+    }
+
+    public function canChange(): bool
+    {
+        if ($this->canAccess() === false) {
+            return false;
+        }
+
+        return match ($this->status()) {
+            State::CannotStartYet,
+            State::NotRequired => false,
+            default => true,
+        };
     }
 
     public function changeLabel(): string

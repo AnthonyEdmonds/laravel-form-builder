@@ -11,7 +11,9 @@ class SummaryController extends Controller
     public function show(string $formKey): View
     {
         return Form::load($formKey)
+            ->checkAccess()
             ->summary()
+            ->checkAccess()
             ->show();
     }
 }

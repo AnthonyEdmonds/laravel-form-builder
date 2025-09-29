@@ -19,12 +19,12 @@ trait HasStates
     public function matchStatus(): State
     {
         return match (true) {
+            $this->cannotStart() => State::CannotStartYet,
             $this->isNotRequired() => State::NotRequired,
             $this->hasNotBeenStarted() => State::NotYetStarted,
             $this->hasError() => State::ThereIsAProblem,
             $this->isIncomplete() => State::Incomplete,
             $this->isInProgress() => State::InProgress,
-            $this->cannotStart() => State::CannotStartYet,
             $this->isComplete() => State::Completed,
             default => State::Unknown,
         };

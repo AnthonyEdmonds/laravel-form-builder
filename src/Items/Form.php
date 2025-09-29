@@ -9,7 +9,6 @@ use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -17,15 +16,11 @@ use Illuminate\Support\Facades\Session;
 /** @property UsesForm|Model $model */
 abstract class Form extends Item implements ItemInterface
 {
-    use AuthorizesRequests;
-
     // Setup
     final public function __construct(
         public readonly UsesForm $model,
     ) {
         parent::__construct();
-
-        $this->checkAccess();
     }
 
     /** @returns class-string<Form> */
@@ -51,11 +46,6 @@ abstract class Form extends Item implements ItemInterface
         return new $formClass(
             SessionHelper::getFormSession($formKey),
         );
-    }
-
-    public function checkAccess(): void
-    {
-        //
     }
 
     // Item
@@ -154,11 +144,12 @@ abstract class Form extends Item implements ItemInterface
             ? SessionHelper::getFormSession($formKey)
             : ModelHelper::loadModelFromDatabase($formClass, $modelKey);
 
+        $form = new $formClass($model);
+        $form->checkAccess();
+
         if ($modelHasSession === false) {
             SessionHelper::setFormSession($formKey, $model);
         }
-
-        $form = new $formClass($model);
 
         return Redirect::to(
             $modelHasSession === true
@@ -200,6 +191,7 @@ abstract class Form extends Item implements ItemInterface
         $formClass = Form::classnameByKey($formKey);
         $model = ModelHelper::newModel($formClass);
         $form = new $formClass($model);
+        $form->checkAccess();
 
         if (SessionHelper::formHasSession($formKey) === true) {
             return Redirect::to($form->resume()->route());

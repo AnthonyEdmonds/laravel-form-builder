@@ -11,7 +11,9 @@ class ConfirmationController extends Controller
     public function show(string $formKey): View
     {
         return Form::load($formKey)
+            ->checkAccess()
             ->confirmation()
+            ->checkAccess()
             ->show();
     }
 }

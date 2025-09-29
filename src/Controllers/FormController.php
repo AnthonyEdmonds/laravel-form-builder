@@ -20,16 +20,22 @@ class FormController extends Controller
 
     public function submit(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->submit();
+        return Form::load($formKey)
+            ->checkAccess()
+            ->submit();
     }
 
     public function draft(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->draft();
+        return Form::load($formKey)
+            ->checkAccess()
+            ->draft();
     }
 
     public function exit(string $formKey): RedirectResponse
     {
-        return Form::load($formKey)->exit();
+        return Form::load($formKey)
+            ->checkAccess()
+            ->exit();
     }
 }

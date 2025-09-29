@@ -10,9 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property ?int $age
  * @property ?Carbon $birthday
+ * @property bool $can_access
+ * @property bool $cannot_start
  * @property bool $draft_is_valid
  * @property int $id
  * @property ?string $name
+ * @property bool $not_required
  * @property bool $submit_is_valid
  */
 class MyModel extends Model implements UsesForm
@@ -22,8 +25,10 @@ class MyModel extends Model implements UsesForm
     protected $fillable = [
         'age',
         'birthday',
+        'can_access',
         'draft_is_valid',
         'name',
+        'not_required',
         'submit_is_valid',
     ];
 
@@ -34,9 +39,16 @@ class MyModel extends Model implements UsesForm
     protected $casts = [
         'age' => 'int',
         'birthday' => 'datetime',
+        'can_access' => 'bool',
+        'cannot_start' => 'bool',
         'draft_is_valid' => 'bool',
         'id' => 'int',
+        'not_required' => 'bool',
         'submit_is_valid' => 'bool',
+    ];
+
+    protected $attributes = [
+        'can_access' => true,
     ];
 
     // UsesForm

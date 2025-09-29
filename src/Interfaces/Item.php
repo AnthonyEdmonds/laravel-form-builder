@@ -11,4 +11,10 @@ interface Item
     public function route(): string;
 
     public function backLabel(): string;
+
+    // Access
+    public function canAccess(): bool;
+
+    /** Throw an exception or return the Item */
+    public function checkAccess(): static;
 }

@@ -11,7 +11,9 @@ class StartController extends Controller
     public function show(string $formKey): View
     {
         return Form::load($formKey)
+            ->checkAccess()
             ->start()
+            ->checkAccess()
             ->show();
     }
 }
