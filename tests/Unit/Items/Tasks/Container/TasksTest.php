@@ -33,7 +33,9 @@ class TasksTest extends TestCase
         $this->assertEquals(
             [
                 MyTask::class,
-                NextTask::class,
+                'The next task' => [
+                    NextTask::class,
+                ],
             ],
             $this->tasks->tasks(),
         );
