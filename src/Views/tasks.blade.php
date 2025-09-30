@@ -11,8 +11,10 @@
 
     <ul>
         @forelse($tasks as $task)
-            @if($task->group !== $currentGroup)
-                <h2>{{ $task->group }}</h2>
+            @if($task['group'] !== $currentGroup)
+                <li>
+                    <h2>{{ $task['group'] }}</h2>
+                </li>
             @endif
 
             <li id="{{ $task['id'] }}">
@@ -24,7 +26,7 @@
             </li>
 
             @php
-                $currentGroup = $task->group;
+                $currentGroup = $task['group'];
             @endphp
         @empty
             <li>No tasks have been added to this form.</li>
@@ -46,3 +48,4 @@
 
     <x-form-builder::actions :actions="$actions" />
 </main>
+
