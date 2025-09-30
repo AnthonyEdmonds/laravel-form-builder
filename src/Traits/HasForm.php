@@ -62,6 +62,15 @@ trait HasForm
         throw new FormNotFound("No form has been registered for the \"$modelClass\" model");
     }
 
+    public static function formRoute(?string $id = null): string
+    {
+        $formClass = static::formClass();
+
+        return $id !== null
+            ? route('forms.edit', [$formClass::key(), $id])
+            : route('forms.new', $formClass::key());
+    }
+
     public static function newForm(): Form
     {
         $model = new static();

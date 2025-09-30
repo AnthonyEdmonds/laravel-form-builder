@@ -15,6 +15,8 @@ interface UsesForm
     // Form
     public static function formClass(): string;
 
+    public static function formRoute(?string $id = null): string;
+
     public static function newForm(): Form;
 
     public function form(): Form;

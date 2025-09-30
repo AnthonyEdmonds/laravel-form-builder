@@ -268,6 +268,7 @@ Users have two main entry points to any `Form`, new and edit.
 
 Users can be redirected to the `new` endpoint using any of the following:
 
+* `Model::formRoute()`
 * `Model::newForm()->route()`
 * `route('forms.new', MyForm::key())`
 
@@ -275,7 +276,8 @@ Users can be redirected to the `new` endpoint using any of the following:
 
 Users can be redirect to the `edit` endpoint using any of the following:
 
-* `$model->form()->route()`
+* `Model::formRoute($model->id)`
+* `$model->form()->editRoute()`
 * `route('forms.edit', [MyForm::key(), $model->id])`
 
 ## Help and support
