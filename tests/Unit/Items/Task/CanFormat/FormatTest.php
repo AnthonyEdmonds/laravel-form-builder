@@ -27,6 +27,7 @@ class FormatTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
+        $this->task->group = 'Potato';
     }
 
     public function test(): void
@@ -34,6 +35,7 @@ class FormatTest extends TestCase
         $this->assertEquals(
             [
                 'colour' => $this->task->statusColour()->value,
+                'group' => $this->task->group,
                 'hint' => $this->task->description(),
                 'id' => $this->task->key,
                 'label' => $this->task->label(),

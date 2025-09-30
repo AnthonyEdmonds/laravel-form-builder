@@ -19,6 +19,8 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     use HasStates;
     use Renderable;
 
+    public ?string $group = null;
+
     protected ?array $questionStatuses = null;
 
     // Setup
@@ -210,6 +212,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         }
 
         $summary = [
+            'group' => $this->group,
             'id' => $this->key,
             'list' => $answers,
             'title' => $this->label(),
@@ -252,6 +255,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     {
         return [
             'colour' => $this->statusColour()->value,
+            'group' => $this->group,
             'hint' => $this->description(),
             'id' => $this->key,
             'label' => $this->label(),
@@ -265,6 +269,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     {
         return $this
             ->with('colour', $this->statusColour()->value)
+            ->with('group', $this->group)
             ->with('questions', $this->formatItems()[0])
             ->with('status', $this->status()->value);
     }

@@ -29,6 +29,7 @@ class SummariseTest extends TestCase
         $this->form = new MyForm($this->model);
         $this->tasks = $this->form->tasks();
         $this->task = $this->tasks->task('my-task');
+        $this->task->group = 'Potato';
     }
 
     public function test(): void
@@ -42,6 +43,7 @@ class SummariseTest extends TestCase
                     ],
                 ],
                 'colour' => $this->task->statusColour()->value,
+                'group' => $this->task->group,
                 'id' => $this->task->key,
                 'list' => array_merge(
                     $this->task->question('name-question')->summarise(true),

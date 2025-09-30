@@ -10,7 +10,6 @@ use AnthonyEdmonds\LaravelFormBuilder\Interfaces\Item as ItemInterface;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 
-// TODO v2 Task groups
 abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
 {
     use Renderable;
@@ -46,7 +45,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     }
 
     // Container
-    /** @returns class-string<Task>[] */
+    /** @returns class-string<Task>[]|array<string, class-string<Task>[]> */
     abstract public function tasks(): array;
 
     /** @param Task $item */
@@ -58,13 +57,29 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     /** @returns class-string<Task>[] */
     public function items(): array
     {
-        return $this->tasks();
+        $items = [];
+        $tasks = $this->tasks();
+
+        foreach ($tasks as $task) {
+            if (is_array($task) === true) {
+                foreach ($task as $subtask) {
+                    $items[] = $subtask;
+                }
+            } else {
+                $items[] = $task;
+            }
+        }
+
+        return $items;
     }
 
     /** @param class-string<Task> $itemClass */
     public function makeItem(string $itemClass): Task
     {
-        return new $itemClass($this->form, $this);
+        $task = new $itemClass($this->form, $this);
+        $task->group = $this->findTaskGroup($itemClass);
+
+        return $task;
     }
 
     public function task(string $taskKey): Task
@@ -79,6 +94,22 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     protected function formatTask(Task $task): array
     {
         return $task->format();
+    }
+
+    protected function findTaskGroup(string $taskClass): ?string
+    {
+        $tasks = $this->tasks();
+
+        foreach ($tasks as $label => $group) {
+            if (
+                is_array($group) === true
+                && in_array($taskClass, $group) === true
+            ) {
+                return $label;
+            }
+        }
+
+        return null;
     }
 
     // CanRender
@@ -126,7 +157,7 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     {
         $summary = [];
 
-        $tasks = $this->tasks();
+        $tasks = $this->items();
         foreach ($tasks as $taskClass) {
             $task = $this->makeItem($taskClass);
             $summary[] = $task->summarise($hasActions);

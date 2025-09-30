@@ -10,7 +10,9 @@ class MyTasks extends Tasks
     {
         return [
             MyTask::class,
-            NextTask::class,
+            'The next task' => [
+                NextTask::class,
+            ],
         ];
     }
 }

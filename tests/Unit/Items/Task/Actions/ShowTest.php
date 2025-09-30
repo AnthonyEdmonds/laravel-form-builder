@@ -29,6 +29,7 @@ class ShowTest extends TestCase
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
+        $this->task->group = 'Potato';
         $this->view = $this->task->show();
     }
 
@@ -44,6 +45,11 @@ class ShowTest extends TestCase
         $this->assertEquals(
             $data['colour'],
             $this->task->statusColour()->value,
+        );
+
+        $this->assertEquals(
+            $data['group'],
+            $this->task->group,
         );
 
         $this->assertEquals(

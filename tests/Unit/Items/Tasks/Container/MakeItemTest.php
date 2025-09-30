@@ -6,6 +6,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NextTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
@@ -16,6 +17,8 @@ class MakeItemTest extends TestCase
     protected MyModel $model;
 
     protected Tasks $tasks;
+
+    protected Task $task;
 
     protected function setUp(): void
     {
@@ -28,11 +31,22 @@ class MakeItemTest extends TestCase
         $this->tasks = $this->form->tasks();
     }
 
-    public function test(): void
+    public function testNullGroup(): void
     {
-        $this->assertInstanceOf(
-            Task::class,
-            $this->tasks->makeItem(MyTask::class),
+        $this->task = $this->tasks->makeItem(MyTask::class);
+
+        $this->assertNull(
+            $this->task->group,
+        );
+    }
+
+    public function testNamedGroup(): void
+    {
+        $this->task = $this->tasks->makeItem(NextTask::class);
+
+        $this->assertEquals(
+            'The next task',
+            $this->task->group,
         );
     }
 }

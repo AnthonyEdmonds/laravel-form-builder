@@ -129,7 +129,40 @@ These are wrapped up in a `Tasks` class.
 
 You can have as many or as few `Task` classes as you like; it is recommended to keep each `Task` to a minimum.
 
+```php
+public function tasks(): array
+{
+    return [
+         MyTask::class,
+         NextTask::class,
+         ...
+    ];
+}
+```
+
 As a minimum, you will need to provide a list of `tasks()`.
+
+#### Task Groups
+
+You may group your tasks by providing a keyed array instead:
+
+```php
+public function tasks(): array
+{
+    return [
+        'Group one' => [
+            MyTask::class,
+            ...
+        ],
+        'Group two' => [
+            NextTask::class,
+            ...
+        ],
+    ];
+}
+```
+
+It is not recommended to mix grouped and ungrouped `Task` classes, as this may become visually confusing.
 
 #### Showing and hiding Task classes
 
