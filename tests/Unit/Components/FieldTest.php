@@ -20,6 +20,7 @@ class FieldTest extends TestCase
         $this->component = new Field(
             FieldHelper::input('name', 'label'),
         );
+
         $this->view = $this->component->render();
     }
 
