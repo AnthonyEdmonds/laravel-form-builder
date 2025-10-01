@@ -28,6 +28,11 @@ class CheckboxesTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'checkboxes',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             [
                 'A' => 'Yes',
                 'B' => 'No',

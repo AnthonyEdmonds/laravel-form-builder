@@ -25,6 +25,11 @@ class InputTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'text-input',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             InputType::Date,
             $this->field->type,
         );

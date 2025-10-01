@@ -28,6 +28,11 @@ class RadiosTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'radios',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             [
                 'A' => 'Yes',
                 'B' => 'No',

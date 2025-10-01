@@ -16,6 +16,6 @@ class Field extends Component
 
     public function render(): View
     {
-        return view('form-builder::components.field');
+        return view("form-builder::components.{$this->field->blade}");
     }
 }

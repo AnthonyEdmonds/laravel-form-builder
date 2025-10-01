@@ -23,6 +23,11 @@ class HiddenTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'hidden-input',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             InputType::Hidden,
             $this->field->type,
         );

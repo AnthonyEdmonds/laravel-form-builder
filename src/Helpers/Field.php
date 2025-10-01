@@ -13,6 +13,8 @@ class Field implements Arrayable
 
     public string $autocomplete = 'on';
 
+    public string $blade = 'text-input';
+
     public ?int $count = null;
 
     public string $hint = '';
@@ -95,6 +97,7 @@ class Field implements Arrayable
         return [
             'accept' => $this->accept,
             'autocomplete' => $this->autocomplete,
+            'blade' => $this->blade,
             'count' => $this->count,
             'displayName' => $this->displayName,
             'hint' => $this->hint,
@@ -147,6 +150,12 @@ class Field implements Arrayable
     public function setAutocomplete(string $autocomplete): static
     {
         $this->autocomplete = $autocomplete;
+        return $this;
+    }
+
+    public function setBlade(string $blade): static
+    {
+        $this->blade = $blade;
         return $this;
     }
 
@@ -311,8 +320,19 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('checkboxes')
             ->setOptions($options)
             ->setType(InputType::Checkbox);
+    }
+
+    public static function date(
+        string $name,
+        string $label,
+        ?string $displayName = null,
+    ): static {
+        return static::make($name, $label, $displayName)
+            ->setBlade('date-input')
+            ->setType(InputType::Date);
     }
 
     public static function file(
@@ -323,6 +343,7 @@ class Field implements Arrayable
     ): static {
         return static::make($name, $label, $displayName)
             ->setAccept($accept)
+            ->setBlade('file-upload')
             ->setType(InputType::File);
     }
 
@@ -331,6 +352,7 @@ class Field implements Arrayable
         ?string $value,
     ): static {
         return static::make($name, '', '')
+            ->setBlade('hidden-input')
             ->setType(InputType::Hidden)
             ->setValue($value);
     }
@@ -342,6 +364,7 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('text-input')
             ->setType($type);
     }
 
@@ -351,6 +374,7 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('password')
             ->setType(InputType::Password);
     }
 
@@ -361,6 +385,7 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('radios')
             ->setOptions($options)
             ->setType(InputType::Radio);
     }
@@ -374,6 +399,7 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('text-input')
             ->setMin($min)
             ->setMax($max)
             ->setStep($step)
@@ -387,6 +413,7 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('select')
             ->setOptions($options)
             ->setType(InputType::Select);
     }
@@ -397,6 +424,17 @@ class Field implements Arrayable
         ?string $displayName = null,
     ): static {
         return static::make($name, $label, $displayName)
+            ->setBlade('textarea')
             ->setType(InputType::TextArea);
+    }
+
+    public static function time(
+        string $name,
+        string $label,
+        ?string $displayName = null,
+    ): static {
+        return static::make($name, $label, $displayName)
+            ->setBlade('time-input')
+            ->setType(InputType::Time);
     }
 }

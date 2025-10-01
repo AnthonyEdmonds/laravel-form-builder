@@ -28,6 +28,11 @@ class SelectTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'select',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             [
                 'A' => 'Yes',
                 'B' => 'No',

@@ -30,6 +30,11 @@ class FileTest extends TestCase
         );
 
         $this->assertEquals(
+            'file-upload',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             InputType::File,
             $this->field->type,
         );

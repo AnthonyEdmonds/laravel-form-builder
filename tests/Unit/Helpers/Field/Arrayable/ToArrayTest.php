@@ -30,6 +30,7 @@ class ToArrayTest extends TestCase
             [
                 'accept' => $this->field->accept,
                 'autocomplete' => $this->field->autocomplete,
+                'blade' => $this->field->blade,
                 'count' => $this->field->count,
                 'displayName' => $this->field->displayName,
                 'hint' => $this->field->hint,

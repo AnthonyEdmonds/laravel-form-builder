@@ -27,6 +27,11 @@ class RangeTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'text-input',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             '1.23',
             $this->field->max,
         );

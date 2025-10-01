@@ -6,7 +6,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class TextAreaTest extends TestCase
+class DateTest extends TestCase
 {
     protected Field $field;
 
@@ -14,7 +14,7 @@ class TextAreaTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = Field::textarea(
+        $this->field = Field::date(
             'my-name',
             'My question?',
             'My label',
@@ -24,12 +24,12 @@ class TextAreaTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            'textarea',
+            'date-input',
             $this->field->blade,
         );
 
         $this->assertEquals(
-            InputType::TextArea,
+            InputType::Date,
             $this->field->type,
         );
     }

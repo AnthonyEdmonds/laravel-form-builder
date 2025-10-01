@@ -24,6 +24,11 @@ class PasswordTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
+            'password',
+            $this->field->blade,
+        );
+
+        $this->assertEquals(
             InputType::Password,
             $this->field->type,
         );
