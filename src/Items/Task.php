@@ -270,7 +270,12 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         return $this
             ->with('colour', $this->statusColour()->value)
             ->with('group', $this->group)
-            ->with('questions', $this->formatItems()[0])
+            ->with(
+                'questions',
+                array_merge(
+                    ...$this->formatItems(),
+                ),
+            )
             ->with('status', $this->status()->value);
     }
 }
