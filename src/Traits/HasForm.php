@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 // TODO View in readme
+// TODO FormBuilder won't respect not required / cannot start yet when navigating items
 /**
  * Used in conjunction with the UsesForm interface
  * @mixin Model
@@ -128,6 +129,7 @@ trait HasForm
     // Submit
     public function submitIsValid(): true|string
     {
+        // TODO Check all task statuses are OK
         return true;
     }
 
