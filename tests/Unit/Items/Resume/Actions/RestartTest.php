@@ -6,6 +6,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Resume;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonStartForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Illuminate\Http\RedirectResponse;
@@ -45,6 +46,19 @@ class RestartTest extends TestCase
             'Bob',
             SessionHelper::getFormSession($this->form->key)->name,
         );
+
+        $this->assertEquals(
+            $this->form->tasks()->route(),
+            $this->redirect->getTargetUrl(),
+        );
+    }
+
+    public function testWhenStartDisabled(): void
+    {
+        $this->form = new NonStartForm($this->model);
+        $this->resume = $this->form->resume();
+
+        $this->redirect = $this->resume->restart();
 
         $this->assertEquals(
             $this->form->tasks()->route(),

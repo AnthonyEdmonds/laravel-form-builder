@@ -99,9 +99,11 @@ class Resume extends Item implements ItemInterface, CanRender
         );
 
         return Redirect::to(
-            $isEditing === true
-                ? $this->form->tasks()->route()
-                : $this->form->start()->route(),
+            match (true) {
+                $isEditing === true,
+                $this->form->startIsEnabled() === false => $this->form->tasks()->route(),
+                default => $this->form->start()->route(),
+            },
         );
     }
 
