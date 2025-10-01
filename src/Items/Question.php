@@ -225,7 +225,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     /** @returns class-string<FormRequest> */
     abstract public function formRequest(): string;
 
-    public function isValid(): bool
+    public function validationData(): array
     {
         $values = [];
         $fields = $this->fields();
@@ -234,8 +234,15 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             $values[$field->name] = $this->getRawAnswer($field->name);
         }
 
+        return $values;
+    }
+
+    public function isValid(): bool
+    {
         try {
-            request()->merge($values);
+            request()->merge(
+                $this->validationData(),
+            );
             $this->validate();
             return true;
         } catch (Throwable $exception) {
