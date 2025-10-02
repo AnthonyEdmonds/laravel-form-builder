@@ -260,9 +260,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     }
 
     // CanSummarise
-    public function summarise(bool $hasActions): array
+    public function summarise(bool $hasActions, bool $hasStatuses): array
     {
-        return $this->makeSummaryItems($hasActions, true);
+        return $this->makeSummaryItems($hasActions, $hasStatuses, true);
     }
 
     public function canChange(): bool
@@ -283,7 +283,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return 'Change';
     }
 
-    protected function makeSummaryItems(bool $hasActions, bool $backToSummary): array
+    protected function makeSummaryItems(bool $hasActions, bool $hasStatuses, bool $backToSummary): array
     {
         $summary = [];
 
@@ -303,9 +303,12 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 'value' => $this->getFormattedAnswer($field->name),
             ];
 
-            if ($hasActions === true) {
+            if ($hasStatuses === true) {
                 $summary[$field->displayName]['colour'] = $this->statusColour()->value;
                 $summary[$field->displayName]['status'] = $this->status()->value;
+            }
+
+            if ($hasActions === true) {
                 $summary[$field->displayName]['actions'] = [
                     'change' => [
                         'label' => $this->changeLabel(),
@@ -321,7 +324,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     // CanFormat
     public function format(): array
     {
-        return $this->makeSummaryItems(true, false);
+        return $this->makeSummaryItems(true, true, false);
     }
 
     // Actions

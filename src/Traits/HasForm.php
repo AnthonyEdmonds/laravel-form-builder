@@ -37,7 +37,7 @@ trait HasForm
                 'summary',
                 $this->form()
                     ->tasks()
-                    ->summarise(false),
+                    ->summarise(false, false),
             );
     }
 

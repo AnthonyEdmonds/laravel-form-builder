@@ -46,14 +46,14 @@ class SummariseTest extends TestCase
                 'group' => $this->task->group,
                 'id' => $this->task->key,
                 'list' => array_merge(
-                    $this->task->question('name-question')->summarise(true),
-                    $this->task->question('age-question')->summarise(true),
-                    $this->task->question('birthday-question')->summarise(true),
+                    $this->task->question('name-question')->summarise(true, true),
+                    $this->task->question('age-question')->summarise(true, true),
+                    $this->task->question('birthday-question')->summarise(true, true),
                 ),
                 'status' => $this->task->status()->value,
                 'title' => $this->task->label(),
             ],
-            $this->task->summarise(true),
+            $this->task->summarise(true, true),
         );
     }
 }
