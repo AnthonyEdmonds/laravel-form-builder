@@ -23,7 +23,9 @@ class SubmitTest extends TestCase
         $this->useDatabase();
 
         $this->model = new MyModel();
-        $this->model->submit_is_valid = true;
+        $this->model->name = 'Bob';
+        $this->model->age = 3;
+        $this->model->birthday = '2025-12-12';
         $this->startFormSession($this->model);
 
         $this->controller = new FormController();

@@ -25,14 +25,16 @@ class SubmitTest extends TestCase
 
         $this->model = new MyModel();
         $this->model->id = 1;
-        $this->model->submit_is_valid = true;
+        $this->model->name = 'Bob';
+        $this->model->age = 3;
+        $this->model->birthday = '2025-12-12';
 
         $this->form = new MyForm($this->model);
     }
 
     public function testRedirectsWhenInvalid(): void
     {
-        $this->model->submit_is_valid = false;
+        $this->model->name = null;
         $this->startFormSession($this->model);
 
         $this->redirect = $this->form->submit();
