@@ -212,27 +212,29 @@ You can customise how values are read and written to the `Model`; by default, it
 
 ### Fields
 
-A field is made up of a key, and a set of parameters:
+Every `Question` has one or more `Fields`, which control the inputs shown on the page.
 
 ```php
 [
-    'name' => [
-        'hint' => 'Provide their full name',
-        'label' => 'What is their name?',
-        'optional' => false,
-    ],
+    Field::input('name', 'What is their name?')
+        ->setHint('Provide their full name')
+        ->optional(),
 ]
 ```
 
-In this example, `name` is the key, which corresponds to the `name` property on the `Model`.
+`Field` comes with a helper for each common input type.
 
-The `label` property should be the question being asked, and will be used as the page title by default.
+In this example, the first parameter is the `name` of the input, which corresponds to the `name` property on the `Model`.
 
-The `optional` property controls whether the question is required or not.
+The second parameter is the question being asked.
 
-If the `optional` property is omitted, the field will be treated as required.
+When there is only one `Field` in a `Question`, it should be used as the page title.
 
-You can expand the list of available field properties based on the needs of your interface, such as the `hint` property.
+The `hint` method adds a line of supporting text to the `Field`.
+
+The `optional` method marks the `Field` as not required; `Fields` are required by default.
+
+Many other methods are available to further customise the input.
 
 ### Skippable Questions
 
@@ -279,6 +281,16 @@ Users can be redirect to the `edit` endpoint using any of the following:
 * `Model::formRoute($model->id)`
 * `$model->form()->editRoute()`
 * `route('forms.edit', [MyForm::key(), $model->id])`
+
+## Viewing models
+
+If you would like to use the Form Builder `Summary` page for a viewing a model, you may use the `view()` method on your model.
+
+This will generate a `Summary` style page without the ability to change and answers.
+
+A link back to the `Form` should be included, if the model can be edited.
+
+You can control whether an individual `Question` can be edited by adjusting the `canChange()` method.
 
 ## Help and support
 

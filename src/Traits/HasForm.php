@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
+use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
-// TODO View in readme
 // TODO FormBuilder won't respect not required / cannot start yet when navigating items
 /**
  * Used in conjunction with the UsesForm interface
@@ -129,8 +129,25 @@ trait HasForm
     // Submit
     public function submitIsValid(): true|string
     {
-        // TODO Check all task statuses are OK
-        return true;
+        $tasks = $this->form()->tasks();
+        $taskClasses = $tasks->items();
+        $issues = [];
+
+        foreach ($taskClasses as $taskClass) {
+            $task = $tasks->makeItem($taskClass);
+            $status = $task->status();
+
+            if (
+                $status !== State::Completed
+                && $status !== State::NotRequired
+            ) {
+                $issues[] = $task->label();
+            }
+        }
+
+        return empty($issues) === false
+            ? 'The following tasks need to be completed: ' . implode(', ', $issues)
+            : true;
     }
 
     public function saveAndSubmit(): void

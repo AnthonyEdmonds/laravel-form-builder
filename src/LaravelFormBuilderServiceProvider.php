@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-// TODO Update Readme to cover Fields
 class LaravelFormBuilderServiceProvider extends ServiceProvider
 {
     public function register(): void

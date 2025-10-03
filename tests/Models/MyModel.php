@@ -59,13 +59,6 @@ class MyModel extends Model implements UsesForm
             : 'Draft is not valid';
     }
 
-    public function submitIsValid(): true|string
-    {
-        return $this->submit_is_valid === true
-            ? true
-            : 'Submit is not valid';
-    }
-
     public function viewRoute(): string
     {
         return route('my-model.show', $this);
