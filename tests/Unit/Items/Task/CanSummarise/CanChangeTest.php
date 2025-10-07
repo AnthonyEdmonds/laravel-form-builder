@@ -29,15 +29,6 @@ class CanChangeTest extends TestCase
         $this->task = $this->form->tasks()->task('my-task');
     }
 
-    public function testFalseWhenCantAccess(): void
-    {
-        $this->model->can_access = false;
-
-        $this->assertFalse(
-            $this->task->canChange(),
-        );
-    }
-
     public function testFalseWhenStatus(): void
     {
         $this->model->cannot_start = true;

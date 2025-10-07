@@ -3,7 +3,6 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
-use ErrorException;
 
 class MyTask extends Task
 {
@@ -24,15 +23,6 @@ class MyTask extends Task
             AgeQuestion::class,
             BirthdayQuestion::class,
         ];
-    }
-
-    public function checkAccess(): static
-    {
-        if ($this->form->model->can_access === false) {
-            throw new ErrorException();
-        }
-
-        return $this;
     }
 
     public function cannotStart(): bool

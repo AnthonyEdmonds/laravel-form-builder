@@ -40,6 +40,11 @@ class Confirmation extends Item implements ItemInterface, CanRender
         return $this->form->exitLabel();
     }
 
+    public function isEnabled(): bool
+    {
+        return $this->form->confirmationIsEnabled();
+    }
+
     // CanRender
     public function actions(): array
     {

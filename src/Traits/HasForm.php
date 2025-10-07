@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
-// TODO FormBuilder won't respect not required / cannot start yet when navigating items
 /**
  * Used in conjunction with the UsesForm interface
  * @mixin Model

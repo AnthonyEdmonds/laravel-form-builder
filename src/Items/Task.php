@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\AccessNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\QuestionNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\CanFormat;
@@ -43,6 +44,21 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
     public function backLabel(): string
     {
         return 'Back to task';
+    }
+
+    public function isEnabled(): bool
+    {
+        $status = $this->status();
+
+        return $status !== State::CannotStartYet
+            && $status !== State::NotRequired;
+    }
+
+    public function checkAccess(): static
+    {
+        return $this->isEnabled() === false
+            ? throw new AccessNotAllowed('You are not allowed to access this task at the moment')
+            : $this;
     }
 
     // Container
@@ -241,11 +257,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
             return false;
         }
 
-        return match ($this->status()) {
-            State::CannotStartYet,
-            State::NotRequired => false,
-            default => true,
-        };
+        return $this->isEnabled() === true;
     }
 
     public function changeLabel(): string

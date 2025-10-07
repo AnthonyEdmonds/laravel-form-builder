@@ -35,8 +35,19 @@ class FindNextItemTest extends TestCase
 
     public function testItemWhenFound(): void
     {
+        $this->model->age = 2;
+
         $this->assertInstanceOf(
             NextTask::class,
+            $this->tasks->findNextItem('my-task', $this->taskList),
+        );
+    }
+
+    public function testNullWhenDisabled(): void
+    {
+        $this->model->age = 4;
+
+        $this->assertNull(
             $this->tasks->findNextItem('my-task', $this->taskList),
         );
     }

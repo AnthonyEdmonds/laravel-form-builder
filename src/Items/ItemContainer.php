@@ -37,7 +37,12 @@ abstract class ItemContainer extends Item implements ContainsItems
         /** @var class-string<Item> $itemClass */
         foreach ($items as $itemClass) {
             if ($found === true) {
-                return $this->makeItem($itemClass);
+                $item = $this->makeItem($itemClass);
+                if ($item->isEnabled() === false) {
+                    continue;
+                }
+
+                return $item;
             }
 
             if ($itemClass::key() === $currentKey) {

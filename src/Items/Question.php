@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\AccessNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\MissingLabel;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\SkipNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
@@ -72,6 +73,21 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return $this->returnToSummary === true
             ? 'Back to check answers'
             : 'Previous question';
+    }
+
+    public function isEnabled(): bool
+    {
+        $status = $this->status();
+
+        return $status !== State::CannotStartYet
+            && $status !== State::NotRequired;
+    }
+
+    public function checkAccess(): static
+    {
+        return $this->isEnabled() === false
+            ? throw new AccessNotAllowed('You are not allowed to answer this question at the moment')
+            : $this;
     }
 
     // UsesStates
@@ -271,11 +287,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             return false;
         }
 
-        return match ($this->status()) {
-            State::CannotStartYet,
-            State::NotRequired => false,
-            default => true,
-        };
+        return $this->isEnabled() === true;
     }
 
     public function changeLabel(): string

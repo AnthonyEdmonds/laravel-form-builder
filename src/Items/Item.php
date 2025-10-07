@@ -39,4 +39,9 @@ abstract class Item implements ItemInterface
             return false;
         }
     }
+
+    public function isEnabled(): bool
+    {
+        return true;
+    }
 }

@@ -1,14 +1,16 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanSummarise;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Item;
 
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\AccessNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class CanChangeTest extends TestCase
+class CheckAccessTest extends TestCase
 {
     protected MyForm $form;
 
@@ -30,19 +32,21 @@ class CanChangeTest extends TestCase
         $this->question = $this->task->question('name-question');
     }
 
-    public function testFalseWhenStatus(): void
+    public function testThrowsWhenNotEnabled(): void
     {
-        $this->model->cannot_start = true;
+        $this->expectException(AccessNotAllowed::class);
+        $this->expectExceptionMessage('You are not allowed to answer this question at the moment');
 
-        $this->assertFalse(
-            $this->question->canChange(),
-        );
+        $this->model->not_required = true;
+
+        $this->question->checkAccess();
     }
 
-    public function testTrueOtherwise(): void
+    public function testAllowsOtherwise(): void
     {
-        $this->assertTrue(
-            $this->question->canChange(),
+        $this->assertInstanceOf(
+            NameQuestion::class,
+            $this->question->checkAccess(),
         );
     }
 }

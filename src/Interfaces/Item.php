@@ -17,4 +17,6 @@ interface Item
 
     /** Throw an exception or return the Item */
     public function checkAccess(): static;
+
+    public function isEnabled(): bool;
 }
