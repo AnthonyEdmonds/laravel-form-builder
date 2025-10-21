@@ -286,7 +286,7 @@ Users can be redirect to the `edit` endpoint using any of the following:
 
 If you would like to use the Form Builder `Summary` page for a viewing a model, you may use the `view()` method on your model.
 
-This will generate a `Summary` style page without the ability to change and answers.
+This will generate a `Summary` style page without the ability to change any answers.
 
 A link back to the `Form` should be included, if the model can be edited.
 
@@ -301,3 +301,4 @@ If you wish to contribute to this library, raise an issue before submitting a fo
 ## Licence
 
 Published under the MIT licence.
+
