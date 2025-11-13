@@ -193,7 +193,10 @@ abstract class Form extends Item implements ItemInterface
         $form = new $formClass($model);
         $form->checkAccess();
 
-        if (SessionHelper::formHasSession($formKey) === true) {
+        if (
+            SessionHelper::formHasSession($formKey) === true
+            && SessionHelper::getFormSession($formKey)->exists === false
+        ) {
             return Redirect::to($form->resume()->route());
         }
 

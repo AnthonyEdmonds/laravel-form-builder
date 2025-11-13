@@ -22,6 +22,8 @@ class NewTest extends TestCase
     {
         parent::setUp();
 
+        $this->useDatabase();
+
         $this->model = new MyModel();
         $this->model->id = 1;
     }
@@ -38,6 +40,20 @@ class NewTest extends TestCase
 
         $this->assertEquals(
             $this->form->resume()->route(),
+            $this->redirect->getTargetUrl(),
+        );
+    }
+
+    public function testRedirectsWhenModelExists(): void
+    {
+        $this->model->save();
+
+        $this->form = new MyForm($this->model);
+        SessionHelper::setFormSession($this->form->key, $this->model);
+        $this->redirect = Form::new($this->form->key);
+
+        $this->assertEquals(
+            $this->form->start()->route(),
             $this->redirect->getTargetUrl(),
         );
     }
