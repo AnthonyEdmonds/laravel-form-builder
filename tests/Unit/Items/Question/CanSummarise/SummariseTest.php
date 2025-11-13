@@ -26,12 +26,13 @@ class SummariseTest extends TestCase
         $this->model->id = 1;
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
-        $this->question = $this->task->question('name-question');
     }
 
     public function test(): void
     {
+        $this->task = $this->form->tasks()->task('my-task');
+        $this->question = $this->task->question('name-question');
+
         $this->assertEquals(
             [
                 'Name' => [
@@ -45,6 +46,22 @@ class SummariseTest extends TestCase
                     'label' => 'Name',
                     'status' => $this->question->status()->value,
                     'value' => $this->question->getFormattedAnswer('name'),
+                ],
+            ],
+            $this->question->summarise(true, true),
+        );
+    }
+
+    public function testSummarisesHiddenFields(): void
+    {
+        $this->task = $this->form->tasks()->task('next-task');
+        $this->question = $this->task->question('read-only');
+
+        $this->assertEquals(
+            [
+                'Read only' => [
+                    'label' => 'Read only',
+                    'value' => 'No changing',
                 ],
             ],
             $this->question->summarise(true, true),

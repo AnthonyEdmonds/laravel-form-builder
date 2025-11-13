@@ -20,6 +20,7 @@ class NextTask extends Task
     {
         return [
             AgeQuestion::class,
+            ReadOnlyQuestion::class,
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Items;
 
+use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\AccessNotAllowed;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\MissingLabel;
@@ -224,7 +225,15 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
         $isTitle = $this->hideTitle();
 
-        foreach ($fields as $field) {
+        foreach ($fields as $index => $field) {
+            if (
+                $field->type === InputType::Hidden
+                || $field->type === InputType::ReadOnly
+            ) {
+                unset($fields[$index]);
+                continue;
+            }
+
             $field->setValue(
                 $this->getRawAnswer($field->name),
             );
@@ -305,6 +314,10 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
         $fields = $this->fields();
         foreach ($fields as $field) {
+            if ($field->type === InputType::Hidden) {
+                continue;
+            }
+
             $route = $this->route();
             if ($backToSummary === true) {
                 $route .= '?return=summary';
@@ -312,21 +325,25 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
             $summary[$field->displayName] = [
                 'label' => $field->displayName,
-                'value' => $this->getFormattedAnswer($field->name),
+                'value' => $field->type === InputType::ReadOnly
+                    ? $field->value
+                    : $this->getFormattedAnswer($field->name),
             ];
 
-            if ($hasStatuses === true) {
-                $summary[$field->displayName]['colour'] = $this->statusColour()->value;
-                $summary[$field->displayName]['status'] = $this->status()->value;
-            }
+            if ($field->type !== InputType::ReadOnly) {
+                if ($hasStatuses === true) {
+                    $summary[$field->displayName]['colour'] = $this->statusColour()->value;
+                    $summary[$field->displayName]['status'] = $this->status()->value;
+                }
 
-            if ($hasActions === true) {
-                $summary[$field->displayName]['actions'] = [
-                    'change' => [
-                        'label' => $this->changeLabel(),
-                        'url' => $route,
-                    ],
-                ];
+                if ($hasActions === true) {
+                    $summary[$field->displayName]['actions'] = [
+                        'change' => [
+                            'label' => $this->changeLabel(),
+                            'url' => $route,
+                        ],
+                    ];
+                }
             }
         }
 

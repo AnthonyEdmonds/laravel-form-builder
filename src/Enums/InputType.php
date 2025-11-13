@@ -32,6 +32,8 @@ enum InputType: string
 
     case Range = 'range';
 
+    case ReadOnly = 'readonly';
+
     case Reset = 'reset';
 
     case Search = 'search';

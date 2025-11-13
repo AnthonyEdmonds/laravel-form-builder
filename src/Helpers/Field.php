@@ -406,6 +406,15 @@ class Field implements Arrayable
             ->setType(InputType::Range);
     }
 
+    public static function readonly(
+        string $label,
+        ?string $value,
+    ): static {
+        return static::make($label, $label, $label)
+            ->setType(InputType::ReadOnly)
+            ->setValue($value);
+    }
+
     public static function select(
         string $name,
         string $label,

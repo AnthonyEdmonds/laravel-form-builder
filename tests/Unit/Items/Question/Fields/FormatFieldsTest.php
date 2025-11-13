@@ -29,13 +29,14 @@ class FormatFieldsTest extends TestCase
         $this->model->name = 'Hello';
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
-        $this->question = $this->task->question('name-question');
-        $this->fields = $this->question->formatFields();
     }
 
     public function test(): void
     {
+        $this->task = $this->form->tasks()->task('my-task');
+        $this->question = $this->task->question('name-question');
+        $this->fields = $this->question->formatFields();
+
         $this->assertEquals(
             'Hello',
             $this->fields[0]->value,
@@ -43,6 +44,16 @@ class FormatFieldsTest extends TestCase
 
         $this->assertTrue(
             $this->fields[0]->isTitle,
+        );
+    }
+
+    public function testHidesFields(): void
+    {
+        $this->assertEmpty(
+            $this->form->tasks()
+                ->task('next-task')
+                ->question('read-only')
+                ->formatFields(),
         );
     }
 }
