@@ -222,7 +222,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     public function formatFields(): array
     {
         $fields = $this->fields();
-        $isTitle = count($fields) === 1;
+        $isTitle = $this->hideTitle();
 
         foreach ($fields as $field) {
             $field->setValue(
