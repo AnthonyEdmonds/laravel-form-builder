@@ -105,7 +105,9 @@ class Field implements Arrayable
             'inputmode' => $this->inputmode,
             'isInline' => $this->isInline,
             'isTitle' => $this->isTitle,
-            'label' => $this->label,
+            'label' => $this->optional === true
+                ? "$this->label $this->optionalLabel"
+                : $this->label,
             'max' => $this->max,
             'min' => $this->min,
             'name' => $this->name,
