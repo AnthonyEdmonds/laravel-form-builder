@@ -35,6 +35,7 @@ class ValidationDataTest extends TestCase
     {
         $this->assertEquals(
             [
+                'model' => $this->model,
                 'name' => 'Potato',
             ],
             $this->question->validationData(),

@@ -252,9 +252,11 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function validationData(): array
     {
-        $values = [];
-        $fields = $this->fields();
+        $values = [
+            'model' => $this->form->model,
+        ];
 
+        $fields = $this->fields();
         foreach ($fields as $field) {
             $values[$field->name] = $this->getRawAnswer($field->name);
         }
@@ -265,10 +267,18 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     public function isValid(): bool
     {
         try {
-            request()->merge(
+            /** @var class-string<FormRequest> $formRequest */
+            $formRequest = $this->formRequest();
+
+            $request = new $formRequest(
                 $this->validationData(),
             );
-            $this->validate();
+
+            $request->validate(
+                /** @phpstan-ignore-next-line rules() method is not declared part of FormRequest */
+                $request->rules(),
+            );
+
             return true;
         } catch (Throwable $exception) {
             return false;
