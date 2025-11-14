@@ -26,6 +26,8 @@ class ToArrayTest extends TestCase
 
     public function test(): void
     {
+        $this->field->optional = false;
+
         $this->assertEquals(
             [
                 'accept' => $this->field->accept,
@@ -59,6 +61,16 @@ class ToArrayTest extends TestCase
                 'words' => $this->field->words,
             ],
             $this->field->toArray(),
+        );
+    }
+
+    public function testOptional(): void
+    {
+        $this->field->optional = true;
+
+        $this->assertEquals(
+            "{$this->field->label} {$this->field->optionalLabel}",
+            $this->field->toArray()['label'],
         );
     }
 }
