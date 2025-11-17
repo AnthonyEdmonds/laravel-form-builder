@@ -162,7 +162,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return 'Not provided';
     }
 
-    public function getFormattedAnswer(string $fieldKey): string
+    public function getFormattedAnswer(string $fieldKey): mixed
     {
         return $this->getRawAnswer($fieldKey)
             ?? $this->blankAnswerLabel($fieldKey);
