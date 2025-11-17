@@ -18,10 +18,16 @@
             @endif
 
             <li id="{{ $task['id'] }}">
-                <a href="{{ $task['url'] }}">{{ $task['label'] }}</a>
+                @if($task['url'] !== null)
+                    <a href="{{ $task['url'] }}">{{ $task['label'] }}</a>
+                @else
+                    {{ $task['label'] }}
+                @endif
+
                 @foreach($task['hint'] as $hint)
                     <p>{{ $hint }}</p>
                 @endforeach
+
                 <span class="{{ $task['colour'] }}">{{ $task['status'] }}</span>
             </li>
 

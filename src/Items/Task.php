@@ -228,6 +228,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         }
 
         $summary = [
+            'actions' => [],
             'group' => $this->group,
             'id' => $this->key,
             'list' => $answers,
@@ -275,7 +276,9 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
             'id' => $this->key,
             'label' => $this->label(),
             'status' => $this->status()->value,
-            'url' => $this->route(),
+            'url' => $this->canChange() === true
+                ? $this->route()
+                : null,
         ];
     }
 
