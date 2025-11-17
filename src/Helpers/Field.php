@@ -47,6 +47,8 @@ class Field implements Arrayable
 
     public int $rows = 5;
 
+    public bool $showOnSummary = true;
+
     public bool $spellcheck = false;
 
     public string $step = '';
@@ -118,6 +120,7 @@ class Field implements Arrayable
             'placeholder' => $this->placeholder,
             'prefix' => $this->prefix,
             'rows' => $this->rows,
+            'showOnSummary' => $this->showOnSummary,
             'spellcheck' => $this->spellcheck,
             'step' => $this->step,
             'suffix' => $this->suffix,
@@ -130,6 +133,12 @@ class Field implements Arrayable
     }
 
     // Setters
+    public function hideOnSummary(): static
+    {
+        $this->showOnSummary = false;
+        return $this;
+    }
+
     public function optional(): static
     {
         return $this->setOptional(true);
@@ -308,6 +317,12 @@ class Field implements Arrayable
         return $this;
     }
 
+    public function showOnSummary(): static
+    {
+        $this->showOnSummary = true;
+        return $this;
+    }
+
     public function title(): static
     {
         $this->isTitle = true;
@@ -354,6 +369,7 @@ class Field implements Arrayable
         ?string $value,
     ): static {
         return static::make($name, '', '')
+            ->hideOnSummary()
             ->setBlade('hidden-input')
             ->setType(InputType::Hidden)
             ->setValue($value);

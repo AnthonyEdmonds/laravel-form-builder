@@ -324,7 +324,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
         $fields = $this->fields();
         foreach ($fields as $field) {
-            if ($field->type === InputType::Hidden) {
+            if ($field->showOnSummary === false) {
                 continue;
             }
 

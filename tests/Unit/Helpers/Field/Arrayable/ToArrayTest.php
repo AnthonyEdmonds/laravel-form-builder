@@ -51,6 +51,7 @@ class ToArrayTest extends TestCase
                 'placeholder' => $this->field->placeholder,
                 'prefix' => $this->field->prefix,
                 'rows' => $this->field->rows,
+                'showOnSummary' => $this->field->showOnSummary,
                 'spellcheck' => $this->field->spellcheck,
                 'step' => $this->field->step,
                 'suffix' => $this->field->suffix,

@@ -27,6 +27,10 @@ class HiddenTest extends TestCase
             $this->field->blade,
         );
 
+        $this->assertFalse(
+            $this->field->showOnSummary,
+        );
+
         $this->assertEquals(
             InputType::Hidden,
             $this->field->type,
