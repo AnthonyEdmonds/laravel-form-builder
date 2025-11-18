@@ -84,7 +84,7 @@ class Resume extends Item implements ItemInterface, CanRender
     // Actions
     public function show(): View
     {
-        return $this;
+        return $this->render();
     }
 
     public function restart(): RedirectResponse

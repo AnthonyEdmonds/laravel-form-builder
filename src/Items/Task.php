@@ -294,6 +294,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
                     ...$this->formatItems(),
                 ),
             )
-            ->with('status', $this->status()->value);
+            ->with('status', $this->status()->value)
+            ->render();
     }
 }
