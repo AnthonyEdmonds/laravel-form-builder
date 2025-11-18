@@ -7,7 +7,8 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
-use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\View\View;
 
 class ShowTest extends TestCase
 {
@@ -17,7 +18,7 @@ class ShowTest extends TestCase
 
     protected MyModel $model;
 
-    protected View $view;
+    protected ViewContract $view;
 
     protected function setUp(): void
     {
@@ -35,7 +36,7 @@ class ShowTest extends TestCase
     public function test(): void
     {
         $this->assertInstanceOf(
-            Confirmation::class,
+            View::class,
             $this->view,
         );
 

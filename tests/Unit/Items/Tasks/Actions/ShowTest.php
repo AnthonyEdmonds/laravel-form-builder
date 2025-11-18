@@ -8,7 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 
 class ShowTest extends TestCase
 {
@@ -35,7 +35,7 @@ class ShowTest extends TestCase
     public function test(): void
     {
         $this->assertInstanceOf(
-            Tasks::class,
+            View::class,
             $this->view,
         );
 
