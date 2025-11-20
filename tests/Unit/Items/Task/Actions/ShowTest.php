@@ -5,10 +5,10 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\Actions;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
-use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\View\View;
 
 class ShowTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ShowTest extends TestCase
 
     protected Task $task;
 
-    protected View $view;
+    protected ViewContract $view;
 
     protected function setUp(): void
     {
@@ -36,7 +36,7 @@ class ShowTest extends TestCase
     public function test(): void
     {
         $this->assertInstanceOf(
-            MyTask::class,
+            View::class,
             $this->view,
         );
 

@@ -385,7 +385,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             ));
         }
 
-        return $this;
+        return $this->render();
     }
 
     public function save(FormRequest $formRequest): RedirectResponse

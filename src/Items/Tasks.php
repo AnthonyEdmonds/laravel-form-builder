@@ -190,6 +190,6 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
             ));
         }
 
-        return $this;
+        return $this->render();
     }
 }

@@ -17,7 +17,8 @@ class ShowTest extends TestCase
     {
         parent::setUp();
 
-        $this->startFormSession();
+        $model = $this->startFormSession();
+        $model->id = 1;
 
         $this->controller = new ConfirmationController();
         $this->view = $this->controller->show(MyForm::key());

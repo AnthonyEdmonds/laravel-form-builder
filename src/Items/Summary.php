@@ -94,7 +94,7 @@ class Summary extends Item implements ItemInterface, CanRender
             ));
         }
 
-        return $this;
+        return $this->render();
     }
 
     public function showLabel(): string

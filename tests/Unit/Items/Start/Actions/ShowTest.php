@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Start;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
+use Illuminate\View\View;
 
 class ShowTest extends TestCase
 {
@@ -30,7 +31,7 @@ class ShowTest extends TestCase
     public function test(): void
     {
         $this->assertInstanceOf(
-            Start::class,
+            View::class,
             $this->start->show(),
         );
 

@@ -89,6 +89,7 @@ class Confirmation extends Item implements ItemInterface, CanRender
     {
         return $this
             ->with('hideTitle', true)
-            ->with('model', $this->form->model);
+            ->with('model', $this->form->model)
+            ->render();
     }
 }

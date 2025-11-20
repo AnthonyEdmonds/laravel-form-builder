@@ -6,10 +6,10 @@ use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
-use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\View\View;
 
 class ShowTest extends TestCase
 {
@@ -21,7 +21,7 @@ class ShowTest extends TestCase
 
     protected Question $question;
 
-    protected View $view;
+    protected ViewContract $view;
 
     protected function setUp(): void
     {
@@ -39,7 +39,7 @@ class ShowTest extends TestCase
     public function test(): void
     {
         $this->assertInstanceOf(
-            NameQuestion::class,
+            View::class,
             $this->view,
         );
 
