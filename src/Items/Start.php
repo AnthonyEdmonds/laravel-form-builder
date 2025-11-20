@@ -83,6 +83,6 @@ class Start extends Item implements ItemInterface, CanRender
     // Actions
     public function show(): View
     {
-        return $this;
+        return $this->with('model', $this->form->model);
     }
 }

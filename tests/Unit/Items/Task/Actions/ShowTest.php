@@ -63,5 +63,9 @@ class ShowTest extends TestCase
             $data['status'],
             $this->task->status()->value,
         );
+
+        $this->assertTrue(
+            $this->model->is($data['model']),
+        );
     }
 }

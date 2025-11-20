@@ -33,5 +33,11 @@ class ShowTest extends TestCase
             Resume::class,
             $this->resume->show(),
         );
+
+        $data = $this->resume->getData();
+
+        $this->assertTrue(
+            $this->model->is($data['model']),
+        );
     }
 }
