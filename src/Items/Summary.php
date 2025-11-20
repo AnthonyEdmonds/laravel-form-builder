@@ -80,6 +80,7 @@ class Summary extends Item implements ItemInterface, CanRender
     public function show(): View
     {
         $this
+            ->with('model', $this->form->model)
             ->with('submit', Link::make(
                 $this->form->submitLabel(),
                 $this->form->submitRoute(),

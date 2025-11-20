@@ -372,6 +372,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $this
             ->with('fields', $this->formatFields())
             ->with('hideTitle', $this->hideTitle())
+            ->with('model', $this->form->model)
             ->with('save', Link::make(
                 $this->saveLabel(),
                 $this->saveRoute(),

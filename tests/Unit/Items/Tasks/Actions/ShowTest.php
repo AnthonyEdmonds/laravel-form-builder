@@ -46,6 +46,10 @@ class ShowTest extends TestCase
             $data['tasks'],
         );
 
+        $this->assertTrue(
+            $this->model->is($data['model']),
+        );
+
         $this->assertEquals(
             Link::make(
                 $this->form->draftLabel(),

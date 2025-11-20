@@ -69,5 +69,9 @@ class ShowTest extends TestCase
             ),
             $data['skip'],
         );
+
+        $this->assertTrue(
+            $this->model->is($data['model']),
+        );
     }
 }

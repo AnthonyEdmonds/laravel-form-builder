@@ -62,5 +62,9 @@ class ShowTest extends TestCase
             ),
             $data['draft'],
         );
+
+        $this->assertTrue(
+            $this->model->is($data['model']),
+        );
     }
 }

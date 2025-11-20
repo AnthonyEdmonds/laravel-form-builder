@@ -34,5 +34,11 @@ class ShowTest extends TestCase
             View::class,
             $this->start->show(),
         );
+
+        $data = $this->start->getData();
+
+        $this->assertTrue(
+            $this->model->is($data['model']),
+        );
     }
 }

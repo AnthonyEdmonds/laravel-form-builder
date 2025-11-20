@@ -179,7 +179,9 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     // Actions
     public function show(): View
     {
-        $this->with('tasks', $this->formatItems());
+        $this
+            ->with('model', $this->form->model)
+            ->with('tasks', $this->formatItems());
 
         if ($this->form->model->draftIsEnabled() === true) {
             $this->with('draft', Link::make(
