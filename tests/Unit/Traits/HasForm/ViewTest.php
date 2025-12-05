@@ -19,12 +19,12 @@ class ViewTest extends TestCase
 
         $this->model = new MyModel();
         $this->model->id = 1;
-
-        $this->view = $this->model->view();
     }
 
     public function test(): void
     {
+        $this->view = $this->model->view();
+
         $this->assertEquals(
             'form-builder::view',
             $this->view->name(),
@@ -47,6 +47,16 @@ class ViewTest extends TestCase
         $this->assertEquals(
             $this->model->form()->tasks()->summarise(false, false),
             $data['summary'],
+        );
+    }
+
+    public function testBlade(): void
+    {
+        $this->view = $this->model->view('form-builder::start');
+
+        $this->assertEquals(
+            'form-builder::start',
+            $this->view->name(),
         );
     }
 }

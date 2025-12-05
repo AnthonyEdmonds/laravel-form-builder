@@ -21,7 +21,7 @@ interface UsesForm
 
     public function form(): Form;
 
-    public function view(): View;
+    public function view(?string $blade = null): View;
 
     public function viewRoute(): string;
 

@@ -24,9 +24,9 @@ trait HasForm
     // Form
     abstract public function viewRoute(): string;
 
-    public function view(): View
+    public function view(?string $blade = null): View
     {
-        return view('form-builder::view')
+        return view($blade ?? 'form-builder::view')
             ->with('edit', Link::make(
                 'Edit ' . $this->modelName(),
                 $this->form()->editRoute(),
