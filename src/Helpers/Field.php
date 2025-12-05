@@ -426,7 +426,7 @@ class Field implements Arrayable
 
     public static function readonly(
         string $label,
-        ?string $value,
+        mixed $value,
     ): static {
         return static::make($label, $label, $label)
             ->setType(InputType::ReadOnly)
