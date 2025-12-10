@@ -30,12 +30,19 @@ class GetRawAnswerTest extends TestCase
         $this->question = $this->task->question('name-question');
     }
 
-    public function test(): void
+    public function testHasAttribute(): void
     {
         $this->model->name = 'Potato';
 
         $this->assertEquals(
             'Potato',
+            $this->question->getRawAnswer('name'),
+        );
+    }
+
+    public function testDoesNot(): void
+    {
+        $this->assertNull(
             $this->question->getRawAnswer('name'),
         );
     }
