@@ -412,11 +412,17 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function applySave(FormRequest $formRequest): void
     {
+        /** @var array<Field> $fields */
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            $attribute = $field->name;
-            $this->form->model->$attribute = $formRequest->get($field->name);
+            if (
+                $field->type !== InputType::ReadOnly
+                && $field->type !== InputType::Hidden
+            ) {
+                $attribute = $field->name;
+                $this->form->model->$attribute = $formRequest->get($field->name);
+            }
         }
     }
 
