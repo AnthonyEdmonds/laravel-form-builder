@@ -23,6 +23,7 @@ class ViewTest extends TestCase
 
     public function test(): void
     {
+        $this->model->can_access = true;
         $this->view = $this->model->view();
 
         $this->assertEquals(
@@ -52,11 +53,18 @@ class ViewTest extends TestCase
 
     public function testBlade(): void
     {
+        $this->model->can_access = false;
         $this->view = $this->model->view('form-builder::start');
 
         $this->assertEquals(
             'form-builder::start',
             $this->view->name(),
+        );
+
+        $data = $this->view->getData();
+
+        $this->assertNull(
+            $data['edit'],
         );
     }
 }

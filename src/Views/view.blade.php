@@ -15,4 +15,6 @@
     <p>No tasks have been added to this form.</p>
 @endforelse
 
-<a href="{{ $edit->link }}">{{ $edit->label }}</a>
+@isset($edit)
+    <a href="{{ $edit->link }}">{{ $edit->label }}</a>
+@endisset
