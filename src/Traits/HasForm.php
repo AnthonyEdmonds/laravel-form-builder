@@ -25,11 +25,15 @@ trait HasForm
 
     public function view(?string $blade = null): View
     {
-        return view($blade ?? 'form-builder::view')
-            ->with('edit', Link::make(
+        $edit = $this->form()->canAccess() === false
+            ? null
+            : Link::make(
                 'Edit ' . $this->modelName(),
                 $this->form()->editRoute(),
-            ))
+            );
+
+        return view($blade ?? 'form-builder::view')
+            ->with('edit', $edit)
             ->with('model', $this)
             ->with(
                 'summary',
