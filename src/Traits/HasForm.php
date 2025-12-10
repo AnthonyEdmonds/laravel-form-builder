@@ -9,7 +9,6 @@ use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 /**
@@ -82,8 +81,6 @@ trait HasForm
     {
         if (isset($this->form) === false) {
             $formClass = $this->formClass();
-
-            Session::put($formClass::key(), $this);
             $this->form = new $formClass($this);
         }
 
