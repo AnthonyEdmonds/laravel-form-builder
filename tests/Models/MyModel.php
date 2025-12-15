@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property ?int $age
+ * @property bool $age_not_required
  * @property ?Carbon $birthday
  * @property bool $can_access
  * @property bool $cannot_start
@@ -24,6 +25,7 @@ class MyModel extends Model implements UsesForm
 
     protected $fillable = [
         'age',
+        'age_not_required',
         'birthday',
         'can_access',
         'draft_is_valid',
@@ -38,6 +40,7 @@ class MyModel extends Model implements UsesForm
 
     protected $casts = [
         'age' => 'int',
+        'age_not_required' => 'bool',
         'birthday' => 'datetime',
         'can_access' => 'bool',
         'cannot_start' => 'bool',

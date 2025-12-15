@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\UsesStates;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Carbon\Carbon;
@@ -22,14 +23,17 @@ class IsCompleteTest extends TestCase
 
         $this->model = new MyModel();
         $this->model->id = 1;
+        $this->model->age_not_required = true;
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
+        $this->task = $this->form
+            ->tasks()
+            ->task(MyTask::key());
     }
 
-    public function testTrueWhenComplete(): void
+    public function testTrueWhenCompleteOrNotRequired(): void
     {
-        $this->model->age = 99;
+        $this->model->age = null;
         $this->model->birthday = Carbon::now();
         $this->model->name = 'Potato';
 
