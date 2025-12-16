@@ -6,6 +6,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\AgeRequest;
 
+/** @property MyForm $form */
 class AgeQuestion extends Question
 {
     public static function key(): string
@@ -25,5 +26,10 @@ class AgeQuestion extends Question
     public function formRequest(): string
     {
         return AgeRequest::class;
+    }
+
+    public function isNotRequired(): bool
+    {
+        return $this->form->model->age_not_required === true;
     }
 }

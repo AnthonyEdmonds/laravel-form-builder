@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use ErrorException;
 
+/** @property MyModel $model */
 class MyForm extends Form
 {
     public static function key(): string

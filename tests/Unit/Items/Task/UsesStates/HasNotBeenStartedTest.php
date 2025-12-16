@@ -22,13 +22,16 @@ class HasNotBeenStartedTest extends TestCase
 
         $this->model = new MyModel();
         $this->model->id = 1;
+        $this->model->age_not_required = true;
 
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
     }
 
-    public function testTrueWhenBlank(): void
+    public function testTrueWhenBlankOrNotRequired(): void
     {
+        $this->model->age = 99;
+
         $this->assertTrue(
             $this->task->hasNotBeenStarted(),
         );
