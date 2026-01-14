@@ -292,6 +292,16 @@ A link back to the `Form` should be included, if the model can be edited.
 
 You can control whether an individual `Question` can be edited by adjusting the `canChange()` method.
 
+## Testing
+
+To assist with the creation of unit tests, an `AssertsForms` trait has been provided.
+
+You can add this to your base `TestCase` class to use the following methods:
+
+| Assertion                                      | Usage                                                            |
+|------------------------------------------------|------------------------------------------------------------------|
+| assertField(array $expectations, Field $field) | Provide the expected values for the Field, then the field itself | 
+
 ## Help and support
 
 You are welcome to raise any issues or questions on GitHub.
@@ -301,4 +311,3 @@ If you wish to contribute to this library, raise an issue before submitting a fo
 ## Licence
 
 Published under the MIT licence.
-

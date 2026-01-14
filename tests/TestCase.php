@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests;
 
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\SessionHelper;
 use AnthonyEdmonds\LaravelFormBuilder\LaravelFormBuilderServiceProvider;
+use AnthonyEdmonds\LaravelFormBuilder\Traits\AssertsForms;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonConfirmationForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonDraftForm;
@@ -14,6 +15,8 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    use AssertsForms;
+
     protected function setUp(): void
     {
         parent::setUp();
