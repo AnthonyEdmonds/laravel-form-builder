@@ -8,4 +8,5 @@ parameters:
     ignoreErrors:
         - '#Parameter \#1 \$view of function view expects view-string\|null, string given#'
         - '#Access to an undefined property AnthonyEdmonds\\LaravelFormBuilder\\Interfaces\\UsesForm::\$exists#'
+        - '#Trait AnthonyEdmonds\\LaravelFormBuilder\\Traits\\AssertsForms is used zero times and is not analysed#'
         - '#Trait AnthonyEdmonds\\LaravelFormBuilder\\Traits\\HasForm is used zero times and is not analysed#'
