@@ -129,6 +129,11 @@ trait HasForm
     // Submit
     public function submitIsValid(): true|string
     {
+        return $this->tasksAreComplete();
+    }
+
+    public function tasksAreComplete(): true|string
+    {
         $tasks = $this->form()->tasks();
         $taskClasses = $tasks->items();
         $issues = [];
