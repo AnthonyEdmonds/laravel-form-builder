@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property ?string $name
  * @property bool $not_required
+ * @property ?string $colour
  * @property bool $submit_is_valid
  */
 class MyModel extends Model implements UsesForm
@@ -31,6 +32,7 @@ class MyModel extends Model implements UsesForm
         'draft_is_valid',
         'name',
         'not_required',
+        'colour',
         'submit_is_valid',
     ];
 

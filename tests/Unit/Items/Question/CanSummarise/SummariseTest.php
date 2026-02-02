@@ -2,15 +2,17 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanSummarise;
 
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
 class SummariseTest extends TestCase
 {
-    protected MyForm $form;
+    protected Form $form;
 
     protected MyModel $model;
 
@@ -24,12 +26,11 @@ class SummariseTest extends TestCase
 
         $this->model = new MyModel();
         $this->model->id = 1;
-
-        $this->form = new MyForm($this->model);
     }
 
-    public function test(): void
+    public function testNormalForm(): void
     {
+        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
         $this->question = $this->task->question('name-question');
 
@@ -54,6 +55,7 @@ class SummariseTest extends TestCase
 
     public function testSummarisesHiddenFields(): void
     {
+        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('next-task');
         $this->question = $this->task->question('read-only');
 
@@ -65,6 +67,25 @@ class SummariseTest extends TestCase
                 ],
             ],
             $this->question->summarise(true, true),
+        );
+    }
+
+    public function testRecoverableForm(): void
+    {
+        $this->form = new RecoverableForm($this->model);
+        $this->task = $this->form->tasks()->task('recoverable-task');
+        $this->question = $this->task->question('colour-question');
+
+        $this->model->colour = 'mystery colour';
+
+        $this->assertEquals(
+            [
+                'Colour' => [
+                    'label' => 'Colour',
+                    'value' => 'Not provided',
+                ],
+            ],
+            $this->question->summarise(false, false)
         );
     }
 }

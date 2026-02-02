@@ -192,7 +192,6 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 return true;
             }
         }
-
         return false;
     }
 
@@ -236,9 +235,13 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 continue;
             }
 
-            $field->setValue(
-                $this->getRawAnswer($field->name),
-            );
+            try {
+                $value = $this->getRawAnswer($field->name);
+            } catch (Throwable $exception) {
+                $value = null;
+            }
+
+            $field->setValue($value);
 
             if ($isTitle === true) {
                 $field->title();
@@ -335,11 +338,17 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 $route .= '?return=summary';
             }
 
+            try {
+                $value = ($field->type === InputType::ReadOnly) === true
+                    ? $field->value
+                    : $this->getFormattedAnswer($field->name);
+            } catch (Throwable $exception) {
+                $value = $this->blankAnswerLabel($field->name);
+            }
+
             $summary[$field->displayName] = [
                 'label' => $field->displayName,
-                'value' => $field->type === InputType::ReadOnly
-                    ? $field->value
-                    : $this->getFormattedAnswer($field->name),
+                'value' => $value,
             ];
 
             if ($field->type !== InputType::ReadOnly) {
