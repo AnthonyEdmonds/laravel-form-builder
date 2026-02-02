@@ -78,6 +78,10 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
     public function isEnabled(): bool
     {
+        if ($this->hasInputs() === false) {
+            return false;
+        }
+
         $status = $this->status();
 
         return $status !== State::CannotStartYet
@@ -246,6 +250,26 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         }
 
         return $fields;
+    }
+
+    public function hasInputs(): bool
+    {
+        $fields = $this->fields();
+
+        if (empty($fields) === true) {
+            return false;
+        }
+
+        foreach ($fields as $field) {
+            if (
+                $field->type !== InputType::Hidden
+                && $field->type !== InputType::ReadOnly
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // Validation
