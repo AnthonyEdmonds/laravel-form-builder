@@ -26,39 +26,31 @@ class ColourQuestion extends Question
         return FormRequest::class;
     }
 
-    /**
-     * @throws ErrorException Throws to emulate a bad implementation in user code
-     */
     public function isValid(): bool
     {
-        throw new ErrorException('Bad implementation');
+        return ($this->form->model->colour === 'green') === true
+            ?? throw new ErrorException('Bad implementation');
     }
 
     public function hasAnswer(string $fieldName): bool
     {
-        return true;
+        return ($this->form->model->colour !== null) === true;
     }
 
-    /**
-     * @throws ErrorException Throws to emulate a bad implementation in user code
-     */
     public function getFormattedAnswer(string $fieldKey): mixed
     {
         $colour = $this->form->model->colour;
 
-        return $colour === 'mystery colour'
+        return ($colour === 'invalid') === true
             ? throw new ErrorException('Bad implementation')
             : $colour;
     }
 
-    /**
-     * @throws ErrorException Throws to emulate a bad implementation in user code
-     */
     public function getRawAnswer(string $fieldName): mixed
     {
         $colour = $this->form->model->colour;
 
-        return $colour === 'not a colour'
+        return ($colour === 'not a colour') === true
             ? throw new ErrorException('Bad implementation')
             : $colour;
     }

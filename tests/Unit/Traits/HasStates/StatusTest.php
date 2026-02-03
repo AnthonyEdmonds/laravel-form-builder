@@ -6,8 +6,9 @@ use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\ColourQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
@@ -43,9 +44,11 @@ class StatusTest extends TestCase
 
     public function testRecoverableForm(): void
     {
-        $this->form = new RecoverableForm($this->model);
-        $this->task = $this->form->tasks()->task('recoverable-task');
-        $this->question = $this->task->question('colour-question');
+        $this->form = new MyForm($this->model);
+        $this->task = $this->form->tasks()->task(RecoverableTask::key());
+        $this->question = $this->task->question(ColourQuestion::key());
+
+        $this->model->colour = 'blue';
 
         $this->assertEquals(
             State::ThereIsAProblem,

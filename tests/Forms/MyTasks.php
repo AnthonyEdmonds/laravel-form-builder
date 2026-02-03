@@ -13,6 +13,7 @@ class MyTasks extends Tasks
             'The next task' => [
                 NextTask::class,
             ],
+            RecoverableTask::class,
         ];
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('name')->nullable();
             $table->unsignedTinyInteger('age')->nullable();
             $table->dateTime('birthday')->nullable();
+            $table->string('colour')->nullable();
         });
     }
 

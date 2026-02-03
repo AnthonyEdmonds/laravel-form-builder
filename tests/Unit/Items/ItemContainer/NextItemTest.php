@@ -39,7 +39,7 @@ class NextItemTest extends TestCase
 
     public function testRedirectWhenLastItem(): void
     {
-        $this->redirect = $this->tasks->nextItem('next-task');
+        $this->redirect = $this->tasks->nextItem('recoverable-task');
 
         $this->assertEquals(
             $this->tasks->route(),

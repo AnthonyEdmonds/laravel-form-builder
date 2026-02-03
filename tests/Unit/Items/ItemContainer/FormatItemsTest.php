@@ -27,7 +27,7 @@ class FormatItemsTest extends TestCase
     public function test(): void
     {
         $this->assertCount(
-            2,
+            3,
             $this->tasks->formatItems(),
         );
     }

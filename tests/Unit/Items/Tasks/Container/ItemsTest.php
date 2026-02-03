@@ -6,6 +6,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NextTask;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
@@ -34,6 +35,7 @@ class ItemsTest extends TestCase
             [
                 MyTask::class,
                 NextTask::class,
+                RecoverableTask::class,
             ],
             $this->tasks->items(),
         );
