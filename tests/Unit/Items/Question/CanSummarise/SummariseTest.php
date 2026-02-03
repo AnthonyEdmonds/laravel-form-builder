@@ -2,7 +2,6 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\CanSummarise;
 
-use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\ColourQuestion;
@@ -13,7 +12,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
 class SummariseTest extends TestCase
 {
-    protected Form $form;
+    protected MyForm $form;
 
     protected MyModel $model;
 
@@ -29,7 +28,7 @@ class SummariseTest extends TestCase
         $this->model->id = 1;
     }
 
-    public function testNormalForm(): void
+    public function test(): void
     {
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
@@ -71,7 +70,7 @@ class SummariseTest extends TestCase
         );
     }
 
-    public function testRecoverableForm(): void
+    public function testSummarisesBadQuestion(): void
     {
         $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task(RecoverableTask::key());

@@ -4,6 +4,8 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\ItemContainer;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Tasks;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Illuminate\Http\RedirectResponse;
@@ -29,7 +31,7 @@ class NextItemTest extends TestCase
 
     public function testRedirectToItem(): void
     {
-        $this->redirect = $this->tasks->nextItem('my-task');
+        $this->redirect = $this->tasks->nextItem(MyTask::key());
 
         $this->assertEquals(
             $this->tasks->task('next-task')->route(),
@@ -39,7 +41,7 @@ class NextItemTest extends TestCase
 
     public function testRedirectWhenLastItem(): void
     {
-        $this->redirect = $this->tasks->nextItem('recoverable-task');
+        $this->redirect = $this->tasks->nextItem(RecoverableTask::key());
 
         $this->assertEquals(
             $this->tasks->route(),

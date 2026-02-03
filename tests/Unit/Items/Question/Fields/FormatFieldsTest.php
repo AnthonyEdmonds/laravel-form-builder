@@ -2,7 +2,6 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Fields;
 
-use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\ColourQuestion;
@@ -15,7 +14,7 @@ class FormatFieldsTest extends TestCase
 {
     protected array $fields;
 
-    protected Form $form;
+    protected MyForm $form;
 
     protected MyModel $model;
 
@@ -30,11 +29,12 @@ class FormatFieldsTest extends TestCase
         $this->model = new MyModel();
         $this->model->id = 1;
         $this->model->name = 'Hello';
+
+        $this->form = new MyForm($this->model);
     }
 
-    public function testNormalForm(): void
+    public function test(): void
     {
-        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
         $this->question = $this->task->question('name-question');
         $this->fields = $this->question->formatFields();
@@ -51,8 +51,6 @@ class FormatFieldsTest extends TestCase
 
     public function testHidesFields(): void
     {
-        $this->form = new MyForm($this->model);
-
         $this->assertEmpty(
             $this->form->tasks()
                 ->task('next-task')
@@ -61,9 +59,8 @@ class FormatFieldsTest extends TestCase
         );
     }
 
-    public function testRecoverableForm(): void
+    public function testExceptionIsFormattedAsNull(): void
     {
-        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task(RecoverableTask::key());
         $this->question = $this->task->question(ColourQuestion::key());
 
