@@ -85,7 +85,7 @@ class SummariseTest extends TestCase
                     'value' => 'Not provided',
                 ],
             ],
-            $this->question->summarise(false, false)
+            $this->question->summarise(false, false),
         );
     }
 }
