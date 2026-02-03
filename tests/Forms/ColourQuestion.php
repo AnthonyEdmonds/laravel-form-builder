@@ -29,11 +29,12 @@ class ColourQuestion extends Question
     public function isValid(): bool
     {
         return ($this->form->model->colour === 'green') === true
-            ?? throw new ErrorException('Bad implementation');
+            || throw new ErrorException('Bad implementation');
     }
 
     public function hasAnswer(string $fieldName): bool
     {
+        dump($this->form->model->colour);
         return ($this->form->model->colour !== null) === true;
     }
 
