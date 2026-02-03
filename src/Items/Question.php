@@ -192,6 +192,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 return true;
             }
         }
+
         return false;
     }
 
