@@ -3,8 +3,11 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Item;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
-use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NextTask;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\ReadOnlyQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -14,8 +17,6 @@ class IsEnabledTest extends TestCase
     protected MyForm $form;
 
     protected MyModel $model;
-
-    protected Task $task;
 
     protected Question $question;
 
@@ -27,8 +28,11 @@ class IsEnabledTest extends TestCase
         $this->model->id = 1;
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
-        $this->question = $this->task->question('name-question');
+        $this->question = $this->form->tasks()
+            ->task(
+                MyTask::key(),
+            )
+            ->question(NameQuestion::key());
     }
 
     #[DataProvider('expectations')]
@@ -42,6 +46,17 @@ class IsEnabledTest extends TestCase
 
         $this->assertEquals(
             $expected,
+            $this->question->isEnabled(),
+        );
+    }
+
+    public function testWhenNoInputs(): void
+    {
+        $this->question = $this->form->tasks()
+            ->task(NextTask::key())
+            ->question(ReadOnlyQuestion::key());
+
+        $this->assertFalse(
             $this->question->isEnabled(),
         );
     }
