@@ -32,27 +32,10 @@ class ColourQuestion extends Question
             || throw new ErrorException('Bad implementation');
     }
 
-    public function hasAnswer(string $fieldName): bool
-    {
-        dump($this->form->model->colour);
-        return ($this->form->model->colour !== null) === true;
-    }
-
-    public function getFormattedAnswer(string $fieldKey): mixed
-    {
-        $colour = $this->form->model->colour;
-
-        return ($colour === 'invalid') === true
-            ? throw new ErrorException('Bad implementation')
-            : $colour;
-    }
-
     public function getRawAnswer(string $fieldName): mixed
     {
-        $colour = $this->form->model->colour;
-
-        return ($colour === 'not a colour') === true
+        return ($this->form->model->colour === 'invalid') === true
             ? throw new ErrorException('Bad implementation')
-            : $colour;
+            : $this->form->model->colour;
     }
 }

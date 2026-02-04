@@ -64,7 +64,7 @@ class FormatFieldsTest extends TestCase
         $this->task = $this->form->tasks()->task(RecoverableTask::key());
         $this->question = $this->task->question(ColourQuestion::key());
 
-        $this->model->colour = 'not a colour';
+        $this->model->colour = 'invalid';
 
         $this->fields = $this->question->formatFields();
 
