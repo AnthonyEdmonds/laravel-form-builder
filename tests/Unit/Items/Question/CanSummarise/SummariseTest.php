@@ -26,11 +26,12 @@ class SummariseTest extends TestCase
 
         $this->model = new MyModel();
         $this->model->id = 1;
+
+        $this->form = new MyForm($this->model);
     }
 
     public function test(): void
     {
-        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('my-task');
         $this->question = $this->task->question('name-question');
 
@@ -55,7 +56,6 @@ class SummariseTest extends TestCase
 
     public function testSummarisesHiddenFields(): void
     {
-        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task('next-task');
         $this->question = $this->task->question('read-only');
 
@@ -72,7 +72,6 @@ class SummariseTest extends TestCase
 
     public function testSummarisesBadQuestion(): void
     {
-        $this->form = new MyForm($this->model);
         $this->task = $this->form->tasks()->task(RecoverableTask::key());
         $this->question = $this->task->question(ColourQuestion::key());
 
