@@ -28,13 +28,13 @@ class ColourQuestion extends Question
 
     public function isValid(): bool
     {
-        return ($this->form->model->colour === 'green') === true
+        return $this->form->model->colour === 'green'
             || throw new ErrorException('Bad implementation');
     }
 
     public function getRawAnswer(string $fieldName): mixed
     {
-        return ($this->form->model->colour === 'invalid') === true
+        return $this->form->model->colour === 'invalid'
             ? throw new ErrorException('Bad implementation')
             : $this->form->model->colour;
     }
