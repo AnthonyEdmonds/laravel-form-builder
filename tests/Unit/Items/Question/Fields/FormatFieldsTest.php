@@ -4,7 +4,9 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Fields;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\ColourQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
@@ -54,6 +56,22 @@ class FormatFieldsTest extends TestCase
                 ->task('next-task')
                 ->question('read-only')
                 ->formatFields(),
+        );
+    }
+
+    public function testExceptionIsFormattedAsNull(): void
+    {
+        $this->task = $this->form->tasks()->task(RecoverableTask::key());
+        $this->question = $this->task->question(ColourQuestion::key());
+
+        $this->model->colour = 'invalid';
+
+        $this->fields = $this->question->formatFields();
+
+        $this->assertEquals(
+            null,
+            $this->fields[0]->value,
+            'If the value cannot be resolved it should be reset to null',
         );
     }
 }

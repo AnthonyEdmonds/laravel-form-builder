@@ -19,7 +19,7 @@ class TasksAreCompleteTest extends TestCase
     public function testStringWhenTasksError(): void
     {
         $this->assertEquals(
-            'The following tasks need to be completed: My task, Next task',
+            'The following tasks need to be completed: My task, Next task, Recoverable task',
             $this->model->tasksAreComplete(),
         );
     }
@@ -29,6 +29,7 @@ class TasksAreCompleteTest extends TestCase
         $this->model->name = 'Bob';
         $this->model->age = 3;
         $this->model->birthday = '2025-12-12';
+        $this->model->colour = 'green';
 
         $this->assertTrue(
             $this->model->tasksAreComplete(),

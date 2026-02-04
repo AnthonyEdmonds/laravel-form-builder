@@ -5,6 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\Colour;
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesStates;
+use Throwable;
 
 /** @mixin UsesStates */
 trait HasStates
@@ -13,7 +14,13 @@ trait HasStates
 
     public function checkStatus(): State
     {
-        return $this->matchStatus();
+        try {
+            $status = $this->matchStatus();
+        } catch (Throwable $exception) {
+            $status = State::ThereIsAProblem;
+        }
+
+        return $status;
     }
 
     public function matchStatus(): State

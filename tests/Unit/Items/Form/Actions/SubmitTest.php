@@ -28,6 +28,7 @@ class SubmitTest extends TestCase
         $this->model->name = 'Bob';
         $this->model->age = 3;
         $this->model->birthday = '2025-12-12';
+        $this->model->colour = 'green';
 
         $this->form = new MyForm($this->model);
     }

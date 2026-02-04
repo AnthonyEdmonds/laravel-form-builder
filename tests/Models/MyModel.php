@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property ?Carbon $birthday
  * @property bool $can_access
  * @property bool $cannot_start
+ * @property ?string $colour
  * @property bool $draft_is_valid
  * @property int $id
  * @property ?string $name
@@ -28,6 +29,7 @@ class MyModel extends Model implements UsesForm
         'age_not_required',
         'birthday',
         'can_access',
+        'colour',
         'draft_is_valid',
         'name',
         'not_required',

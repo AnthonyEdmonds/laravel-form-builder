@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
+use AnthonyEdmonds\LaravelFormBuilder\Enums\InputType;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 
 trait AssertsForms
