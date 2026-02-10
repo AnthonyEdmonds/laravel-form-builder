@@ -187,10 +187,6 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
                 $tasks->backLabel(),
                 $tasks->route(),
             ),
-            'exit' => Link::make(
-                $this->form->exitLabel(),
-                $this->form->exitRoute(),
-            ),
         ];
     }
 

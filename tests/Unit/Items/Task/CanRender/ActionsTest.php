@@ -40,10 +40,6 @@ class ActionsTest extends TestCase
                     $this->tasks->backLabel(),
                     $this->tasks->route(),
                 ),
-                'exit' => Link::make(
-                    $this->form->exitLabel(),
-                    $this->form->exitRoute(),
-                ),
             ],
             $this->task->actions(),
         );
