@@ -50,7 +50,9 @@ The following can be published using `php artisan vendor:publish`:
 
 The configuration file is required for registering forms.
 
-The views are optional, used primarily as a basis for building your own form UI components. 
+The views are optional, used primarily as a basis for building your own form UI components.
+
+If you are using GOV.UK Laravel, you can switch to the pre-made views by changing the `template` config setting.
 
 ### Routes
 
@@ -64,9 +66,10 @@ Route::laravelFormBuilder();
 
 The `config/form-builder.php` file contains the following options:
 
-| Key   | Usage                                   | Type                 | Default |
-|-------|-----------------------------------------|----------------------|---------|
-| forms | A list of Forms available in the system | class-string<Form>[] | []      |
+| Key      | Usage                                   | Type                 | Default |
+|----------|-----------------------------------------|----------------------|---------|
+| forms    | A list of Forms available in the system | class-string<Form>[] | []      |
+| template | Which view template to use              | string               | default |
 
 ## Structure
 
