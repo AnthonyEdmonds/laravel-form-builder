@@ -112,12 +112,14 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
 
     protected function views(): void
     {
+        $template = config('form-builder.template') ?? 'default';
+
         $this->publishes([
             __DIR__ . '/Views' => resource_path('views/vendor/form-builder'),
         ], 'views');
 
         $this->loadViewsFrom(
-            __DIR__ . '/Views',
+            __DIR__ . '/Views/' . $template,
             'form-builder',
         );
     }
