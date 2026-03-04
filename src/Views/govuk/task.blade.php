@@ -18,9 +18,6 @@
             as-button
             href="{{ $actions['back']->link }}"
         >{{ $actions['back']->label }}</x-govuk::a>
-
-        <x-govuk::a
-            href="{{ $actions['exit']->link }}"
-        >{{ $actions['exit']->label }}</x-govuk::button>
     </x-govuk::button-group>
 @endsection
+
