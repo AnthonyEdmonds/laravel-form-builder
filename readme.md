@@ -281,9 +281,9 @@ Users can be redirected to the `new` endpoint using any of the following:
 
 Users can be redirect to the `edit` endpoint using any of the following:
 
-* `Model::formRoute($model->id)`
+* `Model::formRoute($model)`
 * `$model->form()->editRoute()`
-* `route('forms.edit', [MyForm::key(), $model->id])`
+* `route('forms.edit', [MyForm::key(), $model])`
 
 ## Viewing models
 
@@ -314,3 +314,4 @@ If you wish to contribute to this library, raise an issue before submitting a fo
 ## Licence
 
 Published under the MIT licence.
+
