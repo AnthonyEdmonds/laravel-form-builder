@@ -23,4 +23,15 @@ class FormRouteTest extends TestCase
             MyModel::formRoute(1),
         );
     }
+
+    public function testWithModel(): void
+    {
+        $model = new MyModel();
+        $model->id = 1;
+
+        $this->assertEquals(
+            route('forms.edit', [MyForm::key(), 1]),
+            MyModel::formRoute($model),
+        );
+    }
 }
