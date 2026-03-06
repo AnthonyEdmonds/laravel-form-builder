@@ -8,13 +8,18 @@ use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 class ModelHelper
 {
     /** @param class-string<Form> $formClass */
-    public static function loadModelFromDatabase(string $formClass, string $modelKey): UsesForm
+    public static function loadModelFromDatabase(string $formClass, string $id): UsesForm
     {
         /** @var class-string<UsesForm> $modelClass */
         $modelClass = $formClass::modelClass();
 
+        $model = new $modelClass();
+        $key = $model->getRouteKeyName();
+
         /** @var UsesForm $model */
-        $model = $modelClass::query()->findOrFail($modelKey);
+        $model = $modelClass::query()
+            ->where($key, '=', $id)
+            ->firstOrFail();
 
         return $model;
     }
