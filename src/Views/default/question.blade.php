@@ -15,6 +15,7 @@
         @csrf
         @method('POST')
 
+        @yield('additional-questions')
         @forelse($fields as $field)
             <x-form-builder::field :field="$field" />
         @empty
