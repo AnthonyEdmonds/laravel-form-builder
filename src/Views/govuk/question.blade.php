@@ -2,6 +2,7 @@
 
 @section('main')
     <x-govuk::form action="{{ $save->link }}">
+        @yield('additional-questions')
         @forelse($fields as $field)
             <x-govuk::question :settings="$field->toArray()" />
         @empty
