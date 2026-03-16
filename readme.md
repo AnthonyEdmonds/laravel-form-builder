@@ -241,11 +241,11 @@ Many other methods are available to further customise the input.
 
 ### Additional fields
 
-The `Question`  blade has two customisable sections before and after the main `Field`.
+The `Question` blade has two customisable sections before and after the main `Field`.
 
 These can be used to add additional content to your question blade.
 
-They can be utilised by calling `@section('before-fields')` or `@section('after-fields')` in the blade.
+They can be utilised as follows:
 
 ```php
 @extends('form-builder::question')
