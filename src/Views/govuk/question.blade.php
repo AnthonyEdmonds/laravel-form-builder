@@ -2,11 +2,13 @@
 
 @section('main')
     <x-govuk::form action="{{ $save->link }}">
+        @yield('before-fields')
         @forelse($fields as $field)
             <x-govuk::question :settings="$field->toArray()" />
         @empty
             <p>No fields have been added to this question.</p>
         @endforelse
+        @yield('after-fields')
 
         <x-govuk::button-group>
             <x-govuk::button prevent-double-click>{{ $save->label }}</x-govuk::button>

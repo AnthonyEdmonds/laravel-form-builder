@@ -67,8 +67,8 @@ trait HasForm
 
     public static function formRoute(Model|string|int|null $id = null): string
     {
-        if (is_a(Model::class, $id) === true) {
-            $formClass = $id::class;
+        if (is_a($id, Model::class) === true) {
+            $formClass = $id::formClass();
             $id = $id->getKey();
         } else {
             $formClass = static::formClass();
