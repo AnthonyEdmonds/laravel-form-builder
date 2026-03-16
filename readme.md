@@ -239,6 +239,30 @@ The `optional` method marks the `Field` as not required; `Fields` are required b
 
 Many other methods are available to further customise the input.
 
+### Additional fields
+
+The `Question`  blade has two customisable sections before and after the main `Field`.
+
+These can be used to add additional content to your question blade.
+
+They can be utilised by calling `@section('before-fields')` or `@section('after-fields')` in the blade.
+
+```php
+@extends('form-builder::question')
+
+@section('before-main')
+    <x-govuk::h1>Example</x-govuk::h1>
+@endsection
+
+@section('before-fields')
+    <x-govuk::p>This is a starting paragraph</x-govuk::p>
+@endsection
+
+@section('after-fields')
+    <x-govuk::p>This is an ending paragraph</x-govuk::p>
+@endsection
+```
+
 ### Skippable Questions
 
 A flag is provided to allow users to skip a question.

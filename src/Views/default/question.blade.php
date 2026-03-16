@@ -15,12 +15,13 @@
         @csrf
         @method('POST')
 
-        @yield('additional-questions')
+        @yield('before-fields')
         @forelse($fields as $field)
             <x-form-builder::field :field="$field" />
         @empty
             <p>No fields have been added to this question.</p>
         @endforelse
+        @yield('after-fields')
 
         <button>{{ $save->label }}</button>
         @isset($skip)
