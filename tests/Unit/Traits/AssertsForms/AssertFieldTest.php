@@ -32,7 +32,7 @@ class AssertFieldTest extends TestCase
 
         $this->field = Field::input(
             'fruit',
-            'Which fruit would you like? (optional)',
+            'Which fruit would you like?',
         )->optional();
 
         $this->assertField(

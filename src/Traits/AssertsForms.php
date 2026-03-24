@@ -14,13 +14,6 @@ trait AssertsForms
                 $value = $value->value;
             }
 
-            if (
-                $key === 'label'
-                && $field->optional === true
-            ) {
-                $value .= ' (optional)';
-            }
-
             $this->assertEquals(
                 $value,
                 $field->$key,
