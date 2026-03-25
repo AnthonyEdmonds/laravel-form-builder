@@ -243,6 +243,27 @@ The `optional` method marks the `Field` as not required; `Fields` are required b
 
 Many other methods are available to further customise the input.
 
+### Customising the Model attribute
+
+Out of the box, `Field` classes use their `name` to determine which `Model` attribute it relates to.
+
+This controls most of Form Builder's automatic behaviour.
+
+You can set an `attribute` property to customise that behaviour.
+
+This can be useful where you have a simple input for a complicated attribute, such as a relationship.
+
+For example, you might ask for an e-mail to find a User, but capture their ID on the `Model`:
+
+```php
+/** Model with `user` relationship */
+$model = new MyModel();
+
+/** Field value will be equal to $model->user?->email */
+Field::input('email', 'What is the user\'s e-mail address?')
+    ->setAttribute('user.email'); 
+```
+
 ### Additional fields
 
 The `Question` blade has two customisable sections before and after the main `Field`.

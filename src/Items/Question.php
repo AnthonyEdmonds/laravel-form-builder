@@ -166,7 +166,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            if ($this->form->model->hasAnswer($field->name) === true) {
+            if ($this->form->model->hasAnswer($field->attribute) === true) {
                 return true;
             }
         }
@@ -179,7 +179,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            if ($this->form->model->hasAnswer($field->name) === false) {
+            if ($this->form->model->hasAnswer($field->attribute) === false) {
                 return false;
             }
         }
@@ -215,7 +215,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             }
 
             try {
-                $value = $this->form->model->rawAnswer($field->name);
+                $value = $this->form->model->rawAnswer($field->attribute);
             } catch (Throwable $exception) {
                 $value = null;
             }
@@ -262,7 +262,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
         $fields = $this->fields();
         foreach ($fields as $field) {
-            $values[$field->name] = $this->form->model->rawAnswer($field->name);
+            $values[$field->name] = $this->form->model->rawAnswer($field->attribute);
         }
 
         return $values;
@@ -340,9 +340,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             try {
                 $value = ($field->type === InputType::ReadOnly) === true
                     ? $field->value
-                    : $this->form->model->formattedAnswer($field->name);
+                    : $this->form->model->formattedAnswer($field->attribute);
             } catch (Throwable $exception) {
-                $value = $this->form->model->blankAnswer($field->name);
+                $value = $this->form->model->blankAnswer($field->attribute);
             }
 
             $summary[$field->displayName] = [
@@ -428,8 +428,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 $field->type !== InputType::ReadOnly
                 && $field->type !== InputType::Hidden
             ) {
-                $attribute = $field->name;
-                $this->form->model->$attribute = $formRequest->get($field->name);
+                $attribute = $field->attribute;
+                $this->form->model->$attribute = $formRequest->input($field->name);
             }
         }
     }

@@ -2,6 +2,8 @@
 
 ## Update to version 2.x from version 1.x
 
+### Answers are now derived from the Model
+
 Getting and formatting answers has been deferred from the `Question` to the `Model`.
 
 This allows you to keep all formatting on the `Model` instead of defining formats on the `Question`.
@@ -28,7 +30,7 @@ public function formattedAnswer(string $property): mixed
         'my_text_area' => nl2br($this->my_text_area),
         'a_currency',
         'another_currency' => Number::currency($this->property, 'GBP'),
-        default => $this->$property,
+        default => $this->getAnswer($property),
     } ?? $this->blankAnswer($property);
 }
 ```

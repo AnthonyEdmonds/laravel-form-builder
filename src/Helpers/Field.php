@@ -11,6 +11,8 @@ class Field implements Arrayable
 {
     public string $accept = '*';
 
+    public string $attribute = '';
+
     public string $autocomplete = 'on';
 
     public string $blade = 'text-input';
@@ -77,6 +79,7 @@ class Field implements Arrayable
         ?string $displayName = null,
     ) {
         $this->id = $name;
+        $this->attribute = $name;
 
         $this->displayName = $displayName !== null
             ? $displayName
@@ -98,6 +101,7 @@ class Field implements Arrayable
     {
         return [
             'accept' => $this->accept,
+            'attribute' => $this->attribute,
             'autocomplete' => $this->autocomplete,
             'blade' => $this->blade,
             'count' => $this->count,
@@ -155,6 +159,12 @@ class Field implements Arrayable
             ? implode(',', $accept)
             : $accept;
 
+        return $this;
+    }
+
+    public function setAttribute(string $attribute): static
+    {
+        $this->attribute = $attribute;
         return $this;
     }
 

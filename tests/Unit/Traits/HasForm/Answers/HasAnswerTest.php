@@ -31,4 +31,23 @@ class HasAnswerTest extends TestCase
             $this->model->hasAnswer('name'),
         );
     }
+
+    public function testRelationAnswerTrue(): void
+    {
+        $parent = new MyModel();
+        $parent->name = 'Hello there';
+
+        $this->model->setRelation('parent', $parent);
+
+        $this->assertTrue(
+            $this->model->hasAnswer('parent.name'),
+        );
+    }
+
+    public function testRelationAnswerFalse(): void
+    {
+        $this->assertFalse(
+            $this->model->hasAnswer('parent.name'),
+        );
+    }
 }

@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use Carbon\Carbon;
 use ErrorException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property ?int $age
@@ -63,6 +64,12 @@ class MyModel extends Model implements UsesForm
         return $this->attributes['colour'] === 'invalid'
             ? throw new ErrorException('Bad implementation')
             : $this->attributes['colour'];
+    }
+
+    // Relationships
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(MyModel::class);
     }
 
     // UsesForm
