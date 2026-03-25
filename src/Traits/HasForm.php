@@ -164,4 +164,30 @@ trait HasForm
     {
         $this->save();
     }
+
+    // Answers
+    public function blankAnswer(string $property): string
+    {
+        return 'Not provided';
+    }
+
+    public function formattedAnswer(string $property): mixed
+    {
+        return $this->$property
+            ?? $this->blankAnswer($property);
+    }
+
+    public function hasAnswer(string $property): bool
+    {
+        return array_key_exists(
+            $property,
+            $this->attributes,
+        ) === true;
+    }
+
+    public function rawAnswer(string $property): mixed
+    {
+        return $this->$property
+            ?? null;
+    }
 }

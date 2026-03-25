@@ -11,10 +11,14 @@ Create one-thing-per-page forms broken down into tasks; ideal for the GOV.UK Des
 
 ## What's in the box?
 
-* Laravel 12 Form Builder classes, interfaces, and traits
+* Laravel Form Builder classes, interfaces, and traits
 * Basic frontend pages for demonstration and testing purposes
 
 The user interface is left up to you to implement and style as you desire.
+
+## Upgrading
+
+Guidance on upgrading versions can be found in the [upgrade guide](docs/upgrading.md).
 
 ## Installation
 

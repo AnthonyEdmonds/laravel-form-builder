@@ -5,6 +5,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Models;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use Carbon\Carbon;
+use ErrorException;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -55,6 +56,14 @@ class MyModel extends Model implements UsesForm
     protected $attributes = [
         'can_access' => true,
     ];
+
+    // Getters
+    public function getColourAttribute(): ?string
+    {
+        return $this->attributes['colour'] === 'invalid'
+            ? throw new ErrorException('Bad implementation')
+            : $this->attributes['colour'];
+    }
 
     // UsesForm
     public function draftIsValid(): true|string

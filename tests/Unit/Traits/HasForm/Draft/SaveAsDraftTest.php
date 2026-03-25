@@ -1,11 +1,11 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Draft;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class ViewRouteTest extends TestCase
+class SaveAsDraftTest extends TestCase
 {
     protected MyModel $model;
 
@@ -13,15 +13,15 @@ class ViewRouteTest extends TestCase
     {
         parent::setUp();
 
+        $this->useDatabase();
+
         $this->model = new MyModel();
         $this->model->id = 1;
+        $this->model->saveAsDraft();
     }
 
     public function test(): void
     {
-        $this->assertEquals(
-            route('my-model.show', $this->model),
-            $this->model->viewRoute(),
-        );
+        $this->assertDatabaseCount('my_models', 1);
     }
 }

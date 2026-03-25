@@ -1,12 +1,11 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Form;
 
-use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class FormTest extends TestCase
+class ViewLabelTest extends TestCase
 {
     protected MyModel $model;
 
@@ -20,9 +19,9 @@ class FormTest extends TestCase
 
     public function test(): void
     {
-        $this->assertInstanceOf(
-            MyForm::class,
-            $this->model->form(),
+        $this->assertEquals(
+            'View My Model',
+            $this->model->viewLabel(),
         );
     }
 }

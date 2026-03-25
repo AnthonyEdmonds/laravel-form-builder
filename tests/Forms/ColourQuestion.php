@@ -4,8 +4,8 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\ColourRequest;
 use ErrorException;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ColourQuestion extends Question
 {
@@ -23,19 +23,13 @@ class ColourQuestion extends Question
 
     public function formRequest(): string
     {
-        return FormRequest::class;
+        return ColourRequest::class;
     }
 
     public function isValid(): bool
     {
-        return $this->form->model->colour === 'green'
-            || throw new ErrorException('Bad implementation');
-    }
-
-    public function getRawAnswer(string $fieldName): mixed
-    {
-        return $this->form->model->colour === 'invalid'
-            ? throw new ErrorException('Bad implementation')
-            : $this->form->model->colour;
+        return $this->form->model->colour !== 'invalid'
+            ? $this->form->model->colour
+            : throw new ErrorException('Bad implementation');
     }
 }
