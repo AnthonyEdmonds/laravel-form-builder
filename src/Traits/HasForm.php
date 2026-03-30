@@ -199,8 +199,8 @@ trait HasForm
     protected function answerExists(string $property): bool
     {
         return str_contains($property, '.') === true
-            ? $this->relationAnswer($property)
-            : $this->$property;
+            ? $this->relationHasAnswer($property)
+            : array_key_exists($property, $this->attributes) === true;
     }
 
     protected function getAnswerFromRelation(mixed $subject, string $property): mixed
