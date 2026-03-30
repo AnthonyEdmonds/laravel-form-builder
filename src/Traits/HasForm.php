@@ -180,9 +180,7 @@ trait HasForm
 
     public function hasAnswer(string $property): bool
     {
-        return str_contains($property, '.') === true
-            ? $this->relationHasAnswer($property)
-            : array_key_exists($property, $this->attributes) === true;
+        return $this->answerExists($property) === true;
     }
 
     public function rawAnswer(string $property): mixed
@@ -192,6 +190,13 @@ trait HasForm
     }
 
     protected function getAnswer(string $property): mixed
+    {
+        return str_contains($property, '.') === true
+            ? $this->relationAnswer($property)
+            : $this->$property;
+    }
+
+    protected function answerExists(string $property): bool
     {
         return str_contains($property, '.') === true
             ? $this->relationAnswer($property)
