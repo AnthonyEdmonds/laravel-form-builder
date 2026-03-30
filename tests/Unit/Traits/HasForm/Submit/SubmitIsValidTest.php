@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Submit;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;

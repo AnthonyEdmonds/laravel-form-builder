@@ -11,10 +11,14 @@ Create one-thing-per-page forms broken down into tasks; ideal for the GOV.UK Des
 
 ## What's in the box?
 
-* Laravel 12 Form Builder classes, interfaces, and traits
+* Laravel Form Builder classes, interfaces, and traits
 * Basic frontend pages for demonstration and testing purposes
 
 The user interface is left up to you to implement and style as you desire.
+
+## Upgrading
+
+Guidance on upgrading versions can be found in the [upgrade guide](docs/upgrading.md).
 
 ## Installation
 
@@ -238,6 +242,27 @@ The `hint` method adds a line of supporting text to the `Field`.
 The `optional` method marks the `Field` as not required; `Fields` are required by default.
 
 Many other methods are available to further customise the input.
+
+### Customising the Model attribute
+
+Out of the box, `Field` classes use their `name` to determine which `Model` attribute it relates to.
+
+This controls most of Form Builder's automatic behaviour.
+
+You can set an `attribute` property to customise that behaviour.
+
+This can be useful where you have a simple input for a complicated attribute, such as a relationship.
+
+For example, you might ask for an e-mail to find a User, but capture their ID on the `Model`:
+
+```php
+/** Model with `user` relationship */
+$model = new MyModel();
+
+/** Field value will be equal to $model->user?->email */
+Field::input('email', 'What is the user\'s e-mail address?')
+    ->setAttribute('user.email'); 
+```
 
 ### Additional fields
 

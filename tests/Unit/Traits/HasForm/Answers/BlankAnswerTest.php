@@ -1,11 +1,11 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Answers;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class SaveAsDraftTest extends TestCase
+class BlankAnswerTest extends TestCase
 {
     protected MyModel $model;
 
@@ -13,15 +13,14 @@ class SaveAsDraftTest extends TestCase
     {
         parent::setUp();
 
-        $this->useDatabase();
-
         $this->model = new MyModel();
-        $this->model->id = 1;
-        $this->model->saveAsDraft();
     }
 
     public function test(): void
     {
-        $this->assertDatabaseCount('my_models', 1);
+        $this->assertEquals(
+            'Not provided',
+            $this->model->blankAnswer('name'),
+        );
     }
 }

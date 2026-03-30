@@ -44,7 +44,7 @@ class FormatTest extends TestCase
                     'colour' => $this->question->statusColour()->value,
                     'label' => 'Name',
                     'status' => $this->question->status()->value,
-                    'value' => $this->question->getFormattedAnswer('name'),
+                    'value' => $this->model->formattedAnswer('name'),
                 ],
             ],
             $this->question->format(),

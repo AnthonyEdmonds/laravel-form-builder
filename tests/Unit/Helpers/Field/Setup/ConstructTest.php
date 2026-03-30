@@ -22,6 +22,11 @@ class ConstructTest extends TestCase
             'My label',
             $this->field->displayName,
         );
+
+        $this->assertEquals(
+            'my-name',
+            $this->field->attribute,
+        );
     }
 
     public function testGeneratesLabel(): void

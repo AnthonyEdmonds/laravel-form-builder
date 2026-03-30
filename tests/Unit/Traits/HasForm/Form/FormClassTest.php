@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Form;
 
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;

@@ -1,11 +1,11 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Draft;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class ViewLabelTest extends TestCase
+class DraftIsEnabledTest extends TestCase
 {
     protected MyModel $model;
 
@@ -19,9 +19,8 @@ class ViewLabelTest extends TestCase
 
     public function test(): void
     {
-        $this->assertEquals(
-            'View My Model',
-            $this->model->viewLabel(),
+        $this->assertTrue(
+            $this->model->draftIsEnabled(),
         );
     }
 }

@@ -161,38 +161,12 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
     /** @returns Field[] */
     abstract public function fields(): array;
 
-    public function blankAnswerLabel(string $fieldKey): string
-    {
-        return 'Not provided';
-    }
-
-    public function getFormattedAnswer(string $fieldKey): mixed
-    {
-        return $this->getRawAnswer($fieldKey)
-            ?? $this->blankAnswerLabel($fieldKey);
-    }
-
-    public function getRawAnswer(string $fieldName): mixed
-    {
-        return $this->form->model->hasAttribute($fieldName) === true
-            ? $this->form->model->$fieldName
-            : null;
-    }
-
-    public function hasAnswer(string $fieldName): bool
-    {
-        return array_key_exists(
-            $fieldName,
-            $this->form->model->getAttributes(),
-        ) === true;
-    }
-
     public function hasAnyAnswers(): bool
     {
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            if ($this->hasAnswer($field->name) === true) {
+            if ($this->form->model->hasAnswer($field->attribute) === true) {
                 return true;
             }
         }
@@ -205,7 +179,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         $fields = $this->fields();
 
         foreach ($fields as $field) {
-            if ($this->hasAnswer($field->name) === false) {
+            if ($this->form->model->hasAnswer($field->attribute) === false) {
                 return false;
             }
         }
@@ -241,7 +215,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             }
 
             try {
-                $value = $this->getRawAnswer($field->name);
+                $value = $this->form->model->rawAnswer($field->attribute);
             } catch (Throwable $exception) {
                 $value = null;
             }
@@ -288,7 +262,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
         $fields = $this->fields();
         foreach ($fields as $field) {
-            $values[$field->name] = $this->getRawAnswer($field->name);
+            $values[$field->name] = $this->form->model->rawAnswer($field->attribute);
         }
 
         return $values;
@@ -305,7 +279,7 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             );
 
             $request->validate(
-                /** @phpstan-ignore-next-line rules() method is not declared part of FormRequest */
+                /** @phpstan-ignore-next-line rules() method is not a declared part of FormRequest */
                 $request->rules(),
             );
 
@@ -366,9 +340,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             try {
                 $value = ($field->type === InputType::ReadOnly) === true
                     ? $field->value
-                    : $this->getFormattedAnswer($field->name);
+                    : $this->form->model->formattedAnswer($field->attribute);
             } catch (Throwable $exception) {
-                $value = $this->blankAnswerLabel($field->name);
+                $value = $this->form->model->blankAnswer($field->attribute);
             }
 
             $summary[$field->displayName] = [
@@ -454,8 +428,8 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
                 $field->type !== InputType::ReadOnly
                 && $field->type !== InputType::Hidden
             ) {
-                $attribute = $field->name;
-                $this->form->model->$attribute = $formRequest->get($field->name);
+                $attribute = $field->attribute;
+                $this->form->model->$attribute = $formRequest->input($field->name);
             }
         }
     }

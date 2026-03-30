@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Draft;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\BasicModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;

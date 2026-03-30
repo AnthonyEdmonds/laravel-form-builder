@@ -31,6 +31,7 @@ class ToArrayTest extends TestCase
         $this->assertEquals(
             [
                 'accept' => $this->field->accept,
+                'attribute' => $this->field->attribute,
                 'autocomplete' => $this->field->autocomplete,
                 'blade' => $this->field->blade,
                 'count' => $this->field->count,

@@ -27,50 +27,36 @@ class NextTask extends Task
     // HasStates
     public function hasError(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 1;
+        return $this->form->model->rawAnswer('age') === 1;
     }
 
     public function hasNotBeenStarted(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 2;
+        return $this->form->model->rawAnswer('age') === 2;
     }
 
     public function isComplete(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 3;
+        return $this->form->model->rawAnswer('age') === 3;
     }
 
     public function cannotStart(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 4;
+        return $this->form->model->rawAnswer('age') === 4;
     }
 
     public function isInProgress(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 5;
+        return $this->form->model->rawAnswer('age') === 5;
     }
 
     public function isNotRequired(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 6;
+        return $this->form->model->rawAnswer('age') === 6;
     }
 
     public function isIncomplete(): bool
     {
-        return $this
-            ->question('age-question')
-            ->getRawAnswer('age') === 7;
+        return $this->form->model->rawAnswer('age') === 7;
     }
 }

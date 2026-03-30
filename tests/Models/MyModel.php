@@ -5,7 +5,9 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Models;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use Carbon\Carbon;
+use ErrorException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property ?int $age
@@ -55,6 +57,20 @@ class MyModel extends Model implements UsesForm
     protected $attributes = [
         'can_access' => true,
     ];
+
+    // Getters
+    public function getColourAttribute(): ?string
+    {
+        return $this->attributes['colour'] === 'invalid'
+            ? throw new ErrorException('Bad implementation')
+            : $this->attributes['colour'];
+    }
+
+    // Relationships
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(MyModel::class);
+    }
 
     // UsesForm
     public function draftIsValid(): true|string

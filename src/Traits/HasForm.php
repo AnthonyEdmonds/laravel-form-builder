@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Traits;
 
 use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
+use AnthonyEdmonds\LaravelFormBuilder\Exceptions\AttributeMissing;
 use AnthonyEdmonds\LaravelFormBuilder\Exceptions\FormNotFound;
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
@@ -163,5 +164,102 @@ trait HasForm
     public function saveAndSubmit(): void
     {
         $this->save();
+    }
+
+    // Answers
+    public function blankAnswer(string $property): string
+    {
+        return 'Not provided';
+    }
+
+    public function formattedAnswer(string $property): mixed
+    {
+        return $this->getAnswer($property)
+            ?? $this->blankAnswer($property);
+    }
+
+    public function hasAnswer(string $property): bool
+    {
+        return str_contains($property, '.') === true
+            ? $this->relationHasAnswer($property)
+            : array_key_exists($property, $this->attributes) === true;
+    }
+
+    public function rawAnswer(string $property): mixed
+    {
+        return $this->getAnswer($property)
+            ?? null;
+    }
+
+    protected function getAnswer(string $property): mixed
+    {
+        return str_contains($property, '.') === true
+            ? $this->relationAnswer($property)
+            : $this->$property;
+    }
+
+    protected function getAnswerFromRelation(mixed $subject, string $property): mixed
+    {
+        if (
+            is_a($subject, Model::class) === true
+            && array_key_exists($property, $subject->getAttributes()) === true
+        ) {
+            return $subject->$property;
+        }
+
+        if (
+            is_a($subject, Model::class) === true
+            && $subject->isRelation($property) === true
+        ) {
+            return $subject->$property;
+        }
+
+        if (
+            is_object($subject) === true
+            && property_exists($subject, $property) === true
+        ) {
+            return $subject->$property;
+        }
+
+        if (
+            is_array($subject) === true
+            && array_key_exists($property, $subject) === true
+        ) {
+            return $subject[$property];
+        }
+
+        throw new AttributeMissing("Unable to find the \"$property\" attribute");
+    }
+
+    protected function relationAnswer(string $property): mixed
+    {
+        $parts = explode('.', $property);
+        $subject = $this;
+
+        foreach ($parts as $attribute) {
+            try {
+                $subject = $this->getAnswerFromRelation($subject, $attribute);
+            } catch (AttributeMissing $exception) {
+                return null;
+            }
+        }
+
+        return $subject;
+    }
+
+    protected function relationHasAnswer(string $property): bool
+    {
+        $parts = explode('.', $property);
+        $subject = $this;
+
+        foreach ($parts as $attribute) {
+            try {
+                $subject = $this->getAnswerFromRelation($subject, $attribute);
+            } catch (AttributeMissing $exception) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

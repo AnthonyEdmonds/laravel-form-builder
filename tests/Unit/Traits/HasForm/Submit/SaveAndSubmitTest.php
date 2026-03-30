@@ -1,11 +1,11 @@
 <?php
 
-namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm;
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Traits\HasForm\Submit;
 
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class ModelNameTest extends TestCase
+class SaveAndSubmitTest extends TestCase
 {
     protected MyModel $model;
 
@@ -13,15 +13,15 @@ class ModelNameTest extends TestCase
     {
         parent::setUp();
 
+        $this->useDatabase();
+
         $this->model = new MyModel();
         $this->model->id = 1;
+        $this->model->saveAndSubmit();
     }
 
     public function test(): void
     {
-        $this->assertEquals(
-            'My Model',
-            $this->model->modelName(),
-        );
+        $this->assertDatabaseCount('my_models', 1);
     }
 }

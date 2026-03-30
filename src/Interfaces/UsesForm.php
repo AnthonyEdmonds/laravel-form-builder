@@ -43,4 +43,13 @@ interface UsesForm
     public function submitIsValid(): true|string;
 
     public function saveAndSubmit(): void;
+
+    // Answers
+    public function blankAnswer(string $property): string;
+
+    public function formattedAnswer(string $property): mixed;
+
+    public function hasAnswer(string $property): bool;
+
+    public function rawAnswer(string $property): mixed;
 }
