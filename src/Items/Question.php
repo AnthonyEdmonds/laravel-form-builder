@@ -262,7 +262,9 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
 
         $fields = $this->fields();
         foreach ($fields as $field) {
-            $values[$field->name] = $this->form->model->rawAnswer($field->attribute);
+            if ($field->type !== InputType::ReadOnly) {
+                $values[$field->name] = $this->form->model->rawAnswer($field->attribute);
+            }
         }
 
         return $values;
