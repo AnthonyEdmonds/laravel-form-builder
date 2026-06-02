@@ -142,6 +142,7 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
 
         return $this->questionStatuses[State::NotYetStarted->name]
             + $this->questionStatuses[State::NotRequired->name]
+            + $this->questionStatuses[State::CannotStartYet->name]
             === $this->questionStatuses['total'];
     }
 
