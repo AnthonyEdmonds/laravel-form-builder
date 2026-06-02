@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Task\UsesStates;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Carbon\Carbon;
@@ -25,7 +26,7 @@ class HasNotBeenStartedTest extends TestCase
         $this->model->age_not_required = true;
 
         $this->form = new MyForm($this->model);
-        $this->task = $this->form->tasks()->task('my-task');
+        $this->task = $this->form->tasks()->task(MyTask::key());
     }
 
     public function testTrueWhenBlankOrNotRequired(): void
