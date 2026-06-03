@@ -314,6 +314,14 @@ You can customise the logic of which statuses are shown by overriding the releva
 
 For more information, see the `HasStates` trait.
 
+### Clearing Answers
+
+Form Builder determines whether a `Question` has been answered by whether the `Model` has a matching `$attribute` key, even if that key is null.
+
+To clear a `Question` as if it had never been answered, you can call `$model->clearAnswer('attribute-key');` to remove the needed keys.
+
+This is often used when changing the answer to an earlier `Question` which should wipe answers elsewhere in the `Form`.
+
 ## Using and accessing Forms
 
 Users have two main entry points to any `Form`, new and edit.

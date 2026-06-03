@@ -189,6 +189,11 @@ trait HasForm
             ?? null;
     }
 
+    public function clearAnswer(string $property): void
+    {
+        unset($this->attributes[$property]);
+    }
+
     protected function getAnswer(string $property): mixed
     {
         return str_contains($property, '.') === true
