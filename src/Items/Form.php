@@ -162,7 +162,7 @@ abstract class Form extends Item implements ItemInterface
     {
         return route('forms.edit', [
             $this->key,
-            $this->model->getKey(),
+            $this->model->getRouteKey(),
         ]);
     }
 
