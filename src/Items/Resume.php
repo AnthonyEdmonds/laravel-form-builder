@@ -11,6 +11,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Traits\Renderable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 
 class Resume extends Item implements ItemInterface, CanRender
 {
@@ -36,7 +37,9 @@ class Resume extends Item implements ItemInterface, CanRender
 
     public function route(): string
     {
-        return route('forms.resume.show', $this->form->key);
+        return $this->appendQueryString(
+            route('forms.resume.show', $this->form->key),
+        );
     }
 
     public function backLabel(): string
@@ -116,11 +119,22 @@ class Resume extends Item implements ItemInterface, CanRender
 
     public function restartRoute(): string
     {
-        return route('forms.resume.restart', $this->form->key);
+        return $this->appendQueryString(
+            route('forms.resume.restart', $this->form->key),
+        );
     }
 
     public function resumeLabel(): string
     {
         return 'Resume session';
+    }
+
+    protected function appendQueryString(string $route): string
+    {
+        $querystring = Request::getQueryString();
+
+        return $querystring !== null
+            ? "$route?$querystring"
+            : $route;
     }
 }
