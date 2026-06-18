@@ -342,6 +342,34 @@ Users can be redirect to the `edit` endpoint using any of the following:
 * `$model->form()->editRoute()`
 * `route('forms.edit', [MyForm::key(), $model])`
 
+### Pre-filling Form Fields
+
+It may be useful to pre-fill some `Form` `Fields` based on the context of where the `Form` was started.
+
+This can be done by using the URL query string in combination with the `makeForForm()` method on the `Model`.
+
+As an example, to pass the `system` key to the `Form` you could do the following:
+
+1. Call `Model::formRoute()` and append a query string to the URL
+   * `/forms/my-form/new?system=blah`
+2. Override the `makeForForm()` method on the `Model` to set the desired properties
+   * ```php
+     public static function makeForForm(): UsesForm
+     {
+         $model = new MyModel();
+     
+         if (Request::has('system') === true) {
+             $model->system()->associate(
+                 Request::input('system'),
+             );
+         }
+   
+         return $model;
+      }
+      ```
+
+This can be done for as many fields as required, and can save users time.
+
 ## Viewing models
 
 If you would like to use the Form Builder `Summary` page for a viewing a model, you may use the `view()` method on your model.
