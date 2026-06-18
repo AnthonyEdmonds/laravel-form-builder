@@ -33,4 +33,14 @@ class RouteTest extends TestCase
             $this->resume->route(),
         );
     }
+
+    public function testAppendsQueryString(): void
+    {
+        request()->server->set('QUERY_STRING', 'a=b');
+
+        $this->assertEquals(
+            route('forms.resume.show', $this->form->key) . '?a=b',
+            $this->resume->route(),
+        );
+    }
 }

@@ -34,4 +34,14 @@ class RestartRouteTest extends TestCase
             $this->resume->restartRoute(),
         );
     }
+
+    public function testAppendsQueryString(): void
+    {
+        request()->server->set('QUERY_STRING', 'a=b');
+
+        $this->assertEquals(
+            route('forms.resume.restart', $this->form->key) . '?a=b',
+            $this->resume->restartRoute(),
+        );
+    }
 }
