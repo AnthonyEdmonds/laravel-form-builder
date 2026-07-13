@@ -26,6 +26,7 @@
     "prefer-stable" : true,
     "require" : {
         "php": "^8.3",
+        "anthonyedmonds/laravel-filestore": "^1",
         "illuminate/support": "^13"
     },
     "require-dev" : {
