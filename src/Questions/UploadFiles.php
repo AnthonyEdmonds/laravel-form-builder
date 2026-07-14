@@ -8,6 +8,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Helpers\Field;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 abstract class UploadFiles extends Question
 {
@@ -33,17 +34,16 @@ abstract class UploadFiles extends Question
     {
         $fileStore = $this->fileStore();
 
-        $mimes = $fileStore->allowedMimes(false);
-        $formats = $fileStore->allowedMimes();
-        $size = $fileStore->maxSize();
+        $allowedMimes = $fileStore->allowedMimesString();
+        $size = $fileStore->maxFileSizeString();
 
         return [
             Field::file(
                 'file',
                 'Which file would you like to upload?',
-                $mimes,
+                $fileStore->allowedMimes(),
                 $this->displayName(),
-            )->setHint("You may upload a file up to $size in the following formats: $formats"),
+            )->setHint("You may upload a file up to $size in the following formats: $allowedMimes"),
         ];
     }
 
@@ -54,9 +54,7 @@ abstract class UploadFiles extends Question
 
     public function applySave(FormRequest $formRequest): void
     {
-        $fileStore = $this->fileStore();
-
-        $fileStore->add(
+        $this->fileStore()->add(
             $formRequest->file('file'),
         );
     }
@@ -66,22 +64,42 @@ abstract class UploadFiles extends Question
         return false;
     }
 
-    // TODO
     public function blade(): string
     {
         return 'form-builder::upload-file';
     }
 
-    // TODO
     public function show(): View
     {
         $fileStore = $this->fileStore();
+        $filesRequired = $this->filesRequired();
+        $maxFiles = $fileStore->maxFiles();
 
-        return parent::show()
-            ->with(
-                'fileList',
-                $fileStore->list(),
-            );
+        $with = [
+            'filesList' => $fileStore->list(),
+        ];
+
+        if ($filesRequired > 0) {
+            $with['filesMinimum'] = Str::plural('file', $filesRequired, true);
+        }
+
+        if ($maxFiles > 0) {
+            $with['filesLimit'] = $fileStore->maxFilesString();
+        }
+
+        if (
+            $filesRequired > 0
+            || $maxFiles > 0
+        ) {
+            $with['filesCurrent'] = $fileStore->countString();
+        }
+
+        if ($fileStore->maxStoreSize() > 0) {
+            $with['storeCurrent'] = $fileStore->currentStoreSizeString();
+            $with['storeLimit'] = $fileStore->maxFileSizeString();
+        }
+
+        return parent::show()->with($with);
     }
 
     public function saveLabel(): string
@@ -117,5 +135,14 @@ abstract class UploadFiles extends Question
         $fileStore = $this->fileStore();
 
         return $fileStore->count() >= $this->filesRequired();
+    }
+
+    public function validationData(): array
+    {
+        $data = parent::validationData();
+
+        $data['fileStore'] = $this->fileStore();
+
+        return $data;
     }
 }

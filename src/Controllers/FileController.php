@@ -3,7 +3,6 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Controllers;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
@@ -12,6 +11,18 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileController extends Controller
 {
+    public function show(
+        string $formKey,
+        string $taskKey,
+        string $questionKey,
+        string $property,
+        string $hash,
+    ): StreamedResponse {
+        $form = Form::load($formKey)->checkAccess();
+
+        return $form->model->$property->download($hash);
+    }
+
     public function remove(
         string $formKey,
         string $taskKey,
@@ -30,30 +41,5 @@ class FileController extends Controller
                 ->question($questionKey)
                 ->route(),
         );
-    }
-
-    public function showFromForm(
-        string $formKey,
-        string $property,
-        string $hash,
-    ): StreamedResponse {
-        $form = Form::load($formKey)->checkAccess();
-
-        return $form->model->$property->download($hash);
-    }
-
-    /** @param class-string<Model> $modelClass */
-    public function showFromStore(
-        string $modelClass,
-        string $modelId,
-        string $property,
-        string $hash,
-    ): StreamedResponse {
-        /** @var UsesFiles $model */
-        $model = $modelClass::query()->findOrFail($modelId);
-
-        $this->authorize($permission, $model);
-
-        return $model->$property->download($hash);
     }
 }
