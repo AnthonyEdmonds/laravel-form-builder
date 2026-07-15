@@ -22,6 +22,7 @@ class SubmitTest extends TestCase
         parent::setUp();
 
         $this->useDatabase();
+        $this->useFileStores();
 
         $this->model = new MyModel();
         $this->model->id = 1;
@@ -29,6 +30,7 @@ class SubmitTest extends TestCase
         $this->model->age = 3;
         $this->model->birthday = '2025-12-12';
         $this->model->colour = 'green';
+        $this->model->files->add($this->makeFile());
 
         $this->form = new MyForm($this->model);
     }

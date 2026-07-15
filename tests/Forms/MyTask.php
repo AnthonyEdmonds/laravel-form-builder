@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Forms;
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Task;
 
+/** @property MyForm $form */
 class MyTask extends Task
 {
     public static function key(): string
@@ -22,6 +23,7 @@ class MyTask extends Task
             NameQuestion::class,
             AgeQuestion::class,
             BirthdayQuestion::class,
+            UploadFilesQuestion::class,
         ];
     }
 

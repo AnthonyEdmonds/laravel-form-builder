@@ -10,7 +10,9 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonConfirmationForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonDraftForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonStartForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -61,5 +63,19 @@ abstract class TestCase extends BaseTestCase
     {
         $this->app->useDatabasePath(__DIR__ . '/Database');
         $this->runLaravelMigrations();
+    }
+
+    protected function useFileStores(): void
+    {
+        Storage::fake('store');
+        Storage::fake('temp');
+    }
+
+    protected function makeFile(): UploadedFile
+    {
+        return new UploadedFile(
+            __DIR__ . '/Files/snowy.jpg',
+            'snowy.jpg',
+        );
     }
 }

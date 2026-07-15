@@ -20,6 +20,8 @@ class IsInProgressTest extends TestCase
     {
         parent::setUp();
 
+        $this->useFileStores();
+
         $this->model = new MyModel();
         $this->model->id = 1;
 
@@ -41,6 +43,7 @@ class IsInProgressTest extends TestCase
         $this->model->age = 99;
         $this->model->birthday = Carbon::now();
         $this->model->name = 'Potato';
+        $this->model->files->add($this->makeFile());
 
         $this->assertFalse(
             $this->task->isInProgress(),

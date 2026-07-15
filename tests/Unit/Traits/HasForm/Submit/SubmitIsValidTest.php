@@ -13,11 +13,14 @@ class SubmitIsValidTest extends TestCase
     {
         parent::setUp();
 
+        $this->useFileStores();
+
         $this->model = new MyModel();
         $this->model->name = 'Bob';
         $this->model->age = 3;
         $this->model->birthday = '2025-12-12';
         $this->model->colour = 'green';
+        $this->model->files->add($this->makeFile());
     }
 
     public function test(): void

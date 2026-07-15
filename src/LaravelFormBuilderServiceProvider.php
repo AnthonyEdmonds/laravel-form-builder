@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder;
 
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\ConfirmationController;
+use AnthonyEdmonds\LaravelFormBuilder\Controllers\FileController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\FormController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\QuestionController;
 use AnthonyEdmonds\LaravelFormBuilder\Controllers\ResumeController;
@@ -90,6 +91,14 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                                     Route::get('/', 'show')->name('show');
                                     Route::post('/save', 'save')->name('save');
                                     Route::post('/skip', 'skip')->name('skip');
+
+                                    Route::prefix('/files/{property}/{hash}')
+                                        ->name('files.')
+                                        ->controller(FileController::class)
+                                        ->group(function () {
+                                            Route::get('/', 'show')->name('show');
+                                            Route::delete('/', 'remove')->name('remove');
+                                        });
                                 });
                         });
 

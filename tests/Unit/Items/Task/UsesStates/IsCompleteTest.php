@@ -21,6 +21,8 @@ class IsCompleteTest extends TestCase
     {
         parent::setUp();
 
+        $this->useFileStores();
+
         $this->model = new MyModel();
         $this->model->id = 1;
         $this->model->age_not_required = true;
@@ -36,6 +38,7 @@ class IsCompleteTest extends TestCase
         $this->model->age = null;
         $this->model->birthday = Carbon::now();
         $this->model->name = 'Potato';
+        $this->model->files->add($this->makeFile());
 
         $this->assertTrue(
             $this->task->isComplete(),

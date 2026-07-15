@@ -370,6 +370,28 @@ As an example, to pass the `system` key to the `Form` you could do the following
 
 This can be done for as many fields as required, and can save users time.
 
+## Question templates
+
+Some templates have been provided to simplify common complicated questions.
+
+You can extend these templates in place of any `Question`.
+
+You may override, modify, and further extend them as needed.
+
+### UploadFiles
+
+Upload multiple files one at a time, complete with a table of files, validation, download, and draft management.
+
+This template leverages the [Laravel FileStore](https://github.com/AnthonyEdmonds/laravel-filestore) library.
+
+You can specify the `filesRequired()` parameter to set a minimum number of uploaded files required.
+
+#### Adding a FileStore to your Model
+
+When adding a `FileStore` to your `Model`, extend the `FormBuilderFileStore` class.
+
+You can use the `FormBuilderFileStore` as per the normal `FileStore` class.
+
 ## Viewing models
 
 If you would like to use the Form Builder `Summary` page for a viewing a model, you may use the `view()` method on your model.
