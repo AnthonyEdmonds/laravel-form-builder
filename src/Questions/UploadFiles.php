@@ -76,7 +76,11 @@ abstract class UploadFiles extends Question
         $maxFiles = $fileStore->maxFiles();
 
         $with = [
-            'filesList' => $fileStore->list(),
+            'filesList' => $fileStore->list([
+                'form' => $this->form::key(),
+                'task' => $this->task::key(),
+                'question' => static::key(),
+            ]),
         ];
 
         if ($filesRequired > 0) {
@@ -96,7 +100,7 @@ abstract class UploadFiles extends Question
 
         if ($fileStore->maxStoreSize() > 0) {
             $with['storeCurrent'] = $fileStore->currentStoreSizeString();
-            $with['storeLimit'] = $fileStore->maxFileSizeString();
+            $with['storeLimit'] = $fileStore->maxStoreSizeString();
         }
 
         return parent::show()->with($with);
@@ -124,23 +128,18 @@ abstract class UploadFiles extends Question
 
     public function hasNotBeenStarted(): bool
     {
-        $fileStore = $this->fileStore();
-
         return $this->filesRequired() > 0
-            && $fileStore->count() === 0;
+            && $this->fileStore()->count() === 0;
     }
 
     public function isValid(): bool
     {
-        $fileStore = $this->fileStore();
-
-        return $fileStore->count() >= $this->filesRequired();
+        return $this->fileStore()->count() >= $this->filesRequired();
     }
 
     public function validationData(): array
     {
         $data = parent::validationData();
-
         $data['fileStore'] = $this->fileStore();
 
         return $data;

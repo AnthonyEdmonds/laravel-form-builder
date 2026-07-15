@@ -7,6 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\AgeQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\BirthdayQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\UploadFilesQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
@@ -36,6 +37,7 @@ class QuestionsTest extends TestCase
                 NameQuestion::class,
                 AgeQuestion::class,
                 BirthdayQuestion::class,
+                UploadFilesQuestion::class,
             ],
             $this->task->questions(),
         );

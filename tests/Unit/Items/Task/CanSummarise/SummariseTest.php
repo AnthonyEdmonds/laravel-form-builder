@@ -49,6 +49,7 @@ class SummariseTest extends TestCase
                     $this->task->question('name-question')->summarise(true, true),
                     $this->task->question('age-question')->summarise(true, true),
                     $this->task->question('birthday-question')->summarise(true, true),
+                    $this->task->question('upload-files')->summarise(true, true),
                 ),
                 'status' => $this->task->status()->value,
                 'title' => $this->task->label(),

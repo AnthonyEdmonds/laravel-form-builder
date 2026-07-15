@@ -1,0 +1,50 @@
+<?php
+
+namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Questions\UploadFiles;
+
+use AnthonyEdmonds\LaravelFormBuilder\FormRequests\UploadFileRequest;
+use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
+use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
+use AnthonyEdmonds\LaravelFormBuilder\Questions\UploadFiles;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\UploadFilesQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
+
+class ApplySaveTest extends TestCase
+{
+    protected Form $form;
+
+    protected UsesForm $model;
+
+    protected UploadFiles $question;
+
+    protected UploadFileRequest $request;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->useFileStores();
+
+        $this->model = new MyModel();
+        $this->form = new MyForm($this->model);
+        $this->question = $this->form->tasks()
+            ->task(MyTask::key())
+            ->question(UploadFilesQuestion::key());
+
+        $this->request = new UploadFileRequest();
+        $this->request->files->set('file', $this->makeFile());
+
+        $this->question->applySave($this->request);
+    }
+
+    public function test(): void
+    {
+        $this->assertCount(
+            1,
+            $this->model->files,
+        );
+    }
+}
