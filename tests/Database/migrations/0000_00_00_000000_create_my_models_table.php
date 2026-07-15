@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->boolean('submit_is_valid')->default(false);
             $table->boolean('not_required')->default(false);
             $table->boolean('age_not_required')->default(false);
-            $table->text('files')->default('{}');
+            $table->text('files')->default('[]');
 
             $table->string('name')->nullable();
             $table->unsignedTinyInteger('age')->nullable();
