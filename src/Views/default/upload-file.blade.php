@@ -35,7 +35,7 @@
         </thead>
 
         <tbody>
-            @forelse($fileList as $file)
+            @forelse($filesList as $file)
                 <tr>
                     <td>{{ $file['name'] }}</td>
                     <td>{{ $file['size'] }}</td>
@@ -50,7 +50,7 @@
                         </form>
                     </td>
                     <td>
-                        <a href="{{ $file['show_url'] }}">View</a>
+                        <a href="{{ $file['download_url'] }}">View</a>
                     </td>
                 </tr>
             @empty

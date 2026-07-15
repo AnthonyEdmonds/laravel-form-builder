@@ -144,4 +144,13 @@ abstract class UploadFiles extends Question
 
         return $data;
     }
+
+    public function validate(): void
+    {
+        request()->merge([
+            'fileStore' => $this->fileStore(),
+        ]);
+
+        parent::validate();
+    }
 }
