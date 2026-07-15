@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "anthonyedmonds/laravel-filestore",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AnthonyEdmonds/laravel-filestore.git",
-                "reference": "40e102b0f6c163fb008c8c44c3414852d90ca5fe"
+                "reference": "67b644a1cd8cd0441e3c1b5535f6b5a543a60865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AnthonyEdmonds/laravel-filestore/zipball/40e102b0f6c163fb008c8c44c3414852d90ca5fe",
-                "reference": "40e102b0f6c163fb008c8c44c3414852d90ca5fe",
+                "url": "https://api.github.com/repos/AnthonyEdmonds/laravel-filestore/zipball/67b644a1cd8cd0441e3c1b5535f6b5a543a60865",
+                "reference": "67b644a1cd8cd0441e3c1b5535f6b5a543a60865",
                 "shasum": ""
             },
             "require": {
@@ -61,9 +61,9 @@
             ],
             "support": {
                 "issues": "https://github.com/AnthonyEdmonds/laravel-filestore/issues",
-                "source": "https://github.com/AnthonyEdmonds/laravel-filestore/tree/1.1.0"
+                "source": "https://github.com/AnthonyEdmonds/laravel-filestore/tree/1.2.0"
             },
-            "time": "2026-07-15T07:13:54+00:00"
+            "time": "2026-07-15T12:48:52+00:00"
         },
         {
             "name": "brick/math",
