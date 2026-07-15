@@ -34,8 +34,15 @@ abstract class UploadFiles extends Question
     {
         $fileStore = $this->fileStore();
 
-        $allowedMimes = $fileStore->allowedMimesString();
-        $size = $fileStore->maxFileSizeString();
+        $hint = 'You may upload a file ';
+
+        $hint .= $fileStore->maxFileSize() > 0
+            ? "up to {$fileStore->maxFileSizeString()} "
+            : 'of any size ';
+
+        $hint .= empty($fileStore->allowedMimes()) === false
+            ? "in the following formats: {$fileStore->allowedMimesString()}"
+            : 'in any format';
 
         return [
             Field::file(
@@ -43,7 +50,7 @@ abstract class UploadFiles extends Question
                 'Which file would you like to upload?',
                 $fileStore->allowedMimes(),
                 $this->displayName(),
-            )->setHint("You may upload a file up to $size in the following formats: $allowedMimes"),
+            )->setHint($hint),
         ];
     }
 

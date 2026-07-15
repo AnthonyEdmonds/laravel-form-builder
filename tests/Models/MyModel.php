@@ -2,7 +2,6 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Models;
 
-use AnthonyEdmonds\LaravelFormBuilder\Helpers\FormBuilderFileStore;
 use AnthonyEdmonds\LaravelFormBuilder\Interfaces\UsesForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\TestFileStore;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
@@ -19,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property bool $cannot_start
  * @property ?string $colour
  * @property bool $draft_is_valid
- * @property FormBuilderFileStore $files
+ * @property TestFileStore $files
  * @property int $id
  * @property ?string $name
  * @property bool $not_required
