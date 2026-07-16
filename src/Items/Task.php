@@ -294,6 +294,8 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
                     'id' => $this->key . '-' . $question::key(),
                     'list' => $question->secondarySummaries(),
                     'title' => $question->label(),
+                    'status' => null,
+                    'colour' => null,
                 ];
             }
         }
