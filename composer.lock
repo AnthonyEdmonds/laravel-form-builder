@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d452fc94690cf7838e1bd9ba65d3f79",
+    "content-hash": "f2f0e4d5e2e54c6ca50c18484a431636",
     "packages": [
         {
             "name": "anthonyedmonds/laravel-filestore",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AnthonyEdmonds/laravel-filestore.git",
-                "reference": "67b644a1cd8cd0441e3c1b5535f6b5a543a60865"
+                "reference": "9b18f52e679164e00e462debe967d6f0281d9dcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AnthonyEdmonds/laravel-filestore/zipball/67b644a1cd8cd0441e3c1b5535f6b5a543a60865",
-                "reference": "67b644a1cd8cd0441e3c1b5535f6b5a543a60865",
+                "url": "https://api.github.com/repos/AnthonyEdmonds/laravel-filestore/zipball/9b18f52e679164e00e462debe967d6f0281d9dcd",
+                "reference": "9b18f52e679164e00e462debe967d6f0281d9dcd",
                 "shasum": ""
             },
             "require": {
@@ -61,9 +61,9 @@
             ],
             "support": {
                 "issues": "https://github.com/AnthonyEdmonds/laravel-filestore/issues",
-                "source": "https://github.com/AnthonyEdmonds/laravel-filestore/tree/1.2.0"
+                "source": "https://github.com/AnthonyEdmonds/laravel-filestore/tree/1.2.1"
             },
-            "time": "2026-07-15T12:48:52+00:00"
+            "time": "2026-07-16T09:36:40+00:00"
         },
         {
             "name": "brick/math",
