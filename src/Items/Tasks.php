@@ -161,6 +161,12 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
         foreach ($tasks as $taskClass) {
             $task = $this->makeItem($taskClass);
             $summary[] = $task->summarise($hasActions, $hasStatuses);
+
+            if ($task->hasSecondarySummaries() === true) {
+                foreach ($task->secondarySummaries() as $secondarySummary) {
+                    $summary[] = $secondarySummary;
+                }
+            }
         }
 
         return $summary;
@@ -174,6 +180,16 @@ abstract class Tasks extends ItemContainer implements CanRender, CanSummarise
     public function changeLabel(): string
     {
         return 'Change';
+    }
+
+    public function hasSecondarySummaries(): bool
+    {
+        return false;
+    }
+
+    public function secondarySummaries(): array
+    {
+        return [];
     }
 
     // Actions

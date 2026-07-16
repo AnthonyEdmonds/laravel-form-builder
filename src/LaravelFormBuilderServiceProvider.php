@@ -115,6 +115,13 @@ class LaravelFormBuilderServiceProvider extends ServiceProvider
                         ->group(function () {
                             Route::get('/', 'show')->name('show');
                         });
+
+                    Route::prefix('/files/{modelKey}/{property}/{hash}')
+                        ->name('files.')
+                        ->controller(FileController::class)
+                        ->group(function () {
+                            Route::get('/', 'download')->name('download');
+                        });
                 });
         });
     }

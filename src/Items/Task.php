@@ -267,6 +267,40 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
         return 'Change answers';
     }
 
+    public function hasSecondarySummaries(): bool
+    {
+        $questions = $this->questions();
+        foreach ($questions as $questionClass) {
+            $question = $this->makeItem($questionClass);
+            if ($question->hasSecondarySummaries() === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function secondarySummaries(): array
+    {
+        $summaries = [];
+
+        $questions = $this->questions();
+        foreach ($questions as $questionClass) {
+            $question = $this->makeItem($questionClass);
+            if ($question->hasSecondarySummaries() === true) {
+                $summaries[] = [
+                    'actions' => [],
+                    'group' => $this->group,
+                    'id' => $this->key . '-' . $question::key(),
+                    'list' => $question->secondarySummaries(),
+                    'title' => $question->label(),
+                ];
+            }
+        }
+
+        return $summaries;
+    }
+
     // CanFormat
     public function format(): array
     {

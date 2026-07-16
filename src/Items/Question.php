@@ -326,6 +326,16 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return 'Change';
     }
 
+    public function hasSecondarySummaries(): bool
+    {
+        return false;
+    }
+
+    public function secondarySummaries(): array
+    {
+        return [];
+    }
+
     protected function makeSummaryItems(bool $hasActions, bool $hasStatuses, bool $backToSummary): array
     {
         $summary = [];
@@ -335,47 +345,56 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         }
 
         $fields = $this->fields();
+
+        /** @var Field $field */
         foreach ($fields as $field) {
             if ($field->showOnSummary === false) {
                 continue;
             }
 
-            $route = $this->route();
-            if ($backToSummary === true) {
-                $route .= '?return=summary';
-            }
-
-            try {
-                $value = ($field->type === InputType::ReadOnly) === true
-                    ? $field->value
-                    : $this->form->model->formattedAnswer($field->attribute);
-            } catch (Throwable $exception) {
-                $value = $this->form->model->blankAnswer($field->attribute);
-            }
-
-            $summary[$field->displayName] = [
-                'label' => $field->displayName,
-                'value' => $value,
-            ];
-
-            if ($field->type !== InputType::ReadOnly) {
-                if ($hasStatuses === true) {
-                    $summary[$field->displayName]['colour'] = $this->statusColour()->value;
-                    $summary[$field->displayName]['status'] = $this->status()->value;
-                }
-
-                if ($hasActions === true) {
-                    $summary[$field->displayName]['actions'] = [
-                        'change' => [
-                            'label' => $this->changeLabel(),
-                            'url' => $route,
-                        ],
-                    ];
-                }
-            }
+            $summary[$field->displayName] = $this->makeSummaryItem($field, $hasActions, $hasStatuses, $backToSummary);
         }
 
         return $summary;
+    }
+
+    protected function makeSummaryItem(Field $field, bool $hasActions, bool $hasStatuses, bool $backToSummary): array
+    {
+        $route = $this->route();
+        if ($backToSummary === true) {
+            $route .= '?return=summary';
+        }
+
+        try {
+            $value = $field->type === InputType::ReadOnly
+                ? $field->value
+                : $this->form->model->formattedAnswer($field->attribute);
+        } catch (Throwable $exception) {
+            $value = $this->form->model->blankAnswer($field->attribute);
+        }
+
+        $item = [
+            'label' => $field->displayName,
+            'value' => $value,
+        ];
+
+        if ($field->type !== InputType::ReadOnly) {
+            if ($hasStatuses === true) {
+                $item['colour'] = $this->statusColour()->value;
+                $item['status'] = $this->status()->value;
+            }
+
+            if ($hasActions === true) {
+                $item['actions'] = [
+                    'change' => [
+                        'label' => $this->changeLabel(),
+                        'url' => $route,
+                    ],
+                ];
+            }
+        }
+
+        return $item;
     }
 
     // CanFormat

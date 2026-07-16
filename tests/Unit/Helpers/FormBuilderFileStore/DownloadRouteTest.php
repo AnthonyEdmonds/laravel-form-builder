@@ -18,7 +18,23 @@ class DownloadRouteTest extends TestCase
         $this->fileStore->property = 'ddd';
     }
 
-    public function test(): void
+    public function testDownload(): void
+    {
+        $this->assertEquals(
+            route('forms.files.download', [
+                'aaa',
+                'bbb',
+                'ddd',
+                'potato',
+            ]),
+            $this->fileStore->downloadRoute('potato', [
+                'form' => 'aaa',
+                'model' => 'bbb',
+            ]),
+        );
+    }
+
+    public function testShow(): void
     {
         $this->assertEquals(
             route('forms.task.questions.files.show', [

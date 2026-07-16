@@ -9,4 +9,8 @@ interface CanSummarise
     public function canChange(): bool;
 
     public function changeLabel(): string;
+
+    public function hasSecondarySummaries(): bool;
+
+    public function secondarySummaries(): array;
 }
