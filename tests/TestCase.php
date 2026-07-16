@@ -10,6 +10,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonConfirmationForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonDraftForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NonStartForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
+use AnthonyEdmonds\LaravelTestingTraits\SignsInUsers;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -18,12 +19,15 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use AssertsForms;
+    use SignsInUsers;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->useForms();
+
+        config()->set('testing-traits.user_model', MyModel::class);
     }
 
     protected function getPackageProviders($app): array

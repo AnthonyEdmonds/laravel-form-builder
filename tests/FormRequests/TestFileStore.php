@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests;
 
 use AnthonyEdmonds\LaravelFormBuilder\Helpers\FormBuilderFileStore;
+use BackedEnum;
 
 class TestFileStore extends FormBuilderFileStore
 {
@@ -28,5 +29,10 @@ class TestFileStore extends FormBuilderFileStore
     public function allowedMimes(): array
     {
         return $this->allowedMimes;
+    }
+
+    public function permission(): BackedEnum|string|null
+    {
+        return 'view_files';
     }
 }

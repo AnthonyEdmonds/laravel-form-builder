@@ -160,4 +160,56 @@ abstract class UploadFiles extends Question
 
         parent::validate();
     }
+
+    public function hasSecondarySummaries(): bool
+    {
+        return true;
+    }
+
+    public function secondarySummaries(): array
+    {
+        $summaries = [];
+
+        $fileStore = $this->fileStore();
+
+        foreach ($fileStore->files as $file) {
+            $summaries[] = [
+                'label' => $file->name,
+                'value' => $file->size,
+                'actions' => [
+                    [
+                        'label' => 'View',
+                        'url' => $fileStore->downloadRoute($file->hash, [
+                            'form' => $this->form::key(),
+                            'model' => $this->form->model->getKey(),
+                        ]),
+                    ],
+                ],
+            ];
+        }
+
+        return $summaries;
+    }
+
+    protected function makeSummaryItems(bool $hasActions, bool $hasStatuses, bool $backToSummary): array
+    {
+        if ($hasActions === true) {
+            $hasActions = $this->canChange();
+        }
+
+        $displayName = $this->displayName();
+
+        $summary = [
+            $displayName => $this->makeSummaryItem(
+                $this->fields()[0],
+                $hasActions,
+                $hasStatuses,
+                $backToSummary,
+            ),
+        ];
+
+        $summary[$displayName]['value'] = $this->fileStore()->countString();
+
+        return $summary;
+    }
 }

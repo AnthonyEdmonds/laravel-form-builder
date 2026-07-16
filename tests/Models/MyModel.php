@@ -7,6 +7,8 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\FormRequests\TestFileStore;
 use AnthonyEdmonds\LaravelFormBuilder\Traits\HasForm;
 use Carbon\Carbon;
 use ErrorException;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -24,9 +26,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property bool $not_required
  * @property bool $submit_is_valid
  */
-class MyModel extends Model implements UsesForm
+class MyModel extends Model implements UsesForm, Authenticatable
 {
     use HasForm;
+    use AuthenticatableTrait;
 
     protected $fillable = [
         'age',

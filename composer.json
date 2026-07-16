@@ -30,6 +30,7 @@
         "illuminate/support": "^13"
     },
     "require-dev" : {
+        "anthonyedmonds/laravel-testing-traits": "^1",
         "brianium/paratest": "^7",
         "larastan/larastan": "^3",
         "laravel/pint": "^1",
