@@ -27,7 +27,7 @@ abstract class UploadFiles extends Question
     // Question
     public function label(): string
     {
-        return 'Upload files';
+        return $this->displayName();
     }
 
     public function fields(): array
@@ -173,6 +173,10 @@ abstract class UploadFiles extends Question
         $fileStore = $this->fileStore();
 
         foreach ($fileStore->files as $file) {
+            if ($file->remove === true) {
+                continue;
+            }
+
             $summaries[] = [
                 'label' => $file->name,
                 'value' => $file->size,
@@ -186,6 +190,10 @@ abstract class UploadFiles extends Question
                     ],
                 ],
             ];
+        }
+
+        if (empty($summaries) === true) {
+            $summaries['No files have been uploaded'] = '';
         }
 
         return $summaries;

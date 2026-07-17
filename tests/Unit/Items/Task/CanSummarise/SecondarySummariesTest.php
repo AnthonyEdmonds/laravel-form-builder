@@ -45,6 +45,8 @@ class SecondarySummariesTest extends TestCase
                     'id' => MyTask::key() . '-' . UploadFilesQuestion::key(),
                     'list' => $question->secondarySummaries(),
                     'title' => $question->label(),
+                    'status' => null,
+                    'colour' => null,
                 ],
             ],
             $this->task->secondarySummaries(),

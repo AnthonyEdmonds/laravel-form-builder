@@ -11,6 +11,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\UploadFilesQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
+use Illuminate\Http\UploadedFile;
 
 class SecondarySummariesTest extends TestCase
 {
@@ -20,6 +21,10 @@ class SecondarySummariesTest extends TestCase
 
     protected UploadFiles $question;
 
+    protected UploadedFile $toAdd;
+
+    protected UploadedFile $toRemove;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,19 +32,26 @@ class SecondarySummariesTest extends TestCase
         $this->useFileStores();
 
         $this->model = new MyModel();
+        $this->model->id = 1;
+
         $this->form = new MyForm($this->model);
         $this->question = $this->form->tasks()
             ->task(MyTask::key())
             ->question(UploadFilesQuestion::key());
 
-        $this->model->files->add($this->makeFile());
-        $this->model->id = 1;
+        $this->toAdd = $this->makeFile();
+        $this->toRemove = $this->makeFile();
     }
 
     public function test(): void
     {
+        $this->model->files->add($this->toAdd);
+
+        $this->model->files->add($this->toRemove);
+        $this->model->files->remove($this->toRemove->hashName());
+
         /** @var File $file */
-        $file = array_first($this->model->files->files);
+        $file = $this->model->files->files[$this->toAdd->hashName()];
 
         $this->assertEquals(
             [
@@ -58,6 +70,16 @@ class SecondarySummariesTest extends TestCase
                         ],
                     ],
                 ],
+            ],
+            $this->question->secondarySummaries(),
+        );
+    }
+
+    public function testWhenEmpty(): void
+    {
+        $this->assertEquals(
+            [
+                'No files have been uploaded' => '',
             ],
             $this->question->secondarySummaries(),
         );
