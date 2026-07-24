@@ -50,28 +50,57 @@ class SecondarySummariesTest extends TestCase
         $this->model->files->add($this->toRemove);
         $this->model->files->remove($this->toRemove->hashName());
 
+        $this->model->files->files['test'] = new File(
+            $this->model->files,
+            'test',
+            'test.png',
+            '10 KB',
+            true,
+        );
+
         /** @var File $file */
         $file = $this->model->files->files[$this->toAdd->hashName()];
 
+        $summaries = $this->question->secondarySummaries();
+
+        $this->assertCount(2, $summaries);
+
         $this->assertEquals(
             [
-                [
-                    'label' => $file->name,
-                    'value' => $file->size,
-                    'actions' => [
-                        [
-                            'label' => 'View',
-                            'url' => route('forms.files.download', [
-                                MyForm::key(),
-                                1,
-                                'files',
-                                $file->hash,
-                            ]),
-                        ],
+                'label' => 'test.png',
+                'value' => '10 KB',
+                'actions' => [
+                    [
+                        'label' => 'View',
+                        'url' => $this->model->files->downloadRoute(
+                            $this->model->files->files['test']->hash,
+                            [
+                                'form' => MyForm::key(),
+                                'model' => 1,
+                            ],
+                        ),
                     ],
                 ],
             ],
-            $this->question->secondarySummaries(),
+            $summaries['test.png'],
+        );
+
+        $this->assertEquals(
+            [
+                'label' => $file->name,
+                'value' => $file->size,
+                'actions' => [
+                    [
+                        'label' => 'View',
+                        'url' => $this->model->files->downloadRoute($file->hash, [
+                            'form' => MyForm::key(),
+                            'task' => MyTask::key(),
+                            'question' => UploadFilesQuestion::key(),
+                        ]),
+                    ],
+                ],
+            ],
+            $summaries[$file->name],
         );
     }
 
