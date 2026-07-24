@@ -177,16 +177,25 @@ abstract class UploadFiles extends Question
                 continue;
             }
 
-            $summaries[] = [
+            $summaries[$file->name] = [
                 'label' => $file->name,
                 'value' => $file->size,
                 'actions' => [
                     [
                         'label' => 'View',
-                        'url' => $fileStore->downloadRoute($file->hash, [
-                            'form' => $this->form::key(),
-                            'model' => $this->form->model->getKey(),
-                        ]),
+                        'url' => $fileStore->downloadRoute(
+                            $file->hash,
+                            $file->stored === true
+                                ? [
+                                    'form' => $this->form::key(),
+                                    'model' => $this->form->model->getKey(),
+                                ]
+                                : [
+                                    'form' => $this->form::key(),
+                                    'task' => $this->task::key(),
+                                    'question' => static::key(),
+                                ],
+                        ),
                     ],
                 ],
             ];
