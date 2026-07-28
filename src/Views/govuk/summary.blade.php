@@ -10,6 +10,7 @@
     @forelse($summary as $task)
         <x-govuk::summary-card
             :actions="$task['actions']"
+            :id="$task['id']"
             :list="$task['list']"
             :status="$task['status']"
             :status-colour="$task['colour']"
