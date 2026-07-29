@@ -27,6 +27,7 @@
 
     @forelse($summary as $task)
         <x-govuk::summary-card
+            :id="$task['id']"
             :list="$task['list']"
             :title="$task['title']"
         />

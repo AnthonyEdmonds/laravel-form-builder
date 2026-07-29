@@ -6,7 +6,7 @@
     <x-form-builder::description :description="$description"/>
 
     @forelse($summary as $task)
-        <h2>
+        <h2 id="{{ $task['id'] }}">
             {{ $task['title'] }}
             <a href="{{ $task['actions']['change']['url'] }}">{{ $task['actions']['change']['label'] }}</a>
             <span class="{{ $task['colour'] }}">{{ $task['status'] }}</span>
