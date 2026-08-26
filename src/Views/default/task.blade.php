@@ -11,11 +11,11 @@
                 <b>{{ $label }}:</b>
                 <span>{{ $details['value'] }}</span>
 
-                @if(isset($details['actions']['change']) === true)
+                @isset($details['actions']['change']) === true)
                     <a href="{{ $details['actions']['change']['url'] }}">
                         {{ $details['actions']['change']['label'] }}
                     </a>
-                @endif
+                @endisset
             </li>
         @empty
             <li>No questions have been added to this task.</li>
