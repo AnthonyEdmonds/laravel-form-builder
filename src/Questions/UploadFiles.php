@@ -188,7 +188,7 @@ abstract class UploadFiles extends Question
                             $file->stored === true
                                 ? [
                                     'form' => $this->form::key(),
-                                    'model' => $this->form->model->getKey(),
+                                    'model' => $this->form->model->getRouteKey(),
                                 ]
                                 : [
                                     'form' => $this->form::key(),
