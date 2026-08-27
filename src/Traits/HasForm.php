@@ -70,7 +70,7 @@ trait HasForm
     {
         if (is_a($id, Model::class) === true) {
             $formClass = $id::formClass();
-            $id = $id->getKey();
+            $id = $id->getRouteKey();
         } else {
             $formClass = static::formClass();
         }
