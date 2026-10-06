@@ -13,7 +13,7 @@ abstract class LinearForm extends Form
     public function tasks(): Tasks
     {
         $tasks = new LinearTasks($this);
-        $tasks->setQuestions($this->questions());
+        $tasks->questions = $this->questions();
 
         return $tasks;
     }

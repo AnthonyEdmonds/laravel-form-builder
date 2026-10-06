@@ -402,6 +402,12 @@ A link back to the `Form` should be included, if the model can be edited.
 
 You can control whether an individual `Question` can be edited by adjusting the `canChange()` method.
 
+## Linear forms
+
+If you want to create a non-task based form, extend the `LinearForm` class and apply the `LinearQuestion` trait to each `Question`.
+
+Users will be taken straight to the first `Question`, then directly to the `Summary` page after the last `Question`.
+
 ## Testing
 
 To assist with the creation of unit tests, an `AssertsForms` trait has been provided.
