@@ -25,8 +25,6 @@ class UploadFilesQuestion extends UploadFiles
 
     public function filesRequired(): int
     {
-        parent::filesRequired();
-
         return 1;
     }
 }

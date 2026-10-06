@@ -113,8 +113,15 @@ abstract class Task extends ItemContainer implements UsesStates, CanRender, CanS
 
         foreach ($questions as $questionClass) {
             $question = new $questionClass($this->form, $this);
-
             $questionStatus = $question->status();
+
+            if (
+                $question->isOptional() === true
+                && $questionStatus !== State::ThereIsAProblem
+            ) {
+                continue;
+            }
+
             $this->questionStatuses[$questionStatus->name]++;
             $this->questionStatuses['total']++;
         }
