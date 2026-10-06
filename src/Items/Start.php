@@ -46,11 +46,16 @@ class Start extends Item implements ItemInterface, CanRender
     }
 
     // CanRender
+    public function startButtonLabel(): string
+    {
+        return 'Start';
+    }
+
     public function actions(): array
     {
         return [
             'start' => Link::make(
-                $this->form->tasks()->label(),
+                $this->startButtonLabel(),
                 $this->form->tasks()->route(),
             ),
             'exit' => Link::make(

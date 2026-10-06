@@ -2,14 +2,13 @@
 
 namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Start\CanRender;
 
-use AnthonyEdmonds\LaravelFormBuilder\Helpers\Link;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Form;
 use AnthonyEdmonds\LaravelFormBuilder\Items\Start;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 
-class ActionsTest extends TestCase
+class StartButtonLabelTest extends TestCase
 {
     protected Form $form;
 
@@ -31,17 +30,8 @@ class ActionsTest extends TestCase
     public function test(): void
     {
         $this->assertEquals(
-            [
-                'start' => Link::make(
-                    $this->start->startButtonLabel(),
-                    $this->form->tasks()->route(),
-                ),
-                'exit' => Link::make(
-                    $this->form->exitLabel(),
-                    $this->form->exitRoute(),
-                ),
-            ],
-            $this->start->actions(),
+            'Start',
+            $this->start->startButtonLabel(),
         );
     }
 }
