@@ -31,7 +31,7 @@ class IsInProgressTest extends TestCase
 
     public function testTrueWhenSomeButNotAll(): void
     {
-        $this->model->age = 99;
+        $this->model->name = 'Bob';
 
         $this->assertTrue(
             $this->task->isInProgress(),
