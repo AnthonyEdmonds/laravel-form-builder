@@ -4,8 +4,10 @@
 
 <ul>
     @foreach($actions as $action)
-        <li>
-            <a href="{{ $action->link }}">{{ $action->label }}</a>
-        </li>
+        @if(empty($action->label) === false)
+            <li>
+                <a href="{{ $action->link }}">{{ $action->label }}</a>
+            </li>
+        @endif
     @endforeach
 </ul>
