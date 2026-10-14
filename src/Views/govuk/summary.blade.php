@@ -34,9 +34,11 @@
                 </x-govuk::button>
             @endif
 
-            <x-govuk::a
-                href="{{ $actions['back']->link }}"
-            >{{ $actions['back']->label }}</x-govuk::button>
+            @if(empty($actions['back']->label) === false)
+                <x-govuk::a
+                    href="{{ $actions['back']->link }}"
+                >{{ $actions['back']->label }}</x-govuk::button>
+            @endif
 
             <x-govuk::a
                 href="{{ $actions['exit']->link }}"
