@@ -7,9 +7,7 @@
         @foreach($breadcrumbs as $label => $link)
             @if(is_integer($label) === true)
                 <li class="is-active">
-                    <a aria-current="page">
-                        {{ $link }}
-                    </a>
+                    <a aria-current="page">{{ $link }}</a>
                 </li>
             @else
                 <li>
@@ -19,4 +17,3 @@
         @endforeach
     </ul>
 </nav>
-

@@ -3,7 +3,6 @@
 @endphp
 
 <x-form-builder::layout>
-
     <div class="column is-full">
         <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
 
@@ -46,9 +45,9 @@
                     </div>
 
                     <div class="ml-5">
-                    <span class="{{ $task['colour'] }}">
-                        {{ $task['status'] }}
-                    </span>
+                        <span class="{{ $task['colour'] }}">
+                            {{ $task['status'] }}
+                        </span>
                     </div>
                 </div>
 
@@ -65,11 +64,12 @@
 
             <div class="buttons">
                 @foreach($actions as $key => $action)
-                    <a href="{{ $action->link }}"
-                        class="button {{ $key === 'summary' ? 'is-primary' : 'is-light'}}">{{ $action->label }}</a>
+                    <a
+                        href="{{ $action->link }}"
+                        class="button {{ $key === 'summary' ? 'is-primary' : 'is-light'}}"
+                    >{{ $action->label }}</a>
                 @endforeach
             </div>
         </div>
     </div>
-
 </x-form-builder::layout>

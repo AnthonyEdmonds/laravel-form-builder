@@ -106,21 +106,15 @@
                             <label
                                 for="{{ $field->id }}-{{ $value }}-{{ $index }}"
                                 class="label"
-                            >
-                                {{ $input['label'] }}
-                            </label>
+                            >{{ $input['label'] }}</label>
                         @endif
 
                         @if(empty($input['hint']) === false)
-                            <p class="help">
-                                {{ $input['hint'] }}
-                            </p>
+                            <p class="help">{{ $input['hint'] }}</p>
                         @endif
 
                         @error($input['name'])
-                        <p class="help is-danger">
-                            {{ $message }}
-                        </p>
+                            <p class="help is-danger">{{ $message }}</p>
                         @enderror
                         <div class="control">
                             @if($inputType === 'select')

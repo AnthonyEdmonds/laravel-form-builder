@@ -1,5 +1,4 @@
 <x-form-builder::layout>
-
     <div class="column is-full">
         <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs"/>
 
@@ -85,5 +84,4 @@
             </div>
         </section>
     </div>
-
 </x-form-builder::layout>

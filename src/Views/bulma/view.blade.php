@@ -1,5 +1,4 @@
 <x-form-builder::layout>
-
     @forelse($summary as $task)
         <h2 id="{{ $task['id'] }}">{{ $task['title'] }}</h2>
 
@@ -20,5 +19,4 @@
     @isset($edit)
         <a href="{{ $edit->link }}">{{ $edit->label }}</a>
     @endisset
-
 </x-form-builder::layout>

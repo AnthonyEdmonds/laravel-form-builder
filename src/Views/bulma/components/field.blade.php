@@ -5,7 +5,6 @@
 @use(AnthonyEdmonds\LaravelFormBuilder\Enums\InputType)
 
 <div class="field mb-5">
-
     <label class="label" for="{{ $field->id }}">
         {{ $field->label }}
     </label>
@@ -44,5 +43,4 @@
     @error($field->name)
         <p class="error">{{ $message }}</p>
     @enderror
-
 </div>

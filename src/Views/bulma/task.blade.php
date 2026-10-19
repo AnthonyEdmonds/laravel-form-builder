@@ -1,5 +1,4 @@
 <x-form-builder::layout>
-
     <div class="column is-full">
         <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
 
@@ -23,13 +22,13 @@
 
                 <div class="buttons">
                     @foreach($actions as $key => $action)
-                        <a href="{{ $action->link }}"
-                           class="button {{ $key === 'back' ? 'is-primary' : 'is-light'}}"
+                        <a
+                            href="{{ $action->link }}"
+                            class="button {{ $key === 'back' ? 'is-primary' : 'is-light'}}"
                         >{{ $action->label }}</a>
                     @endforeach
                 </div>
             </div>
         </section>
-</div>
-
+    </div>
 </x-form-builder::layout>

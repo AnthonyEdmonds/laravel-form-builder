@@ -1,5 +1,4 @@
 <x-form-builder::layout>
-
     @extends('form-builder::question')
 
     @section('before-main')
@@ -18,13 +17,13 @@
         @endisset
 
         @isset($storeLimit)
-            <p>You may upload up to {{ $storeLimit }} worth of files.</p>
-            <p>You have uploaded {{ $storeCurrent }} worth of files.</p>
+            <p class="mb-2">You may upload up to {{ $storeLimit }} worth of files.</p>
+            <p class="mb-2">You have uploaded {{ $storeCurrent }} worth of files.</p>
         @endisset
 
         <hr />
 
-        <table>
+        <table class="table is-fullwidth">
             <caption>Uploaded files</caption>
 
             <thead>
@@ -48,11 +47,17 @@
                             >
                                 @csrf
                                 @method('DELETE')
-                                <button>Remove</button>
+                                <button
+                                    class="button is-danger is-small"
+                                    type="submit"
+                                >Remove</button>
                             </form>
                         </td>
                         <td>
-                            <a href="{{ $file['download_url'] }}">View</a>
+                            <a
+                                href="{{ $file['download_url'] }}"
+                                class="is-underlined ml-3"
+                            >View</a>
                         </td>
                     </tr>
                 @empty
@@ -65,5 +70,4 @@
 
         <hr />
     @endsection
-
 </x-form-builder::layout>
