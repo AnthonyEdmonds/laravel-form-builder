@@ -1,6 +1,7 @@
 @props([
     'field',
 ])
+
 <div class="select">
     <select
         id="{{ $field->id }}"
