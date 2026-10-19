@@ -8,15 +8,22 @@ return [
         // MyForm::class,
     ],
 
+    /**
+     * Optional parent layout used by the Bulma templates.
+     *
+     * name: Blade view to extend.
+     * section: Layout section to render content into.
+     */
     'layout' => [
-        'name' => 'layouts.app',
-        'section' => 'content',
+        'name' => null,
+        'section' => null,
     ],
 
     /**
      * Which templates to serve, currently supports:
      * default
      * govuk
+     * bulma
      */
     'template' => 'default',
 ];

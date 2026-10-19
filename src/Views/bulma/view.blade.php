@@ -1,20 +1,24 @@
-@forelse($summary as $task)
-    <h2 id="{{ $task['id'] }}">{{ $task['title'] }}</h2>
+<x-form-builder::layout>
 
-    <ul>
-        @forelse($task['list'] as $label => $details)
-            <li>
-                <b>{{ $label }}</b>
-                {{ $details['value'] }}
-            </li>
-        @empty
-            <li>No questions have been added to this task.</li>
-        @endforelse
-    </ul>
-@empty
-    <p>No tasks have been added to this form.</p>
-@endforelse
+    @forelse($summary as $task)
+        <h2 id="{{ $task['id'] }}">{{ $task['title'] }}</h2>
 
-@isset($edit)
-    <a href="{{ $edit->link }}">{{ $edit->label }}</a>
-@endisset
+        <ul>
+            @forelse($task['list'] as $label => $details)
+                <li>
+                    <b>{{ $label }}</b>
+                    {{ $details['value'] }}
+                </li>
+            @empty
+                <li>No questions have been added to this task.</li>
+            @endforelse
+        </ul>
+    @empty
+        <p>No tasks have been added to this form.</p>
+    @endforelse
+
+    @isset($edit)
+        <a href="{{ $edit->link }}">{{ $edit->label }}</a>
+    @endisset
+
+</x-form-builder::layout>

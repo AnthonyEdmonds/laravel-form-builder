@@ -2,16 +2,21 @@
     'breadcrumbs',
 ])
 
-<nav>
-    <ol>
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
         @foreach($breadcrumbs as $label => $link)
-            <li>
-                @if(is_integer($label) === true)
-                    {{ $link }}
-                @else
+            @if(is_integer($label) === true)
+                <li class="is-active">
+                    <a aria-current="page">
+                        {{ $link }}
+                    </a>
+                </li>
+            @else
+                <li>
                     <a href="{{ $link }}">{{ $label }}</a>
-                @endif
-            </li>
+                </li>
+            @endif
         @endforeach
-    </ol>
+    </ul>
 </nav>
+

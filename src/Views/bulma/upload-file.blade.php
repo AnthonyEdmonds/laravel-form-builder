@@ -1,65 +1,69 @@
-@extends('form-builder::question')
+<x-form-builder::layout>
 
-@section('before-main')
-    @yield('description')
+    @extends('form-builder::question')
 
-    @isset($filesMinimum)
-        <p>You must upload at least {{ $filesMinimum }}.</p>
-    @endif
+    @section('before-main')
+        @yield('description')
 
-    @isset($filesLimit)
-        <p>You may upload up to {{ $filesLimit }}.</p>
-    @endisset
+        @isset($filesMinimum)
+            <p>You must upload at least {{ $filesMinimum }}.</p>
+        @endif
 
-    @isset($filesCurrent)
-        <p>You have uploaded {{ $filesCurrent }}.</p>
-    @endisset
+        @isset($filesLimit)
+            <p>You may upload up to {{ $filesLimit }}.</p>
+        @endisset
 
-    @isset($storeLimit)
-        <p>You may upload up to {{ $storeLimit }} worth of files.</p>
-        <p>You have uploaded {{ $storeCurrent }} worth of files.</p>
-    @endisset
+        @isset($filesCurrent)
+            <p>You have uploaded {{ $filesCurrent }}.</p>
+        @endisset
 
-    <hr />
+        @isset($storeLimit)
+            <p>You may upload up to {{ $storeLimit }} worth of files.</p>
+            <p>You have uploaded {{ $storeCurrent }} worth of files.</p>
+        @endisset
 
-    <table>
-        <caption>Uploaded files</caption>
+        <hr />
 
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Size</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
+        <table>
+            <caption>Uploaded files</caption>
 
-        <tbody>
-            @forelse($filesList as $file)
+            <thead>
                 <tr>
-                    <td>{{ $file['name'] }}</td>
-                    <td>{{ $file['size'] }}</td>
-                    <td>
-                        <form
-                            action="{{ $file['remove_url'] }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-                            <button>Remove</button>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="{{ $file['download_url'] }}">View</a>
-                    </td>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="4">No files have been uploaded yet</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
 
-    <hr />
-@endsection
+            <tbody>
+                @forelse($filesList as $file)
+                    <tr>
+                        <td>{{ $file['name'] }}</td>
+                        <td>{{ $file['size'] }}</td>
+                        <td>
+                            <form
+                                action="{{ $file['remove_url'] }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
+                                <button>Remove</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{{ $file['download_url'] }}">View</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">No files have been uploaded yet</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+
+        <hr />
+    @endsection
+
+</x-form-builder::layout>
