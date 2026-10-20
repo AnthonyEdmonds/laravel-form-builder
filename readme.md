@@ -70,10 +70,22 @@ Route::laravelFormBuilder();
 
 The `config/form-builder.php` file contains the following options:
 
-| Key      | Usage                                   | Type                 | Default |
-|----------|-----------------------------------------|----------------------|---------|
-| forms    | A list of Forms available in the system | class-string<Form>[] | []      |
-| template | Which view template to use              | string               | default |
+| Key            | Usage                                     | Type                 | Default |
+|----------------|-------------------------------------------|----------------------|---------|
+| forms          | A list of Forms available in the system   | class-string<Form>[] | []      |
+| layout.name    | Blade view to extend when rendering forms | string\|null         | null    |
+| layout.section | Layout section to render content into     | string\|null         | null    |
+| template       | Which view template to use                | string               | default |
+### Layout Configuration
+
+The optional `layout` configuration allows the templates to be rendered within an existing application layout.
+
+```php
+'layout' => [
+    'name' => 'layouts.app',
+    'section' => 'content',
+],
+```
 
 ## Structure
 
