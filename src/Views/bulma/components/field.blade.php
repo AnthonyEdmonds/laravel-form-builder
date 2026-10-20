@@ -32,7 +32,7 @@
             <x-form-builder::inputs.input :field="$field" />
     @endswitch
 
-    @if($field->hint)
+    @if(empty($field->hint) === false)
         <p class="help">{{ $field->hint }}</p>
     @endif
 

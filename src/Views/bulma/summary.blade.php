@@ -10,11 +10,11 @@
     <div class="column is-full">
         <section>
             <div class="content">
-                @if($errors->any())
+                @if($errors->any() === true)
                     <div class="box" style="border: 5px solid #d4351c; border-radius: 0;">
                         <h2 class="title is-3">There is a problem</h2>
 
-                        @foreach ($errors->all() as $error)
+                        @foreach($errors->all() as $error)
                             <p class="has-text-danger has-text-weight-bold">
                                 {{ $error }}
                             </p>

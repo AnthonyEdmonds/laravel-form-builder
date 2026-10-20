@@ -13,7 +13,7 @@
 
     <div class="column is-full">
         <div class="content">
-            <x-form-builder::description :description="$description"/>
+            <x-form-builder::description :description="$description" />
 
             @forelse($tasks as $task)
                 @if($task['group'] !== $currentGroup && $task['group'] !== null)
