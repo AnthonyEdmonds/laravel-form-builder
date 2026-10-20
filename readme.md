@@ -76,16 +76,8 @@ The `config/form-builder.php` file contains the following options:
 | layout.name    | Blade view to extend when rendering forms | string\|null         | null    |
 | layout.section | Layout section to render content into     | string\|null         | null    |
 | template       | Which view template to use                | string               | default |
-### Layout Configuration
 
-The optional `layout` configuration allows the templates to be rendered within an existing application layout.
-
-```php
-'layout' => [
-    'name' => 'layouts.app',
-    'section' => 'content',
-],
-```
+Note: The optional `layout` configuration options only applies to the Bulma templates.
 
 ## Structure
 
