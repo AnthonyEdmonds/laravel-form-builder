@@ -10,7 +10,7 @@
     <div class="column is-full">
         <section>
             <div class="content">
-                <x-form-builder::description :description="$description"/>
+                <x-form-builder::description :description="$description" />
 
                 @isset($status)
                     <span class="{{ $colour }}">

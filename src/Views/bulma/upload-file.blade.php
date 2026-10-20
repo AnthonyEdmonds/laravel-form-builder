@@ -48,7 +48,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button
-                                    class="button is-danger is-small"
+                                    class="button as-link"
                                     type="submit"
                                 >Remove</button>
                             </form>

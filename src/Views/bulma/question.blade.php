@@ -20,7 +20,7 @@
                     @yield('before-fields')
 
                     @forelse($fields as $field)
-                        <x-form-builder::field :field="$field"/>
+                        <x-form-builder::field :field="$field" />
                     @empty
                         <div class="notification is-warning is-light">
                             No fields have been added to this question.

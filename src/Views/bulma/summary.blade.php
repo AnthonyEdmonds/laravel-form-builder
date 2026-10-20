@@ -1,6 +1,6 @@
 <x-form-builder::layout>
     <div class="column is-full">
-        <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs"/>
+        <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
 
         <div class="is-flex" style="justify-content: space-between; flex-wrap: wrap;">
             <h1 class="title mb-3">{{ $title }}</h1>
@@ -10,7 +10,7 @@
     <div class="column is-full">
         <section>
             <div class="content">
-                @if ($errors->any())
+                @if($errors->any())
                     <div class="box" style="border: 5px solid #d4351c; border-radius: 0;">
                         <h2 class="title is-3">There is a problem</h2>
 
@@ -22,7 +22,7 @@
                     </div>
                 @endif
 
-                <x-form-builder::description :description="$description"/>
+                <x-form-builder::description :description="$description" />
 
                 @forelse($summary as $task)
                     <div class="mb-5">
@@ -59,7 +59,6 @@
                         @endphp
 
                         <x-form-builder::summary-table :rows="$rows" />
-
                     </div>
                 @empty
                     <p>No tasks have been added to this form.</p>

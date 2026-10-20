@@ -5,9 +5,7 @@
 @use(AnthonyEdmonds\LaravelFormBuilder\Enums\InputType)
 
 <div class="field mb-5">
-    <label class="label" for="{{ $field->id }}">
-        {{ $field->label }}
-    </label>
+    <label class="label" for="{{ $field->id }}">{{ $field->label }}</label>
 
     @switch($field->type)
         @case(InputType::Checkbox)
@@ -35,9 +33,7 @@
     @endswitch
 
     @if($field->hint)
-        <p class="help">
-            {{ $field->hint }}
-        </p>
+        <p class="help">{{ $field->hint }}</p>
     @endif
 
     @error($field->name)

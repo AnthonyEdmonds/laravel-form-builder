@@ -13,9 +13,7 @@
 
             <td class="has-text-right">
                 @isset($details['status'])
-                    <span class="{{ $details['colour'] }}">
-                        {{ $details['status'] }}
-                    </span>
+                    <span class="{{ $details['colour'] }}">{{ $details['status'] }}</span>
                 @endisset
 
                 @isset($details['actions']['change'])
@@ -30,9 +28,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="3">
-                {{ $emptyMessage }}
-            </td>
+            <td colspan="3">{{ $emptyMessage }}</td>
         </tr>
     @endforelse
     </tbody>

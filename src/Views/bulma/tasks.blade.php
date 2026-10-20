@@ -17,12 +17,10 @@
 
             @forelse($tasks as $task)
                 @if($task['group'] !== $currentGroup && $task['group'] !== null)
-                    <h2 class="title is-4 mt-5">
-                        {{ $task['group'] }}
-                    </h2>
+                    <h2 class="title is-4 mt-5">{{ $task['group'] }}</h2>
                 @endif
 
-                <hr class="my-2">
+                <hr class="my-2" />
 
                 <div
                     id="{{ $task['id'] }}"
@@ -38,9 +36,7 @@
                         @endif
 
                         @foreach($task['hint'] as $hint)
-                            <p class="has-text-grey mt-1 mb-0">
-                                {{ $hint }}
-                            </p>
+                            <p class="has-text-grey mt-1 mb-0">{{ $hint }}</p>
                         @endforeach
                     </div>
 
@@ -51,7 +47,7 @@
                     </div>
                 </div>
 
-                <hr class="my-2">
+                <hr class="my-2" />
 
                 @php
                     $currentGroup = $task['group'];

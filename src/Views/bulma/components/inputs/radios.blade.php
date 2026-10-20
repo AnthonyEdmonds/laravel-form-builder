@@ -75,7 +75,8 @@
                     document
                         .getElementById('{{ $field->id }}-inputs-{{ $loop->index }}')
                         ?.classList.remove('is-hidden');
-            "/>
+                "
+            />
             {{ $label }}
         </label>
 
@@ -116,11 +117,12 @@
                         @error($input['name'])
                             <p class="help is-danger">{{ $message }}</p>
                         @enderror
+
                         <div class="control">
                             @if($inputType === 'select')
-                                <x-form-builder::inputs.select :field="$inputField"/>
+                                <x-form-builder::inputs.select :field="$inputField" />
                             @else
-                                <x-form-builder::inputs.input :field="$inputField"/>
+                                <x-form-builder::inputs.input :field="$inputField" />
                             @endif
                         </div>
                     </div>
@@ -128,8 +130,6 @@
             </div>
         @endif
     </div>
-    @empty
-    <p class="help">
-        {{ $field->noOptionsMessage }}
-    </p>
+@empty
+    <p class="help">{{ $field->noOptionsMessage }}</p>
 @endforelse
