@@ -77,7 +77,7 @@ The `config/form-builder.php` file contains the following options:
 | layout.section | Layout section to render content into     | string\|null         | null    |
 | template       | Which view template to use                | string               | default |
 
-Note: The optional `layout` configuration options only applies to the Bulma templates.
+The optional `layout` configuration options only apply to the Bulma templates.
 
 ## Structure
 
