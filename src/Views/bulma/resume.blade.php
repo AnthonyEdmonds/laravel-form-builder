@@ -12,14 +12,11 @@
             <div class="content">
                 <x-form-builder::description :description="$description" />
 
-                <div class="buttons">
-                    @foreach($actions as $key => $action)
-                        <a
-                            href="{{ $action->link }}"
-                            class="button {{ $key === 'resume' ? 'is-primary' : 'is-light'}}"
-                        >{{ $action->label }}</a>
-                    @endforeach
-                </div>
+                <x-support-page::actions
+                    :actions="$actions"
+                    primary="resume"
+                    secondary="restart"
+                />
             </div>
         </div>
     </div>

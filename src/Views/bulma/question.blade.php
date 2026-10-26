@@ -29,15 +29,11 @@
 
                     @yield('after-fields')
 
-                    <div class="buttons">
-                        <button class="button is-primary">{{ $save->label }}</button>
-                        @foreach($actions as $key => $action)
-                            <a
-                                href="{{ $action->link }}"
-                                class="button {{ $key === 'submit' ? 'is-primary' : 'is-light'}}"
-                            >{{ $action->label }}</a>
-                        @endforeach
-                    </div>
+                    <x-support-page::actions
+                        :actions="$actions"
+                        :submit="$save"
+                        gap="1rem"
+                    />
                 </form>
             </div>
         </section>

@@ -64,13 +64,11 @@
                     @csrf
                     @method('POST')
 
-                    <div class="buttons">
-                        <button class="button is-primary">{{ $submit->label }}</button>
-
-                        @foreach($actions as $key => $action)
-                            <a href="{{ $action->link }}" class="button is-light">{{ $action->label }}</a>
-                        @endforeach
-                    </div>
+                    <x-support-page::actions
+                        :actions="$actions"
+                        :submit="$submit"
+                        gap="1rem"
+                    />
                 </form>
             </div>
         </section>

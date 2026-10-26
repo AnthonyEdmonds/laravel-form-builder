@@ -60,14 +60,11 @@
                 </div>
             @endforelse
 
-            <div class="buttons">
-                @foreach($actions as $key => $action)
-                    <a
-                        href="{{ $action->link }}"
-                        class="button {{ $key === 'summary' ? 'is-primary' : 'is-light'}}"
-                    >{{ $action->label }}</a>
-                @endforeach
-            </div>
+            <x-support-page::actions
+                :actions="$actions"
+                primary="summary"
+                gap="1rem"
+            />
         </div>
     </div>
 </x-form-builder::layout>

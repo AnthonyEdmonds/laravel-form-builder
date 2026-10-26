@@ -3,7 +3,7 @@
 ])
 
 <input
-    class="input"
+    class="input @error($field->name) is-danger @enderror"
     id="{{ $field->id }}"
     max="{{ $field->max }}"
     min="{{ $field->min }}"

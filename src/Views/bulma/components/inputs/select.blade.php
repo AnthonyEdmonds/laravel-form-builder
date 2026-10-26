@@ -2,7 +2,7 @@
     'field',
 ])
 
-<div class="select">
+<div class="select @error($field->name) is-danger @enderror">
     <select
         id="{{ $field->id }}"
         name="{{ $field->name }}"
