@@ -1,3 +1,5 @@
+@use(AnthonyEdmonds\LaravelFormBuilder\Enums\Colour)
+
 <x-form-builder::layout>
     <div class="column is-full">
         <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
@@ -33,7 +35,7 @@
                             </h2>
 
                             <div class="is-flex is-align-items-center" style="gap: 0.75rem;">
-                                <span class="{{ $task['colour'] }}">
+                                <span class="tag {{ Colour::tryFrom($task['colour'])->toBulmaClass() ?? 'is-light' }} is-medium">
                                     {{ $task['status'] }}
                                 </span>
 
@@ -48,17 +50,7 @@
                             </div>
                         </div>
 
-                        @php
-                            $rows = collect($task['list'])
-                                ->map(function ($details) use ($task) {
-                                    $details['status'] = $task['status'] ?? null;
-                                    $details['colour'] = $task['colour'] ?? null;
-
-                                    return $details;
-                                });
-                        @endphp
-
-                        <x-form-builder::summary-table :rows="$rows" />
+                        <x-form-builder::summary-table :rows="$task['list']" />
                     </div>
                 @empty
                     <p>No tasks have been added to this form.</p>
