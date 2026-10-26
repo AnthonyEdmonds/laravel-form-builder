@@ -19,7 +19,7 @@ enum Colour: string
     public function toBulmaClass(): string
     {
         return match ($this) {
-            self::Blue => "is-info ",
+            self::Blue => "is-info",
             self::Green => "is-success",
             self::Grey => "is-light",
             self::LightBlue => "is-info is-light",
