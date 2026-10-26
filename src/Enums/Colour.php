@@ -15,4 +15,16 @@ enum Colour: string
     case Red = 'red';
 
     case Yellow = 'yellow';
+
+    public function toBulmaClass(): string
+    {
+        return match ($this) {
+            self::Blue => "is-info ",
+            self::Green => "is-success",
+            self::Grey => "is-light",
+            self::LightBlue => "is-info is-light",
+            self::Red => "is-danger",
+            self::Yellow => "is-warning",
+        };
+    }
 }

@@ -6,7 +6,7 @@
     <input
         @checked(in_array($value, (array) old($field->name, $field->value)) === true)
         id="{{ $field->id }}-{{ $loop->index }}"
-        name="{{ $field->name }}"
+        name="{{ $field->name }}[]"
         type="checkbox"
         value="{{ $value }}"
     />

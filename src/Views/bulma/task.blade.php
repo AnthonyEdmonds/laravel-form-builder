@@ -1,3 +1,5 @@
+@use(AnthonyEdmonds\LaravelFormBuilder\Enums\Colour)
+
 <x-form-builder::layout>
     <div class="column is-full">
         <x-form-builder::breadcrumbs :breadcrumbs="$breadcrumbs" />
@@ -13,7 +15,7 @@
                 <x-form-builder::description :description="$description" />
 
                 @isset($status)
-                    <span class="{{ $colour }}">
+                    <span class="tag {{ Colour::tryFrom($colour)->toBulmaClass() ?? 'is-light' }} is-medium">
                         {{ $status }}
                     </span>
                 @endisset

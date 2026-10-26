@@ -1,3 +1,5 @@
+@use(AnthonyEdmonds\LaravelFormBuilder\Enums\Colour)
+
 @props([
     'rows',
     'emptyMessage' => 'No questions have been added to this task.',
@@ -13,7 +15,7 @@
 
                 <td class="has-text-right">
                     @isset($details['status'])
-                        <span class="{{ $details['colour'] }}">{{ $details['status'] }}</span>
+                        <span class="tag {{ Colour::tryFrom($details['colour'])->toBulmaClass() ?? 'is-light' }} is-medium">{{ $details['status'] }}</span>
                     @endisset
 
                     @isset($details['actions']['change'])

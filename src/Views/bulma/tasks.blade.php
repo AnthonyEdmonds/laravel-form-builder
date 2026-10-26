@@ -1,3 +1,5 @@
+@use(AnthonyEdmonds\LaravelFormBuilder\Enums\Colour)
+
 @php
     $currentGroup = null;
 @endphp
@@ -41,7 +43,7 @@
                     </div>
 
                     <div class="ml-5">
-                        <span class="{{ $task['colour'] }}">
+                        <span class="tag {{ Colour::tryFrom($task['colour'])->toBulmaClass() ?? 'is-light' }} is-medium">
                             {{ $task['status'] }}
                         </span>
                     </div>
