@@ -7,7 +7,7 @@ use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class StateColourTest extends TestCase
+class ColourTest extends TestCase
 {
     #[DataProvider('expectations')]
     public function test(
