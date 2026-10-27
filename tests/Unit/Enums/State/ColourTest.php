@@ -10,8 +10,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ColourTest extends TestCase
 {
     #[DataProvider('expectations')]
-    public function test(State $state, Colour $colour): void
-    {
+    public function test(
+        State $state,
+        Colour $colour,
+    ): void {
         $this->assertEquals(
             $colour,
             $state->colour(),
