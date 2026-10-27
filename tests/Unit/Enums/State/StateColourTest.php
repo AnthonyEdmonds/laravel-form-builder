@@ -7,11 +7,13 @@ use AnthonyEdmonds\LaravelFormBuilder\Enums\State;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class ColourTest extends TestCase
+class StateColourTest extends TestCase
 {
     #[DataProvider('expectations')]
-    public function test(State $state, Colour $colour): void
-    {
+    public function test(
+        State $state,
+        Colour $colour,
+    ): void {
         $this->assertEquals(
             $colour,
             $state->colour(),
