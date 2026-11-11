@@ -96,6 +96,23 @@ class Field implements Arrayable
         return new static($name, $label, $displayName);
     }
 
+    public static function fromArray(array $details): Field
+    {
+        $field = new Field(
+            $details['name'],
+            $details['label'],
+            $details['displayName'] ?? null,
+        );
+
+        foreach ($details as $key => $value) {
+            if (property_exists($field, $key) === true) {
+                $field->$key = $value;
+            }
+        }
+
+        return $field;
+    }
+
     // Arrayable
     public function toArray(): array
     {
@@ -343,6 +360,28 @@ class Field implements Arrayable
     {
         $this->isTitle = true;
         return $this;
+    }
+
+    // Utilities
+    /** @returns Field[] */
+    public function additionalInputs(): array
+    {
+        $fields = [];
+
+        foreach ($this->options as $option) {
+            if (
+                is_array($option) === true
+                && array_key_exists('inputs', $option) === true
+            ) {
+                foreach ($option['inputs'] as $input) {
+                    $fields[] = is_a($input, Field::class) === false
+                        ? Field::fromArray($input)
+                        : $input;
+                }
+            }
+        }
+
+        return $fields;
     }
 
     // Builders
