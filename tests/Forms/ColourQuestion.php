@@ -21,10 +21,10 @@ class ColourQuestion extends Question
                 'colour',
                 'What is your favourite colour?',
                 [
-                    'Red',
-                    'Blue',
-                    'Green',
-                    'Other' => [
+                    'red' => 'Red',
+                    'blue' => 'Blue',
+                    'green' => 'Green',
+                    'other' => [
                         'hint' => 'Select this option if you want to',
                         'label' => 'Pick this option',
                         'inputs' => [
