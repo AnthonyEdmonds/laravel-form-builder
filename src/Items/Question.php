@@ -347,11 +347,6 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
         return [];
     }
 
-    /*
-     * TODO
-     * Show labels and values from sub items
-     */
-
     protected function makeSummaryItems(bool $hasActions, bool $hasStatuses, bool $backToSummary): array
     {
         $summary = [];
