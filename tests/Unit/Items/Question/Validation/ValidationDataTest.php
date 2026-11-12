@@ -4,9 +4,11 @@ namespace AnthonyEdmonds\LaravelFormBuilder\Tests\Unit\Items\Question\Validation
 
 use AnthonyEdmonds\LaravelFormBuilder\Items\Question;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\BirthdayQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\ColourQuestion;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyForm;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\MyTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\NameQuestion;
+use AnthonyEdmonds\LaravelFormBuilder\Tests\Forms\RecoverableTask;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\Models\MyModel;
 use AnthonyEdmonds\LaravelFormBuilder\Tests\TestCase;
 use Carbon\Carbon;
@@ -42,6 +44,23 @@ class ValidationDataTest extends TestCase
             [
                 'model' => $this->model,
                 'name' => 'Potato',
+            ],
+            $this->question->validationData(),
+        );
+    }
+
+    public function testAddsAdditionalInputs(): void
+    {
+        $this->question = $this->form
+            ->tasks()
+            ->task(RecoverableTask::key())
+            ->question(ColourQuestion::key());
+
+        $this->assertEquals(
+            [
+                'model' => $this->model,
+                'colour' => null,
+                'other' => 'potato',
             ],
             $this->question->validationData(),
         );

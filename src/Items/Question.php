@@ -260,15 +260,26 @@ abstract class Question extends Item implements ItemInterface, UsesStates, CanRe
             'model' => $this->form->model,
         ];
 
+        /** @var Field[] $fields */
         $fields = $this->fields();
         foreach ($fields as $field) {
             if ($field->type !== InputType::ReadOnly) {
                 $values[$field->name] = $this->form->model->rawAnswer($field->attribute);
 
-                if ($field->type === InputType::Date) {
-                    $values["$field->name-day"] = $values[$field->name]?->day;
-                    $values["$field->name-month"] = $values[$field->name]?->month;
-                    $values["$field->name-year"] = $values[$field->name]?->year;
+                switch ($field->type) {
+                    case InputType::Checkbox:
+                    case InputType::Radio:
+                        $inputs = $field->additionalInputs();
+                        foreach ($inputs as $input) {
+                            $values[$input->name] = $input->value;
+                        }
+                        break;
+
+                    case InputType::Date:
+                        $values["$field->name-day"] = $values[$field->name]?->day;
+                        $values["$field->name-month"] = $values[$field->name]?->month;
+                        $values["$field->name-year"] = $values[$field->name]?->year;
+                        break;
                 }
             }
         }

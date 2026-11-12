@@ -17,7 +17,23 @@ class ColourQuestion extends Question
     public function fields(): array
     {
         return [
-            Field::input('colour', 'What is your favourite colour?'),
+            Field::radios(
+                'colour',
+                'What is your favourite colour?',
+                [
+                    'red' => 'Red',
+                    'blue' => 'Blue',
+                    'green' => 'Green',
+                    'other' => [
+                        'hint' => 'Select this option if you want to',
+                        'label' => 'Pick this option',
+                        'inputs' => [
+                            Field::make('other', 'What is it called?')
+                                ->setValue('potato'),
+                        ],
+                    ],
+                ],
+            ),
         ];
     }
 

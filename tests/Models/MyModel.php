@@ -68,6 +68,10 @@ class MyModel extends Model implements UsesForm, Authenticatable
     // Getters
     public function getColourAttribute(): ?string
     {
+        if (array_key_exists('colour', $this->attributes) === false) {
+            return null;
+        }
+
         return $this->attributes['colour'] === 'invalid'
             ? throw new ErrorException('Bad implementation')
             : $this->attributes['colour'];
