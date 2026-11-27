@@ -27,4 +27,16 @@ enum Colour: string
             self::Yellow => "is-warning is-light",
         };
     }
+
+    public function toBootstrapClass(): string
+    {
+        return match ($this) {
+            self::Blue => 'badge-info text-white',
+            self::Green => 'badge-success text-white',
+            self::Grey => 'badge-secondary text-white',
+            self::LightBlue => 'badge-info text-white',
+            self::Red => 'badge-danger text-white',
+            self::Yellow => 'badge-warning text-white',
+        };
+    }
 }

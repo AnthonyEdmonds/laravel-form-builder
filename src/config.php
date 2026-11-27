@@ -22,8 +22,9 @@ return [
     /**
      * Which templates to serve, currently supports:
      * default
-     * govuk
+     * bootstrap
      * bulma
+     * govuk
      */
     'template' => 'default',
 ];
