@@ -27,4 +27,16 @@ enum Colour: string
             self::Yellow => "is-warning is-light",
         };
     }
+
+    public function toBootstrapClass(): string
+    {
+        return match ($this) {
+            self::Blue => 'alert-info',
+            self::Green => 'alert-success',
+            self::Grey => 'alert-secondary',
+            self::LightBlue => 'alert-info',
+            self::Red => 'alert-danger',
+            self::Yellow => 'alert-warning',
+        };
+    }
 }
