@@ -24,27 +24,27 @@ class ToBootstrapClassTest extends TestCase
         return [
             'blue' => [
                 'colour' => Colour::Blue,
-                'expected' => 'badge-info text-white',
+                'expected' => 'alert-info',
             ],
             'green' => [
                 'colour' => Colour::Green,
-                'expected' => 'badge-success text-white',
+                'expected' => 'alert-success',
             ],
             'grey' => [
                 'colour' => Colour::Grey,
-                'expected' => 'badge-secondary text-white',
+                'expected' => 'alert-secondary',
             ],
             'light blue' => [
                 'colour' => Colour::LightBlue,
-                'expected' => 'badge-info text-white',
+                'expected' => 'alert-info',
             ],
             'red' => [
                 'colour' => Colour::Red,
-                'expected' => 'badge-danger text-white',
+                'expected' => 'alert-danger',
             ],
             'yellow' => [
                 'colour' => Colour::Yellow,
-                'expected' => 'badge-warning text-white',
+                'expected' => 'alert-warning',
             ],
         ];
     }

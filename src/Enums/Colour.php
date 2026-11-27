@@ -31,12 +31,12 @@ enum Colour: string
     public function toBootstrapClass(): string
     {
         return match ($this) {
-            self::Blue => 'badge-info text-white',
-            self::Green => 'badge-success text-white',
-            self::Grey => 'badge-secondary text-white',
-            self::LightBlue => 'badge-info text-white',
-            self::Red => 'badge-danger text-white',
-            self::Yellow => 'badge-warning text-white',
+            self::Blue => 'alert-info',
+            self::Green => 'alert-success',
+            self::Grey => 'alert-secondary',
+            self::LightBlue => 'alert-info',
+            self::Red => 'alert-danger',
+            self::Yellow => 'alert-warning',
         };
     }
 }
